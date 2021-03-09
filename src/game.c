@@ -4,6 +4,7 @@
 #include "gf2d_graphics.h"
 #include "gf2d_sprite.h"
 #include "entity.h"
+#include "player.h"
 #include "level.h"
 
 int main(int argc, char * argv[])
@@ -12,7 +13,7 @@ int main(int argc, char * argv[])
     int done = 0;
     const Uint8 * keys;
     //Sprite *sprite;
-	Entity *ent;
+	//Entity *ent;
 	Level *level;
     
     int mx,my;
@@ -43,9 +44,12 @@ int main(int argc, char * argv[])
     //sprite = gf2d_sprite_load_image("images/backgrounds/bg_flat.png");
     mouse = gf2d_sprite_load_all("images/pointer.png",32,32,16);
 	level = level_load("levels/level1.json");
+	player_spawn(vector2d(100,100));
 
-	ent = entity_new();
-	ent->sprite = gf2d_sprite_load_all("images/ed210_top.png", 128, 128, 16);
+	//ent = entity_new();
+	//ent->sprite = gf2d_sprite_load_all("images/ed210_top.png", 128, 128, 16);
+	//ent->frameRate = 0.1;
+	//ent->frameCount = 16;
 
     /*main game loop*/
     while(!done)
@@ -57,11 +61,13 @@ int main(int argc, char * argv[])
         mf+=0.1;
         if (mf >= 16.0)mf = 0;
         
-		ent->frame+= 0.1;
-		if (ent->frame >= 16)ent->frame = 0;
+		//ent->frame+= 0.1;
+		//if (ent->frame >= 16)ent->frame = 0; //update animation
 
-		ent->position.x++;
-		ent->position.y++;
+		//ent->position.x++;
+		//ent->position.y++; //update position
+
+		entity_manager_update_entities();
         
         gf2d_graphics_clear_screen();// clears drawing buffers
         // all drawing should happen betweem clear_screen and next_frame
@@ -69,7 +75,8 @@ int main(int argc, char * argv[])
             //gf2d_sprite_draw_image(sprite,vector2d(0,0));
 			level_draw(level);
 
-			entity_draw(ent);
+			//entity_draw(ent);
+			entity_manager_draw_entities();
 
             //UI elements last
             gf2d_sprite_draw(
@@ -87,7 +94,7 @@ int main(int argc, char * argv[])
         //slog("Rendering at %f FPS",gf2d_graphics_get_frames_per_second());
     }
 
-	entity_free(ent);
+	//entity_free(ent);
 
     slog("---==== END ====---");
     return 0;
