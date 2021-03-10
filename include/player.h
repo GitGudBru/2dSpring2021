@@ -11,8 +11,8 @@
 Entity *player_spawn(Vector2D position);
 
 /**
-* @brief moves a player
-* @param the player itself
+* @brief moves an entity/player
+* @param self the entity/player to move 
 */
 void player_move(Entity *self);
 

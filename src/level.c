@@ -3,6 +3,7 @@
 #include "simple_json.h"
 #include "simple_logger.h"
 
+#include "camera.h"
 #include "level.h"
 
 Level *level_new()
@@ -32,13 +33,8 @@ Level *level_load(const char *filename)
 		slog("filename is NULL, cannot load level");
 		return NULL;
 	}
-	/*
-	if (filename)
-	{
-		slog(filename);
-		return NULL;
-	}
-	*/
+
+
 	json = sj_load(filename);
 	if (!json){
 		slog("NO JSON");
@@ -101,6 +97,7 @@ Level *level_load(const char *filename)
 		sj_free(json);
 		return NULL;
  	}
+	level->tileCount = count;
 
 	tileIndex = 0;
 	for (j = 0; j < rows; j++)
@@ -117,6 +114,9 @@ Level *level_load(const char *filename)
 			sj_get_integer_value(sj_array_get_nth(row, i), &level->tileMap[tileIndex++]);
 		}
 	}
+	slog("map width: %i", level->levelWidth);
+	slog("map height: %i", level->levelHeight);
+
 	sj_free(json);
 	return level;
 }
@@ -144,6 +144,7 @@ void level_free(Level *level)
 */
 void level_draw(Level *level)
 {
+	Vector2D offset, drawPosition;
 	int i;
 	if (!level)
 	{
@@ -159,13 +160,22 @@ void level_draw(Level *level)
 		slog("no tiles loaded for the level, cannot draw it");
 		return;
 	}
+	offset = camera_get_offset();
 	for (i = 0; i < level->levelWidth * level->levelHeight; i++)
 	{
 		if (level->tileMap[i] == 0)continue;
+		drawPosition.x = ((i % level->levelWidth) * level->tileSet->frame_w);
+		drawPosition.y = ((i / level->levelWidth) * level->tileSet->frame_h);
+		if (!camera_rect_on_screen(gfc_sdl_rect(drawPosition.x, drawPosition.y, level->tileSet->frame_w, level->tileSet->frame_h)))
+		{
+			//tile is off camera, skip
+			continue;
+		}
+		drawPosition.x += offset.x;
+		drawPosition.y += offset.y;
 		gf2d_sprite_draw(
 			level->tileSet,
-			//vector2d(i % level->levelWidth,i / level->levelHeight),
-			vector2d((i % level->levelWidth)*level->tileSet->frame_w, (i / level->levelWidth)*level->tileSet->frame_h),
+			drawPosition,
 			NULL,
 			NULL,
 			NULL,

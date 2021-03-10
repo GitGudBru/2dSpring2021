@@ -19,6 +19,7 @@ typedef struct
 	Sprite *bgImage;		/**<background image for level*/
 	Sprite *tileSet;		/**<sprite for tileset*/
 	TileTypes *tileMap;     /**<Tiles for the level*/
+	Uint32 tileCount;
 	Uint32 levelWidth;		/**<how many tiles per row the levels are*/
 	Uint32 levelHeight;		/**<how many tiles per column the levels are*/
 	int	   tileWidth;		/**<how wide the tiles are (pixel)*/

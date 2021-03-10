@@ -1,0 +1,49 @@
+#include <stdlib.h>
+#include "simple_logger.h"
+#include "camera.h"
+
+static SDL_Rect Camera = { 0 };
+
+void camera_set_dimensions(Vector2D size)
+{
+	Camera.w = size.x;
+	Camera.h = size.y;
+}
+
+void camera_set_position(Vector2D position)
+{
+	Camera.x = (int)position.x;
+	Camera.y = (int)position.y;
+}
+
+void camera_move(Vector2D move)
+{
+	Camera.x += move.x;
+	Camera.y += move.y;
+}
+
+Vector2D camera_get_offset()
+{
+	Vector2D position;
+	position.x = -Camera.x;
+	position.y = -Camera.y;
+	return position;
+}
+
+Bool camera_rect_on_screen(SDL_Rect rect)
+{
+	if (((rect.x + rect.w) < Camera.x) || (rect.x > (Camera.x + Camera.w)) ||
+		((rect.y + rect.h) < Camera.y) || (rect.y > (Camera.y + Camera.h)))
+	{
+		return false;
+	}
+	return true;
+}
+
+Vector2D camera_get_position()
+{
+	Vector2D position;
+	position.x = Camera.x;
+	position.y = Camera.y;
+	return position;
+}
