@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include "simple_logger.h"
+#include "gf2d_shape.h"
 #include "camera.h"
 
 static SDL_Rect Camera = { 0 };
@@ -30,6 +31,16 @@ Vector2D camera_get_offset()
 	return position;
 }
 
+Bool camera_point_on_screen(Vector2D point)
+{
+	if ((point.x < Camera.x) || (point.x > Camera.x + Camera.w) ||
+		(point.y < Camera.y) || (point.y > Camera.y + Camera.h))
+	{
+		return false;
+	}
+	return true;
+}
+
 Bool camera_rect_on_screen(SDL_Rect rect)
 {
 	if (((rect.x + rect.w) < Camera.x) || (rect.x > (Camera.x + Camera.w)) ||
@@ -40,10 +51,23 @@ Bool camera_rect_on_screen(SDL_Rect rect)
 	return true;
 }
 
+SDL_Rect camera_get_rect()
+{
+	return Camera;
+}
+
 Vector2D camera_get_position()
 {
 	Vector2D position;
 	position.x = Camera.x;
 	position.y = Camera.y;
 	return position;
+}
+
+Vector2D camera_get_dimensions()
+{
+	Vector2D size;
+	size.x = Camera.w;
+	size.y = Camera.h;
+	return size;
 }

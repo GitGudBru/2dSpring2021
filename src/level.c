@@ -114,8 +114,10 @@ Level *level_load(const char *filename)
 			sj_get_integer_value(sj_array_get_nth(row, i), &level->tileMap[tileIndex++]);
 		}
 	}
-	slog("map width: %i", level->levelWidth);
-	slog("map height: %i", level->levelHeight);
+	level->levelSize.x = level->levelWidth * level->tileWidth;
+	level->levelSize.y = level->levelHeight * level->tileHeight;
+	slog("map width: %f, with %i tiles wide, each %i pixels wide", level->levelSize.x, level->levelWidth, level->tileWidth);
+	slog("map height: %f, with %i tiles high, each %i pixels tall", level->levelSize.y, level->levelHeight, level->tileHeight);
 
 	sj_free(json);
 	return level;
@@ -185,4 +187,22 @@ void level_draw(Level *level)
 	}
 }
 
+void level_update(Level* level)
+{
+	SDL_Rect camera;
+	if (!level)return;
+	camera = camera_get_rect();
+	//snap camera to the level bounds
+	if ((camera.x + camera.w) > (int)level->levelSize.x)
+	{
+		camera.x = level->levelSize.x - camera.w;
+	}
+	if ((camera.y + camera.h) > (int)level->levelSize.y)
+	{
+		camera.y = level->levelSize.y - camera.h;
+	}
+	if (camera.x < 0)camera.x = 0;
+	if (camera.y < 0)camera.y = 0;
+	camera_set_position(vector2d(camera.x, camera.y));
+}
 /*file footer*/

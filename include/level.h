@@ -17,6 +17,7 @@ typedef enum
 typedef struct
 {
 	Sprite *bgImage;		/**<background image for level*/
+	Vector2D levelSize;		/**<how large the level is (pixels)*/
 	Sprite *tileSet;		/**<sprite for tileset*/
 	TileTypes *tileMap;     /**<Tiles for the level*/
 	Uint32 tileCount;
@@ -52,6 +53,7 @@ void level_free(Level *level);
 */
 void level_draw(Level *level);
 
+void level_update(Level* level);
 
 
 

@@ -33,7 +33,7 @@ int main(int argc, char * argv[])
         vector4d(0,0,0,255),
         0);
     gf2d_graphics_set_frame_delay(16);
-	camera_set_dimensions(vector2d(1200, 7200));
+	camera_set_dimensions(vector2d(1200, 720));
 	camera_set_position(vector2d(0, 0));
 
     gf2d_sprite_init(1024);
@@ -71,6 +71,8 @@ int main(int argc, char * argv[])
 		//ent->position.y++; //update position
 
 		entity_manager_update_entities();
+
+		level_update(level);
         
         gf2d_graphics_clear_screen();// clears drawing buffers
         // all drawing should happen betweem clear_screen and next_frame

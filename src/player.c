@@ -1,5 +1,6 @@
 #include "simple_logger.h"
 #include "player.h"
+#include "camera.h"
 
 void player_update(Entity *self);
 
@@ -24,6 +25,15 @@ Entity *player_spawn(Vector2D position)
 
 void player_update(Entity *self)
 {
+	Vector2D camera;
+	Vector2D cameraSize;
+
+	if (!self)return;
+	cameraSize = camera_get_dimensions();
+	camera.x = (self->position.x + 200) - (cameraSize.x * 0.5);
+	camera.y = (self->position.y + 64) - (cameraSize.y * 0.5);
+	camera_set_position(camera);
+
 	player_move(self);
 }
 
