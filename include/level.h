@@ -5,6 +5,7 @@
 #include "gfc_text.h"
 
 #include "gf2d_sprite.h"
+#include "gf2d_space.h"
 
 typedef enum
 {
@@ -26,6 +27,7 @@ typedef struct
 	int	   tileWidth;		/**<how wide the tiles are (pixel)*/
 	int    tileHeight;		/**<how high the tiles are (pixel)*/
 	int	   tileFPL;
+	Space       *space;
 }Level;
 
 /**

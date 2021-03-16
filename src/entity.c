@@ -154,3 +154,108 @@ void entity_draw(Entity *ent)
 			(Uint32)ent->frame);
 	}
 }
+
+void gf2d_entity_pre_sync_body(Entity* self)
+{
+	if (!self)return;// nothin to do
+	vector2d_copy(self->body.velocity, self->velocity);
+	vector2d_copy(self->body.position, self->position);
+}
+
+void gf2d_entity_post_sync_body(Entity* self)
+{
+	if (!self)return;// nothin to do
+	//    slog("entity %li : %s old position(%f,%f) => new position (%f,%f)",self->id,self->name,self->position,self->body.position);
+	vector2d_copy(self->position, self->body.position);
+	vector2d_copy(self->velocity, self->body.velocity);
+}
+void gf2d_entity_pre_sync_all()
+{
+	int i;
+	for (i = 0; i < entity_manager.max_entities; i++)
+	{
+		if (entity_manager.entity_list[i]._inuse == 0)continue;
+		gf2d_entity_pre_sync_body(&entity_manager.entity_list[i]);
+	}
+}
+
+void gf2d_entity_post_sync_all()
+{
+	int i;
+	for (i = 0; i < entity_manager.max_entities; i++)
+	{
+		if (entity_manager.entity_list[i]._inuse == 0)continue;
+		gf2d_entity_post_sync_body(&entity_manager.entity_list[i]);
+	}
+}
+
+void entity_apply_gravity(Entity* self)
+{
+	self->velocity.y += 0.58;
+	if (entity_wall_check(self, vector2d(0, 2)))
+	{
+		if (self->velocity.y > 0)self->velocity.y = 0;
+		self->grounded = 1;
+	}
+	else
+	{
+		self->grounded = 0;
+	}
+}
+
+int entity_wall_check(Entity* self, Vector2D dir)
+{
+	Shape s;
+	int i, count;
+	Collision* c;
+	List* collisionList;
+	CollisionFilter filter = {
+		1,
+		WORLD_LAYER,
+		0,
+		0,
+		&self->body
+	};
+
+	if (!self)return 0;
+	s = gf2d_body_to_shape(&self->body);
+	gf2d_shape_move(&s, dir);
+
+	collisionList = gf2d_collision_check_space_shape(level_get_space(), s, filter);
+	if (collisionList != NULL)
+	{
+		count = gfc_list_get_count(collisionList);
+		for (i = 0; i < count; i++)
+		{
+			c = (Collision*)gfc_list_get_nth(collisionList, i);
+			if (!c)continue;
+			if (!c->shape)continue;
+			gf2d_shape_draw(*c->shape, gfc_color(255, 255, 0, 255), camera_get_offset());
+		}
+		gf2d_collision_list_free(collisionList);
+		return 1;
+	}
+	return 0;
+}
+
+void entity_world_snap(Entity* self)
+{
+	if (entity_wall_check(self, vector2d(0, 0.1)))
+	{
+		self->position.y -= 0.1;
+	}
+	if (entity_wall_check(self, vector2d(0, -0.1)))
+	{
+		self->position.y += 0.1;
+	}
+	if (entity_wall_check(self, vector2d(0.1, 0)))
+	{
+		self->position.x -= 0.1;
+	}
+	if (entity_wall_check(self, vector2d(-0.1, 0)))
+	{
+		self->position.x += 0.1;
+	}
+}
+
+/*eol@eof*/

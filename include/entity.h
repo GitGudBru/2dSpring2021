@@ -4,20 +4,35 @@
 #include "gfc_types.h"
 #include "gfc_vector.h"
 #include "gf2d_sprite.h"
+#include "gf2d_collision.h"
 
 typedef struct Entity_s
 {
 	Bool     _inuse;
 	Vector2D position;
 	Vector2D velocity;
+	//Vector2D    facing;
 	Sprite   *sprite;
+	//Sprite*     laser;
+	Shape       shape;
+	Body        body;
 	float    frame;
 	float    frameRate;
 	int      frameCount;
+	void	 (*activate)(struct Entity_S* self, struct Entity_S* activator);
 	void	 (*update)(struct Entity_s *self);
 	void	 (*think)(struct Entity_s *self);
 	void	 (*draw)(struct Entity_s *self);
 	void	 (*free)(struct Entity_s *self);
+	int		 (*touch)(struct Entity_S* self, struct Entity_S* other);/**<when this entity touches another entity*/
+	float	 health;                           /**<health of entity*/
+	int		 maxHealth;                        /**<maximum health of entity*/
+	int		 cooldown;                         /**<useful for timing cooldowns*/
+	int	   	 attack;                           /**<which attack is being performed*/
+	int		 count;                            /**<useful for counting things like ammo count or health ammount*/
+	float	 jumpcool;
+	int		 jumpcount;                        /**<used for multijump*/
+	int		 grounded;
 	void     *data;
 }Entity;
 
