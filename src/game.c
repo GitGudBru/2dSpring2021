@@ -64,7 +64,7 @@ int main(int argc, char * argv[])
     mouse = gf2d_sprite_load_all("images/pointer.png",32,32,16);
 	level = level_load("levels/level1.json");
 	//player_spawn(vector2d(100,600));
-	Entity* player = player_spawn(vector2d(100, 435));
+	Entity* player = player_spawn(vector2d(100, 720));
 	level_add_entity(player);
 	/*
 	shape[1] = gf2d_shape_circle(0, 0, 10);
@@ -150,7 +150,7 @@ int main(int argc, char * argv[])
 			{
 			gf2d_draw_line(vector2d(mx, my), vector2d(600, 360), vector4d(255, 255, 0, 255));
 			}*/
-
+			entity_manager_think_entities();
 			entity_manager_draw_entities();
 
             //UI elements last

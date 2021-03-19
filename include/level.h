@@ -57,6 +57,6 @@ void level_draw(Level *level);
 
 void level_update(Level* level);
 
-
+Space* level_get_space();
 
 #endif

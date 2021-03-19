@@ -1,7 +1,13 @@
 #include <stdlib.h>
 #include "simple_logger.h"
 
+#include "gfc_list.h"
+#include "gfc_color.h"
+
+#include "level.h"
+#include "gf2d_shape.h"
 #include "camera.h"
+#include "gf2d_collision.h"
 #include "entity.h"
 
 typedef struct
@@ -65,6 +71,24 @@ void entity_manager_update_entities()
 	{
 		if (entity_manager.entity_list[i]._inuse == 0)continue;
 		entity_update(&entity_manager.entity_list[i]);
+	}
+}
+
+void entity_manager_think_entities()
+{
+	int i;
+	if (entity_manager.entity_list == NULL)
+	{
+		slog("entity system does not exist");
+		return;
+	}
+	for (i = 0; i < entity_manager.max_entities; i++)
+	{
+		if (entity_manager.entity_list[i]._inuse == 0)continue;
+		if (entity_manager.entity_list[i].think != NULL)
+		{
+			entity_manager.entity_list[i].think(&entity_manager.entity_list[i]);
+		}
 	}
 }
 
@@ -152,6 +176,17 @@ void entity_draw(Entity *ent)
 			NULL,
 			NULL,
 			(Uint32)ent->frame);
+
+		gf2d_sprite_draw(
+			ent->sprite2,
+			//ent->position,
+			drawPosition,
+			NULL,
+			NULL,
+			NULL,
+			NULL,
+			NULL,
+			(Uint32)ent->frame);
 	}
 }
 
@@ -196,10 +231,14 @@ void entity_apply_gravity(Entity* self)
 	{
 		if (self->velocity.y > 0)self->velocity.y = 0;
 		self->grounded = 1;
+		//slog("grounded ");
+		//slog(self->velocity.y);
+
 	}
 	else
 	{
 		self->grounded = 0;
+		//slog("not grounded ");
 	}
 }
 
@@ -222,6 +261,7 @@ int entity_wall_check(Entity* self, Vector2D dir)
 	gf2d_shape_move(&s, dir);
 
 	collisionList = gf2d_collision_check_space_shape(level_get_space(), s, filter);
+	//slog(collisionList);
 	if (collisionList != NULL)
 	{
 		count = gfc_list_get_count(collisionList);
