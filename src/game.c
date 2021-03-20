@@ -65,9 +65,9 @@ int main(int argc, char * argv[])
     mouse = gf2d_sprite_load_all("images/pointer.png",32,32,16);
 	level = level_load("levels/level1.json");
 	//player_spawn(vector2d(100,600));
-	Entity* player = player_spawn(vector2d(100, 880));
-	Entity* breakable = breakable_spawn(vector2d(100, 880));
-	Entity* breakable2 = breakable_spawn(vector2d(300, 880));
+	Entity* player = player_spawn(vector2d(100, 940));
+	Entity* breakable = breakable_spawn(vector2d(100, 960)); //near
+	Entity* breakable2 = breakable_spawn(vector2d(300, 680)); //up
 
 	level_add_entity(player);
 	level_add_entity(breakable);

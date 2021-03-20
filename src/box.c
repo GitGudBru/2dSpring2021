@@ -25,11 +25,11 @@ Entity* breakable_spawn(Vector2D position)
 		slog("failed to create breakable entity");
 		return NULL;
 	}
-	ent->sprite = gf2d_sprite_load_all("images/ed210_top.png", 128, 128, 16);
+	ent->sprite = gf2d_sprite_load_all("images/pickup/box.png", 33, 29, 1);
 	vector2d_copy(ent->position, position);
-	ent->frame = 166;
+	ent->frame = 0;
 	ent->frameRate = 0.1;
-	ent->frameCount = 167;
+	ent->frameCount = 1;
 	ent->rotation.x = 64;
 	ent->rotation.y = 64;
 
@@ -93,7 +93,6 @@ void breakable_update(Entity *self)
 
 int  breakable_touch(Entity *self, Entity *other)
 {
-	slog("touuuuch");
 	return 0;
 }
 

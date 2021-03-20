@@ -30,7 +30,7 @@ typedef struct Entity_s
 	int		 (*touch)(struct Entity_S* self, struct Entity_S* other);/**<when this entity touches another entity*/
 	int		 (*damage)(struct Entity_S* self, int amount, struct Entity_S* source);/**<when this entity takes damage*/
 	void	 (*die)(struct Entity_S* self);
-	float	 health;                           /**<health of entity*/
+	int	 health;                           /**<health of entity*/
 	int		 maxHealth;                        /**<maximum health of entity*/
 	int		 cooldown;                         /**<useful for timing cooldowns*/
 	int	   	 attack;                           /**<which attack is being performed*/
@@ -42,6 +42,8 @@ typedef struct Entity_s
 	int		 jumping;
 	int      shotgun;
 	int      machinegun;
+	int		 bomb;
+	int		 num;
 	Vector2D forward;
 	void     *data;
 }Entity;
