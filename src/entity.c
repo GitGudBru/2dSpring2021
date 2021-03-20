@@ -238,7 +238,7 @@ void entity_apply_gravity(Entity* self)
 	else
 	{
 		self->grounded = 0;
-		//slog("not grounded ");
+		slog("not grounded ");
 	}
 }
 
@@ -296,6 +296,15 @@ void entity_world_snap(Entity* self)
 	{
 		self->position.x += 0.1;
 	}
+}
+
+List* entity_get_clipped_entities(Entity* self, Shape s, Uint32 layers, Uint32 team)
+{
+	CollisionFilter filter = { 0 };
+	filter.ignore = &self->body;
+	filter.cliplayer = layers;
+	filter.team = team;
+	return gf2d_collision_check_space_shape(level_get_space(), s, filter);
 }
 
 /*eol@eof*/

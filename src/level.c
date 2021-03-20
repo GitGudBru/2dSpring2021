@@ -213,23 +213,6 @@ void level_draw(Level *level)
 
 void level_update(Level* level)
 {
-	/*
-	SDL_Rect camera;
-	if (!level)return;
-	camera = camera_get_rect();
-	//snap camera to the level bounds
-	if ((camera.x + camera.w) > (int)level->levelSize.x)
-	{
-		camera.x = level->levelSize.x - camera.w;
-	}
-	if ((camera.y + camera.h) > (int)level->levelSize.y)
-	{
-		camera.y = level->levelSize.y - camera.h;
-	}
-	if (camera.x < 0)camera.x = 0;
-	if (camera.y < 0)camera.y = 0;
-	camera_set_position(vector2d(camera.x, camera.y));
-	*/
 	gf2d_entity_pre_sync_all();
 	gf2d_space_update(gamelevel.space);
 	gf2d_entity_post_sync_all();

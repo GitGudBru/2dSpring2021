@@ -28,6 +28,8 @@ typedef struct Entity_s
 	void	 (*draw)(struct Entity_s *self);
 	void	 (*free)(struct Entity_s *self);
 	int		 (*touch)(struct Entity_S* self, struct Entity_S* other);/**<when this entity touches another entity*/
+	int		 (*damage)(struct Entity_S* self, int amount, struct Entity_S* source);/**<when this entity takes damage*/
+	void	 (*die)(struct Entity_S* self);
 	float	 health;                           /**<health of entity*/
 	int		 maxHealth;                        /**<maximum health of entity*/
 	int		 cooldown;                         /**<useful for timing cooldowns*/
@@ -37,6 +39,9 @@ typedef struct Entity_s
 	float	 projectcool;
 	int		 jumpcount;                        /**<used for multijump*/
 	int		 grounded;
+	int		 jumping;
+	int      shotgun;
+	int      machinegun;
 	Vector2D forward;
 	void     *data;
 }Entity;

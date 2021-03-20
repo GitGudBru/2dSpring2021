@@ -6,6 +6,7 @@
 #include "entity.h"
 #include "player.h"
 #include "level.h"
+#include  "box.h"
 #include "gf2d_space.h"
 #include "gf2d_collision.h"
 
@@ -41,6 +42,7 @@ int main(int argc, char * argv[])
         0);
     gf2d_graphics_set_frame_delay(16);
 	camera_set_dimensions(vector2d(1200, 720));
+	//camera_set_dimensions(vector2d(2040, 1024));
 	camera_set_position(vector2d(0, 0));
 
     gf2d_sprite_init(1024);
@@ -60,12 +62,17 @@ int main(int argc, char * argv[])
 		1);
 		
     /*demo setup*/
-    //sprite = gf2d_sprite_load_image("images/backgrounds/bg_flat.png");
     mouse = gf2d_sprite_load_all("images/pointer.png",32,32,16);
 	level = level_load("levels/level1.json");
 	//player_spawn(vector2d(100,600));
-	Entity* player = player_spawn(vector2d(100, 720));
+	Entity* player = player_spawn(vector2d(100, 880));
+	Entity* breakable = breakable_spawn(vector2d(100, 880));
+	Entity* breakable2 = breakable_spawn(vector2d(300, 880));
+
 	level_add_entity(player);
+	level_add_entity(breakable);
+	level_add_entity(breakable2);
+
 	/*
 	shape[1] = gf2d_shape_circle(0, 0, 10);
 	shape[2] = gf2d_shape_circle(10, 0, 15);
