@@ -572,7 +572,7 @@ void player_think(Entity *self)
 
 	}
 	//KNIFE
-	if (buttons[SDL_SCANCODE_J])		//ADD A FLIP KNIFE SPRITE SO CAN KNIFE LEFT
+	if (buttons[SDL_SCANCODE_J])		
 	{
 		self->sprite = gf2d_sprite_load_all("images/handgun/knife.png", 60, 63, 6);
 		self->frameCount = 6;
@@ -594,11 +594,19 @@ void player_think(Entity *self)
 				if (!c->body)continue;
 				if (!c->body->data)continue;
 				other = c->body->data;
-				if (other->damage)other->damage(other, 5, self);//TODO: 5 is DAMAGE
+				if (other->damage)other->damage(other, 5, self);//TODO: 5 is DAMAGE		
 			}
 			gf2d_collision_list_free(collisionList);
 			self->projectcool = 15;
 		}
+	}
+
+	if (buttons[SDL_SCANCODE_G] && self->projectcool <= 0 && self->bomb > 0)
+	{
+		Entity* bomb = bomb_spawn(vector2d(self->position.x + 32, self->position.y + 16), self->flip);
+		level_add_entity(bomb);
+		self->projectcool = 15;
+		self->bomb = self->bomb - 1;
 	}
 }
 

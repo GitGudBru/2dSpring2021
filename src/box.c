@@ -33,8 +33,8 @@ Entity* breakable_spawn(Vector2D position)
 	ent->rotation.x = 64;
 	ent->rotation.y = 64;
 
-	ent->health = 20;
-	ent->maxHealth = 20;
+	ent->health = 1;
+	ent->maxHealth = 1;
 
 	ent->think = breakable_think;
 	//ent->draw = breakable_draw;

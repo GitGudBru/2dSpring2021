@@ -35,8 +35,8 @@ Entity* pickup_spawn(Vector2D position)
 	ent->rotation.x = 64;
 	ent->rotation.y = 64;
 
-	ent->health = 20;
-	ent->maxHealth = 20;
+	ent->health = 100;
+	ent->maxHealth = 100;
 	ent->num = rand() % 5;
 	if (ent->num == 0)
 	{

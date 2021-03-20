@@ -73,43 +73,6 @@ int main(int argc, char * argv[])
 	level_add_entity(breakable);
 	level_add_entity(breakable2);
 
-	/*
-	shape[1] = gf2d_shape_circle(0, 0, 10);
-	shape[2] = gf2d_shape_circle(10, 0, 15);
-	shape[3] = gf2d_shape_rect(-32, -32, 64, 64);
-	shape[0] = gf2d_shape_rect(-16, -16, 32, 32);
-
-	gf2d_space_add_static_shape(space, gf2d_shape_rect(200, 500, 512, 32));
-	gf2d_space_add_static_shape(space, gf2d_shape_rect(610, 50, 30, 550));
-	gf2d_space_add_static_shape(space, gf2d_shape_circle(300, 300, 15));
-	gf2d_space_add_static_shape(space, gf2d_shape_edge(100, 200, 255, 360));
-	gf2d_space_add_static_shape(space, gf2d_shape_edge(100, 400, 255, 360));
-	gf2d_space_add_static_shape(space, gf2d_shape_edge(100, 200, 100, 400));
-
-	gf2d_body_set(
-	&body[0],
-	"body",
-	1,
-	0,
-	0,
-	0,
-	vector2d(256, 256),
-	vector2d(2.3, 4.4),
-	10,
-	1,
-	1,  //elasticity
-	&shape[0],
-	NULL,
-	NULL);
-	gf2d_space_add_body(space, &body[0]);
-	gf2d_space_add_body(space, &player->body);
-	*/
-	/*main game loop*/
-
-	//ent = entity_new();
-	//ent->sprite = gf2d_sprite_load_all("images/ed210_top.png", 128, 128, 16);
-	//ent->frameRate = 0.1;
-	//ent->frameCount = 16;
 
 	filter.worldclip = 1;
 
