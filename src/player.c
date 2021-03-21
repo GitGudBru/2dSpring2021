@@ -60,7 +60,7 @@ Entity *player_spawn(Vector2D position)
 		ent,
 		NULL);
 
-
+	_player = ent;
 	return ent;
 }
 

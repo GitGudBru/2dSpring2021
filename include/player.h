@@ -16,5 +16,6 @@ Entity *player_spawn(Vector2D position);
 */
 void player_move(Entity *self);
 
+Entity* player_get(); 
 
 #endif

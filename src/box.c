@@ -37,13 +37,11 @@ Entity* breakable_spawn(Vector2D position)
 	ent->maxHealth = 1;
 
 	ent->think = breakable_think;
-	//ent->draw = breakable_draw;
 	ent->update = breakable_update;
 	ent->touch = breakable_touch;
 	ent->damage = breakable_damage;
 	ent->die = breakable_die;
 	ent->activate = breakable_activate;
-	//self->free = level_remove_entity;
 
 	ent->shape = gf2d_shape_rect(0, 0, 40, 40);
 	gf2d_body_set(

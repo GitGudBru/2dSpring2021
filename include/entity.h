@@ -13,6 +13,7 @@ typedef struct Entity_s
 	Vector3D    rotation;
 	Vector2D velocity;
 	Vector2D    flip;
+	Vector2D    spawn;
 	//Vector2D    facing;
 	Sprite   *sprite;
 	Sprite	 *sprite2;
@@ -44,6 +45,7 @@ typedef struct Entity_s
 	int      machinegun;
 	int		 bomb;
 	int		 num;
+	int		 attacking;
 	Vector2D forward;
 	void     *data;
 }Entity;
@@ -104,6 +106,9 @@ void entity_world_snap(Entity* self);
 * @param self the entity to adjust
 */
 void entity_apply_gravity(Entity* self);
+
+List* entity_get_clipped_entities(Entity* self, Shape s, Uint32 layers, Uint32 team);
+
 
 
 #endif
