@@ -37,7 +37,7 @@ Entity *enemy1_spawn(Vector2D position)
 	ent->think = enemy1_think_patroling;
 	ent->update = enemy1_update;
 	ent->damage = enemy1_damage;
-	ent->health = 20;
+	ent->health = 3;
 	ent->maxHealth = 20;
 	ent->projectcool = 0;
 	ent->rotation.x = 64;
@@ -96,7 +96,7 @@ void enemy1_think_attacking(Entity *self)
 			if (!c->body)continue;
 			if (!c->body->data)continue;
 			other = c->body->data;
-			if (other->damage)other->damage(other, 100, self);//TODO: make this based on weapon / player stats
+			if (other->damage)other->damage(other, 3, self);//TODO: make this based on weapon / player stats
 		}
 		gf2d_collision_list_free(collisionList);
 
@@ -154,7 +154,7 @@ void enemy1_turn(Entity *self, int dir)
 {
 	if (dir < 0)
 	{
-		self->forward.x = -1;
+		self->forward.x = 0;
 		self->flip.x = 0;
 	}
 	else if (dir > 0)

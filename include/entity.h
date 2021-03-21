@@ -46,6 +46,7 @@ typedef struct Entity_s
 	int		 bomb;
 	int		 num;
 	int		 attacking;
+	char     hitLayer;
 	Vector2D forward;
 	void     *data;
 }Entity;

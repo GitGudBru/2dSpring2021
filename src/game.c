@@ -8,6 +8,8 @@
 #include "level.h"
 #include "enemy1.h"
 #include "enemy2.h"
+#include "enemy3.h"
+#include "enemy4.h"
 #include  "box.h"
 #include "gf2d_space.h"
 #include "gf2d_collision.h"
@@ -71,12 +73,16 @@ int main(int argc, char * argv[])
 	Entity* breakable = breakable_spawn(vector2d(100, 960)); //near
 	Entity* breakable2 = breakable_spawn(vector2d(300, 680)); //up
 	//Entity* enemy1 = enemy1_spawn(vector2d(400, 940));
-	Entity* enemy2 = enemy2_spawn(vector2d(1200, 940));
+	//Entity* enemy2 = enemy2_spawn(vector2d(1200, 940));
+	//Entity* enemy3 = enemy3_spawn(vector2d(400, 940));
+	Entity* enemy4 = enemy4_spawn(vector2d(700, 940));
 	level_add_entity(player);
 	level_add_entity(breakable);
 	level_add_entity(breakable2);
 	//level_add_entity(enemy1);
-	level_add_entity(enemy2);
+	//level_add_entity(enemy2);
+	//level_add_entity(enemy3);
+	level_add_entity(enemy4);
 
 
 	filter.worldclip = 1;

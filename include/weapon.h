@@ -3,7 +3,7 @@
 
 #include "entity.h"
 
-Entity* handgun_shoot(Vector2D position, Vector2D flip, int x);
+Entity* handgun_shoot(Vector2D position, Vector2D flip, int x,char layer);
 
 Entity* shotgun_shoot(Vector2D position, Vector2D flip);
 

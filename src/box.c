@@ -33,8 +33,8 @@ Entity* breakable_spawn(Vector2D position)
 	ent->rotation.x = 64;
 	ent->rotation.y = 64;
 
-	ent->health = 1;
-	ent->maxHealth = 1;
+	ent->health = 2;
+	ent->maxHealth = 2;
 
 	ent->think = breakable_think;
 	ent->update = breakable_update;
@@ -42,7 +42,6 @@ Entity* breakable_spawn(Vector2D position)
 	ent->damage = breakable_damage;
 	ent->die = breakable_die;
 	ent->activate = breakable_activate;
-
 	ent->shape = gf2d_shape_rect(0, 0, 40, 40);
 	gf2d_body_set(
 		&ent->body,
@@ -59,7 +58,6 @@ Entity* breakable_spawn(Vector2D position)
 		&ent->shape,
 		ent,
 		NULL);
-
 
 	level_add_entity(ent);
 	return ent;

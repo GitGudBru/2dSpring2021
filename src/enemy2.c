@@ -37,7 +37,7 @@ Entity *enemy2_spawn(Vector2D position)
 	ent->think = enemy2_think_hunting;
 	ent->update = enemy2_update;
 	ent->damage = enemy2_damage;
-	ent->health = 20;
+	ent->health = 3;
 	ent->maxHealth = 20;
 	ent->projectcool = 0;
 	ent->rotation.x = 64;

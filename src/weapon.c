@@ -22,7 +22,7 @@ void bomb_update(Entity* self);
 void bomb_think(Entity* self);
 
 
-Entity *handgun_shoot(Vector2D position, Vector2D flip, int x)
+Entity *handgun_shoot(Vector2D position, Vector2D flip, int x, char layer)
 {
 	Entity *ent;
 	ent = entity_new();
@@ -38,6 +38,7 @@ Entity *handgun_shoot(Vector2D position, Vector2D flip, int x)
 	ent->frameRate = 0.1;
 	ent->frameCount = 1;
 	ent->update = handgun_update;
+	ent->hitLayer = layer;
 	if (x == 0)ent->think = handgun_think;
 	else
 	{
@@ -77,7 +78,7 @@ void dagger_melee(Entity* self)
 	List* collisionList = NULL;
 	s = gf2d_body_to_shape(&self->body);
 	gf2d_shape_move(&s, vector2d(0.1, 0));
-	collisionList = entity_get_clipped_entities(self, s, MONSTER_LAYER, 0);
+	collisionList = entity_get_clipped_entities(self, s, self->hitLayer, 0);
 	count = gfc_list_get_count(collisionList);
 	//slog("hit %i targets", count);
 	for (i = 0; i < count; i++)
@@ -87,7 +88,7 @@ void dagger_melee(Entity* self)
 		if (!c->body)continue;
 		if (!c->body->data)continue;
 		other = c->body->data;
-		if (other->damage)other->damage(other, 20, self);
+		if (other->damage)other->damage(other, 1, self);
 	}
 	gf2d_collision_list_free(collisionList);
 }
@@ -136,34 +137,65 @@ void handgun_think(Entity* self)
 	int i, count;
 	Collision* c;
 	List* collisionList;
-	CollisionFilter filter = {
-		1,
-		WORLD_LAYER,
-		0,
-		0,
-		&self->body
-	};
+
 
 	if (!self)return 0;
 	s = gf2d_body_to_shape(&self->body);
 	gf2d_shape_move(&s, vector2d(0.1, 0));
 
-	collisionList = gf2d_collision_check_space_shape(level_get_space(), s, filter);
-	if (collisionList != NULL)
+	if (self->hitLayer == MONSTER_LAYER)
 	{
-		count = gfc_list_get_count(collisionList);
-		for (i = 0; i < count; i++)
-		{
-			c = (Collision*)gfc_list_get_nth(collisionList, i);
-			if (!c)continue;
-			if (!c->shape)continue;
-			gf2d_shape_draw(*c->shape, gfc_color(255, 255, 0, 255), camera_get_offset());
-			level_remove_entity(self);
-			entity_free(self);
-		}
-		gf2d_collision_list_free(collisionList);
+		CollisionFilter filter = {
+			1,
+			WORLD_LAYER | MONSTER_LAYER,
+			0,
+			0,
+			&self->body
 
+		};
+		collisionList = gf2d_collision_check_space_shape(level_get_space(), s, filter);
+		if (collisionList != NULL)
+		{
+			count = gfc_list_get_count(collisionList);
+			for (i = 0; i < count; i++)
+			{
+				c = (Collision*)gfc_list_get_nth(collisionList, i);
+				if (!c)continue;
+				if (!c->shape)continue;
+				gf2d_shape_draw(*c->shape, gfc_color(255, 255, 0, 255), camera_get_offset());
+				level_remove_entity(self);
+				entity_free(self);	//SAYONARA BULLET
+			}
+			gf2d_collision_list_free(collisionList);
+		}
 	}
+	if (self->hitLayer == PLAYER_LAYER)
+	{
+		CollisionFilter filter = {
+			1,
+			WORLD_LAYER | PLAYER_LAYER,
+			0,
+			0,
+			&self->body
+		};
+		collisionList = gf2d_collision_check_space_shape(level_get_space(), s, filter);
+		if (collisionList != NULL)
+		{
+			count = gfc_list_get_count(collisionList);
+			for (i = 0; i < count; i++)
+			{
+				c = (Collision*)gfc_list_get_nth(collisionList, i);
+				if (!c)continue;
+				if (!c->shape)continue;
+				gf2d_shape_draw(*c->shape, gfc_color(255, 255, 0, 255), camera_get_offset());
+				level_remove_entity(self);
+				entity_free(self);	//SAYONARA BULLET
+			}
+			gf2d_collision_list_free(collisionList);
+
+		}
+	}
+
 	dagger_melee(self);
 
 	if (self->jumpcool >= 30) {
@@ -193,33 +225,62 @@ void handgun_think2(Entity* self)
 	int i, count;
 	Collision* c;
 	List* collisionList;
-	CollisionFilter filter = {
-		1,
-		WORLD_LAYER,
-		0,
-		0,
-		&self->body
-	};
 
 	if (!self)return 0;
 	s = gf2d_body_to_shape(&self->body);
 	gf2d_shape_move(&s, vector2d(0.1, 0));
 
-	collisionList = gf2d_collision_check_space_shape(level_get_space(), s, filter);
-	if (collisionList != NULL)
+	if (self->hitLayer == MONSTER_LAYER)
 	{
-		count = gfc_list_get_count(collisionList);
-		for (i = 0; i < count; i++)
-		{
-			c = (Collision*)gfc_list_get_nth(collisionList, i);
-			if (!c)continue;
-			if (!c->shape)continue;
-			gf2d_shape_draw(*c->shape, gfc_color(255, 255, 0, 255), camera_get_offset());
-			level_remove_entity(self);
-			entity_free(self);
-		}
-		gf2d_collision_list_free(collisionList);
+		CollisionFilter filter = {
+			1,
+			WORLD_LAYER | MONSTER_LAYER,
+			0,
+			0,
+			&self->body
 
+		};
+		collisionList = gf2d_collision_check_space_shape(level_get_space(), s, filter);
+		if (collisionList != NULL)
+		{
+			count = gfc_list_get_count(collisionList);
+			for (i = 0; i < count; i++)
+			{
+				c = (Collision*)gfc_list_get_nth(collisionList, i);
+				if (!c)continue;
+				if (!c->shape)continue;
+				gf2d_shape_draw(*c->shape, gfc_color(255, 255, 0, 255), camera_get_offset());
+				level_remove_entity(self);
+				entity_free(self);	//SAYONARA BULLET
+			}
+			gf2d_collision_list_free(collisionList);
+		}
+	}
+	if (self->hitLayer == PLAYER_LAYER)
+	{
+		CollisionFilter filter = {
+			1,
+			WORLD_LAYER | PLAYER_LAYER,
+			0,
+			0,
+			&self->body
+		};
+		collisionList = gf2d_collision_check_space_shape(level_get_space(), s, filter);
+		if (collisionList != NULL)
+		{
+			count = gfc_list_get_count(collisionList);
+			for (i = 0; i < count; i++)
+			{
+				c = (Collision*)gfc_list_get_nth(collisionList, i);
+				if (!c)continue;
+				if (!c->shape)continue;
+				gf2d_shape_draw(*c->shape, gfc_color(255, 255, 0, 255), camera_get_offset());
+				level_remove_entity(self);
+				entity_free(self);	//SAYONARA BULLET
+			}
+			gf2d_collision_list_free(collisionList);
+
+		}
 	}
 	dagger_melee(self);
 
@@ -463,7 +524,7 @@ void bomb_melee(Entity* self)
 		if (!c->body)continue;
 		if (!c->body->data)continue;
 		other = c->body->data;
-		if (other->damage)other->damage(other, 1, self);//TODO: make this based on weapon / player stats
+		if (other->damage)other->damage(other, 100, self);//TODO: make this based on weapon / player stats
 	}
 	gf2d_collision_list_free(collisionList);
 }

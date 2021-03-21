@@ -89,7 +89,7 @@ void player_update(Entity *self)
 	self->velocity.y += .5; //GRAVITY
 
 	if (self->health <= 0) {
-		//slog("u ded");
+		slog("u ded");
 	}
 }
 
@@ -115,7 +115,7 @@ void player_think(Entity *self)
 			self->sprite = gf2d_sprite_load_all("images/handgun/gun_walk.png", 57.4, 45, 10);
 			if (self->machinegun == 0 && self->shotgun == 0 && self->projectcool <= 0) //HANDGUN SHOOT WALK RIGHT
 			{
-				Entity* handgun = handgun_shoot(vector2d(self->position.x + 50, self->position.y + 10), self->forward, 0);
+				Entity* handgun = handgun_shoot(vector2d(self->position.x + 50, self->position.y + 10), self->forward, 0, MONSTER_LAYER);
 				level_add_entity(handgun);
 				self->projectcool = 15;
 				self->frameCount = 10;
@@ -150,7 +150,7 @@ void player_think(Entity *self)
 				self->sprite = gf2d_sprite_load_all("images/heavy/fire_shoot.png", 63.5, 60, 4);
 				if (self->shotgun == 0 && self->projectcool <= 0) //SPECIAL SHOOT WALK RIGHT
 				{
-					Entity* handgun = handgun_shoot(vector2d(self->position.x + 50, self->position.y + 10), self->forward, 0);
+					Entity* handgun = handgun_shoot(vector2d(self->position.x + 50, self->position.y + 10), self->forward, 0, MONSTER_LAYER);
 					level_add_entity(handgun);
 					self->projectcool = 3;
 					self->frameCount = 4;
@@ -172,7 +172,7 @@ void player_think(Entity *self)
 			self->sprite = gf2d_sprite_load_all("images/handgun/gun_walk_flip.png", 57.4, 45, 10); //CHANGE SPRITE INSTEAD OF USING FLIP
 			if (self->machinegun == 0 && self->shotgun == 0 && self->projectcool <= 0)
 			{
-				Entity* handgun = handgun_shoot(vector2d(self->position.x - 10, self->position.y + 10), self->forward,0);
+				Entity* handgun = handgun_shoot(vector2d(self->position.x - 10, self->position.y + 10), self->forward, 0, MONSTER_LAYER);
 				level_add_entity(handgun);
 				self->projectcool = 15;
 				self->frameCount = 10;
@@ -208,7 +208,7 @@ void player_think(Entity *self)
 				self->sprite = gf2d_sprite_load_all("images/heavy/fire_shoot.png", 63.5, 60, 4);
 				if (self->shotgun == 0 && self->projectcool <= 0)
 				{
-					Entity* handgun = handgun_shoot(vector2d(self->position.x - 10, self->position.y + 10), self->forward, 0);
+					Entity* handgun = handgun_shoot(vector2d(self->position.x - 10, self->position.y + 10), self->forward, 0, MONSTER_LAYER);
 					level_add_entity(handgun);
 					self->projectcool = 3;
 				}
@@ -227,7 +227,7 @@ void player_think(Entity *self)
 				self->sprite = gf2d_sprite_load_all("images/handgun/idleshoot.png", 60, 45, 10);	//FIX THIS SPRITE ITS ALWAYS ABOVE GROUND
 				if (self->machinegun == 0 && self->shotgun == 0 && self->projectcool <= 0)
 				{
-					Entity* handgun = handgun_shoot(vector2d(self->position.x + 50, self->position.y + 10), self->forward,0);
+					Entity* handgun = handgun_shoot(vector2d(self->position.x + 50, self->position.y + 10), self->forward, 0, MONSTER_LAYER);
 					level_add_entity(handgun);
 					self->projectcool = 15;
 					self->frameCount = 10;
@@ -261,7 +261,7 @@ void player_think(Entity *self)
 					self->sprite = gf2d_sprite_load_all("images/heavy/fire_shoot.png", 63.5, 60, 4);
 					if (self->shotgun == 0 && self->projectcool <= 0)
 					{
-						Entity* handgun = handgun_shoot(vector2d(self->position.x + 50, self->position.y + 10), self->forward, 0);
+						Entity* handgun = handgun_shoot(vector2d(self->position.x + 50, self->position.y + 10), self->forward, 0, MONSTER_LAYER);
 						level_add_entity(handgun);
 						self->projectcool = 3;
 					}
@@ -278,7 +278,7 @@ void player_think(Entity *self)
 				self->sprite = gf2d_sprite_load_all("images/handgun/idleshoot_flip.png", 60, 45, 10); //CHANGE SPRITE INSTEAD OF USING FLIP
 				if (self->machinegun == 0 && self->shotgun == 0 && self->projectcool <= 0)
 				{
-					Entity* handgun = handgun_shoot(vector2d(self->position.x - 10, self->position.y + 10), self->forward, 0);
+					Entity* handgun = handgun_shoot(vector2d(self->position.x - 10, self->position.y + 10), self->forward, 0, MONSTER_LAYER);
 					level_add_entity(handgun);
 					self->projectcool = 15;
 					self->frameCount = 10;
@@ -311,7 +311,7 @@ void player_think(Entity *self)
 					self->sprite = gf2d_sprite_load_all("images/heavy/fire_shoot.png", 63.5, 60, 4);
 					if (self->shotgun == 0 && self->projectcool <= 0)
 					{
-						Entity* handgun = handgun_shoot(vector2d(self->position.x - 10, self->position.y + 10), self->forward, 0);
+						Entity* handgun = handgun_shoot(vector2d(self->position.x - 10, self->position.y + 10), self->forward, 0, MONSTER_LAYER);
 						level_add_entity(handgun);
 						self->projectcool = 3;
 					}
@@ -332,7 +332,7 @@ void player_think(Entity *self)
 			if (self->projectcool <= 0)
 			{
 				self->forward.x = 1;
-				Entity* handgun = handgun_shoot(vector2d(self->position.x + 50, self->position.y + 10), self->forward,0);
+				Entity* handgun = handgun_shoot(vector2d(self->position.x + 50, self->position.y + 10), self->forward, 0, MONSTER_LAYER);
 				level_add_entity(handgun);
 				self->projectcool = 15;
 				self->frameCount = 10;
@@ -343,7 +343,7 @@ void player_think(Entity *self)
 			self->sprite = gf2d_sprite_load_all("images/handgun/gun_jump_down.png", 35, 65, 6);
 			if (self->machinegun == 0 && self->shotgun == 0 && self->projectcool <= 0)
 			{
-				Entity* handgun = handgun_shoot(vector2d(self->position.x + 10, self->position.y + 45), self->forward,1);
+				Entity* handgun = handgun_shoot(vector2d(self->position.x + 10, self->position.y + 45), self->forward, 1, MONSTER_LAYER);
 				level_add_entity(handgun);
 				self->projectcool = 15;
 				self->frameCount = 10;
@@ -355,7 +355,7 @@ void player_think(Entity *self)
 			if (self->machinegun == 0 && self->shotgun == 0 && self->projectcool <= 0)
 			{
 				self->forward.x = 0;
-				Entity* handgun = handgun_shoot(vector2d(self->position.x - 10, self->position.y + 10), self->forward, 0);
+				Entity* handgun = handgun_shoot(vector2d(self->position.x - 10, self->position.y + 10), self->forward, 0, MONSTER_LAYER);
 				level_add_entity(handgun);
 				self->projectcool = 15;
 				self->frameCount = 10;
@@ -413,7 +413,7 @@ void player_think(Entity *self)
 				if (self->projectcool <= 0)
 				{
 					self->forward.x = 1;
-					Entity* handgun = handgun_shoot(vector2d(self->position.x + 50, self->position.y + 10), self->forward, 0);
+					Entity* handgun = handgun_shoot(vector2d(self->position.x + 50, self->position.y + 10), self->forward, 0, MONSTER_LAYER);
 					level_add_entity(handgun);
 					self->projectcool = 3;
 				}
@@ -424,7 +424,7 @@ void player_think(Entity *self)
 				self->sprite = gf2d_sprite_load_all("images/heavy/fire_shoot.png", 63.5, 60, 4);
 				if (self->shotgun == 0 && self->projectcool <= 0)
 				{
-					Entity* handgun = handgun_shoot(vector2d(self->position.x + 10, self->position.y + 45), self->forward, 1);
+					Entity* handgun = handgun_shoot(vector2d(self->position.x + 10, self->position.y + 45), self->forward, 1, MONSTER_LAYER);
 					level_add_entity(handgun);
 					self->projectcool = 3;				}
 			}
@@ -435,7 +435,7 @@ void player_think(Entity *self)
 				if (self->shotgun == 0 && self->projectcool <= 0)
 				{
 					self->forward.x = 0;
-					Entity* handgun = handgun_shoot(vector2d(self->position.x - 10, self->position.y + 10), self->forward, 0);
+					Entity* handgun = handgun_shoot(vector2d(self->position.x - 10, self->position.y + 10), self->forward, 0, MONSTER_LAYER);
 					level_add_entity(handgun);
 					self->projectcool = 3;
 				}
@@ -459,7 +459,7 @@ void player_think(Entity *self)
 			if (self->machinegun == 0 && self->shotgun == 0 && self->projectcool <= 0)
 			{
 				self->forward.x = 1;
-				Entity* handgun = handgun_shoot(vector2d(self->position.x + 50, self->position.y + 10), self->forward, 0);
+				Entity* handgun = handgun_shoot(vector2d(self->position.x + 50, self->position.y + 10), self->forward, 0, MONSTER_LAYER);
 				level_add_entity(handgun);
 				self->projectcool = 15;
 			}
@@ -469,7 +469,7 @@ void player_think(Entity *self)
 			self->sprite = gf2d_sprite_load_all("images/handgun/gun_jump_down.png", 35, 65, 6);
 			if (self->machinegun == 0 && self->shotgun == 0 && self->projectcool <= 0)
 			{
-				Entity* handgun = handgun_shoot(vector2d(self->position.x + 30, self->position.y + 45), self->forward, 1);
+				Entity* handgun = handgun_shoot(vector2d(self->position.x + 30, self->position.y + 45), self->forward, 1, MONSTER_LAYER);
 				level_add_entity(handgun);
 				self->projectcool = 15;
 				self->frameCount = 10;
@@ -481,7 +481,7 @@ void player_think(Entity *self)
 			if (self->projectcool <= 0)
 			{
 				self->forward.x = 0;
-				Entity* handgun = handgun_shoot(vector2d(self->position.x - 10, self->position.y + 10), self->forward, 0);
+				Entity* handgun = handgun_shoot(vector2d(self->position.x - 10, self->position.y + 10), self->forward, 0, MONSTER_LAYER);
 				level_add_entity(handgun);
 				self->projectcool = 15;
 				self->frameCount = 10;
@@ -539,7 +539,7 @@ void player_think(Entity *self)
 				if (self->shotgun == 0 && self->projectcool <= 0)
 				{
 					self->forward.x = 1;
-					Entity* handgun = handgun_shoot(vector2d(self->position.x + 50, self->position.y + 10), self->forward, 0);
+					Entity* handgun = handgun_shoot(vector2d(self->position.x + 50, self->position.y + 10), self->forward, 0, MONSTER_LAYER);
 					level_add_entity(handgun);
 					self->projectcool = 3;
 				}
@@ -550,7 +550,7 @@ void player_think(Entity *self)
 				self->sprite = gf2d_sprite_load_all("images/heavy/fire_shoot.png", 63.5, 60, 4);
 				if (self->shotgun == 0 && self->projectcool <= 0)
 				{
-					Entity* handgun = handgun_shoot(vector2d(self->position.x + 30, self->position.y + 45), self->forward, 1);
+					Entity* handgun = handgun_shoot(vector2d(self->position.x + 30, self->position.y + 45), self->forward, 1, MONSTER_LAYER);
 					level_add_entity(handgun);
 					self->projectcool = 3;
 				}
@@ -562,7 +562,7 @@ void player_think(Entity *self)
 				if (self->projectcool <= 0)
 				{
 					self->forward.x = 0;
-					Entity* handgun = handgun_shoot(vector2d(self->position.x - 10, self->position.y + 10), self->forward, 0);
+					Entity* handgun = handgun_shoot(vector2d(self->position.x - 10, self->position.y + 10), self->forward, 0, MONSTER_LAYER);
 					level_add_entity(handgun);
 					self->projectcool = 3;
 				}
