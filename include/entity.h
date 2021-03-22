@@ -41,6 +41,7 @@ typedef struct Entity_s
 	float	 throw;
 	int		 jumpcount;                        /**<used for multijump*/
 	int		 grounded;
+	int		 bossdir;
 	int		 jumping;
 	int      shotgun;
 	int      machinegun;

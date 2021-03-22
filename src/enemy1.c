@@ -96,7 +96,7 @@ void enemy1_think_attacking(Entity *self)
 			if (!c->body)continue;
 			if (!c->body->data)continue;
 			other = c->body->data;
-			if (other->damage)other->damage(other, 3, self);//TODO: make this based on weapon / player stats
+			if (other->damage)other->damage(other, 1, self);//TODO: make this based on weapon / player stats
 		}
 		gf2d_collision_list_free(collisionList);
 

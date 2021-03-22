@@ -10,6 +10,9 @@
 #include "enemy2.h"
 #include "enemy3.h"
 #include "enemy4.h"
+#include "enemy5.h"
+#include "boss1.h"
+#include "boss2.h"
 #include  "box.h"
 #include "gf2d_space.h"
 #include "gf2d_collision.h"
@@ -76,7 +79,10 @@ int main(int argc, char * argv[])
 	//Entity* enemy2 = enemy2_spawn(vector2d(1200, 940));
 	//Entity* enemy3 = enemy3_spawn(vector2d(400, 940));
 	//Entity* enemy4 = enemy4_spawn(vector2d(700, 940));
-	Entity* enemy5 = enemy5_spawn(vector2d(700, 940));
+	//Entity* enemy5 = enemy5_spawn(vector2d(700, 940));
+	//Entity* boss1 = boss1_spawn(vector2d(700, 940));	//SPAWN THE BOSS HIGHER OFF THE GROUND
+	Entity* boss2 = boss2_spawn(vector2d(700, 900));	
+
 	level_add_entity(player);
 	level_add_entity(breakable);
 	level_add_entity(breakable2);
@@ -84,7 +90,9 @@ int main(int argc, char * argv[])
 	//level_add_entity(enemy2);
 	//level_add_entity(enemy3);
 	//level_add_entity(enemy4);
-	level_add_entity(enemy5);
+	//level_add_entity(enemy5);
+	//level_add_entity(boss1);
+	level_add_entity(boss2);
 
 
 	filter.worldclip = 1;

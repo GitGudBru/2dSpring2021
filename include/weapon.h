@@ -13,6 +13,6 @@ Entity* knife_attack(Vector2D position, Vector2D flip);
 
 Entity* machinegun_shoot(Vector2D position, Vector2D flip);
 
-
+Entity* boss_attack_shoot(Vector2D position, int flip, int x);
 
 #endif
