@@ -38,6 +38,7 @@ typedef struct Entity_s
 	int		 count;                            /**<useful for counting things like ammo count or health ammount*/
 	float	 jumpcool;
 	float	 projectcool;
+	float	 throw;
 	int		 jumpcount;                        /**<used for multijump*/
 	int		 grounded;
 	int		 jumping;

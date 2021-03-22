@@ -442,7 +442,7 @@ void shotgun_think(Entity* self)
 }
 
 
-Entity* bomb_spawn(Vector2D position, Vector2D flip)
+Entity* bomb_spawn(Vector2D position, Vector2D flip, char layer , float throw)
 {
 	Entity* ent;
 	ent = entity_new();
@@ -460,7 +460,9 @@ Entity* bomb_spawn(Vector2D position, Vector2D flip)
 	ent->frameCount = 6;
 	ent->update = bomb_update;
 	ent->think = bomb_think;
+	ent->hitLayer = layer;
 	ent->flip = flip;
+	ent->throw = throw;
 	ent->rotation.x = 64;
 	ent->rotation.y = 64;
 	ent->shape = gf2d_shape_rect(0, 0, 16, 16);
@@ -486,27 +488,6 @@ Entity* bomb_spawn(Vector2D position, Vector2D flip)
 
 void bomb_melee(Entity* self)
 {
-	/*
-	Shape s;
-	int i, count;
-	Entity* other;
-	Collision* c;
-	List* collisionList = NULL;
-	s = gf2d_shape_rect(self->position.x + (self->flip.x * -48) - 16, self->position.y, 64, 64);
-	collisionList = entity_get_clipped_entities(self, s, MONSTER_LAYER, 0);
-	count = gfc_list_get_count(collisionList);
-	//slog("hit %i targets", count);
-	for (i = 0; i < count; i++)
-	{
-		c = (Collision*)gfc_list_get_nth(collisionList, i);
-		if (!c)continue;
-		if (!c->body)continue;
-		if (!c->body->data)continue;
-		other = c->body->data;
-		if (other->damage)other->damage(other, 40, self);
-	}
-	gf2d_collision_list_free(collisionList);
-	*/
 	Shape s;
 	int i, count;
 	Entity* other;
@@ -514,7 +495,7 @@ void bomb_melee(Entity* self)
 	List* collisionList = NULL;
 	s = gf2d_body_to_shape(&self->body);
 	gf2d_shape_move(&s, vector2d(0.1, 0));
-	collisionList = entity_get_clipped_entities(self, s, MONSTER_LAYER, 0);
+	collisionList = entity_get_clipped_entities(self, s, self->hitLayer, 0);
 	count = gfc_list_get_count(collisionList);
 	//slog("hit %i targets", count);
 	for (i = 0; i < count; i++)
@@ -524,7 +505,7 @@ void bomb_melee(Entity* self)
 		if (!c->body)continue;
 		if (!c->body->data)continue;
 		other = c->body->data;
-		if (other->damage)other->damage(other, 100, self);//TODO: make this based on weapon / player stats
+		if (other->damage)other->damage(other, 100, self);
 	}
 	gf2d_collision_list_free(collisionList);
 }
@@ -535,7 +516,7 @@ void bomb_update(Entity* self)
 	Vector2D cameraSize;
 
 	if (!self)return;
-	vector2d_scale(self->velocity, self->velocity, 0.75);
+	vector2d_scale(self->velocity, self->velocity, self->throw);   //CHANGED LAST VALUE
 	if (vector2d_magnitude_squared(self->velocity) < 2)
 	{
 		vector2d_clear(self->velocity);
@@ -556,13 +537,13 @@ void bomb_think(Entity* self)
 	keys = SDL_GetKeyboardState(NULL);
 	SDL_GetMouseState(&mx, &my);
 
-	vector2d_scale(thrust, vector2d(0, -1), -0.75*abs(self->jumpcool) + 2);
+	vector2d_scale(thrust, vector2d(0, -1), -0.75*abs(self->jumpcool) + 2);  
 	vector2d_add(self->velocity, self->velocity, thrust);
 	if (self->flip.x == 1) {
-		vector2d_scale(thrust, vector2d(-1, 0), 1.85);
+		vector2d_scale(thrust, vector2d(-1, 0), 1.85); //change x in vector2d(x, 0) for x speed
 	}
 	else {
-		vector2d_scale(thrust, vector2d(1, 0), 1.85);
+		vector2d_scale(thrust, vector2d(1, 0), 1.85); 
 	}
 	vector2d_add(self->velocity, self->velocity, thrust);
 
@@ -570,33 +551,68 @@ void bomb_think(Entity* self)
 	int i, count;
 	Collision* c;
 	List* collisionList;
-	CollisionFilter filter = {
-		1,
-		WORLD_LAYER,
-		0,
-		0,
-		&self->body
-	};
 
 	if (!self)return 0;
 	s = gf2d_body_to_shape(&self->body);
 	gf2d_shape_move(&s, vector2d(0.1, 0));
 
-	collisionList = gf2d_collision_check_space_shape(level_get_space(), s, filter);
-	if (collisionList != NULL)
+	if (self->hitLayer == PLAYER_LAYER)
 	{
-		count = gfc_list_get_count(collisionList);
-		for (i = 0; i < count; i++)
-		{
-			c = (Collision*)gfc_list_get_nth(collisionList, i);
-			if (!c)continue;
-			if (!c->shape)continue;
-			gf2d_shape_draw(*c->shape, gfc_color(255, 255, 0, 255), camera_get_offset());
-			level_remove_entity(self);
-			entity_free(self);
-		}
-		gf2d_collision_list_free(collisionList);
 
+		CollisionFilter filter = {
+			1,
+			WORLD_LAYER | PLAYER_LAYER,
+			0,
+			0,
+			&self->body
+		};
+
+
+		collisionList = gf2d_collision_check_space_shape(level_get_space(), s, filter);
+		if (collisionList != NULL)
+		{
+			count = gfc_list_get_count(collisionList);
+			for (i = 0; i < count; i++)
+			{
+				c = (Collision*)gfc_list_get_nth(collisionList, i);
+				if (!c)continue;
+				if (!c->shape)continue;
+				gf2d_shape_draw(*c->shape, gfc_color(255, 255, 0, 255), camera_get_offset());
+				level_remove_entity(self);
+				entity_free(self);
+			}
+			gf2d_collision_list_free(collisionList);
+
+		}
+	}
+	if (self->hitLayer == MONSTER_LAYER)
+	{
+
+		CollisionFilter filter = {
+			1,
+			WORLD_LAYER | MONSTER_LAYER,
+			0,
+			0,
+			&self->body
+		};
+
+
+		collisionList = gf2d_collision_check_space_shape(level_get_space(), s, filter);
+		if (collisionList != NULL)
+		{
+			count = gfc_list_get_count(collisionList);
+			for (i = 0; i < count; i++)
+			{
+				c = (Collision*)gfc_list_get_nth(collisionList, i);
+				if (!c)continue;
+				if (!c->shape)continue;
+				gf2d_shape_draw(*c->shape, gfc_color(255, 255, 0, 255), camera_get_offset());
+				level_remove_entity(self);
+				entity_free(self);
+			}
+			gf2d_collision_list_free(collisionList);
+
+		}
 	}
 	bomb_melee(self);
 

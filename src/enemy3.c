@@ -37,8 +37,8 @@ Entity *enemy3_spawn(Vector2D position)
 	ent->think = enemy3_think;
 	ent->update = enemy3_update;
 	ent->damage = enemy3_damage;
-	ent->health = 3;
-	ent->maxHealth = 20;
+	ent->health = 7;
+	ent->maxHealth = 7;
 	ent->projectcool = 0;
 	ent->rotation.x = 64;
 	ent->rotation.y = 64;
@@ -123,7 +123,7 @@ void enemy3_think_hunting(Entity *self)
 
 	if (player->position.x + 40 < self->position.x)
 	{
-		enemy3_turn(self, -1);						//CHANGE DETECT DISTANCE
+		enemy3_turn(self, -1);						
 		//self->velocity.x = -5;
 	}
 	if (player->position.x + 40 > self->position.x)

@@ -603,7 +603,7 @@ void player_think(Entity *self)
 
 	if (buttons[SDL_SCANCODE_G] && self->projectcool <= 0 && self->bomb > 0)
 	{
-		Entity* bomb = bomb_spawn(vector2d(self->position.x + 32, self->position.y + 16), self->flip);
+		Entity* bomb = bomb_spawn(vector2d(self->position.x + 32, self->position.y + 16), self->flip, MONSTER_LAYER, 0.7);
 		level_add_entity(bomb);
 		self->projectcool = 15;
 		self->bomb = self->bomb - 1;
