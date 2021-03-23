@@ -27,13 +27,12 @@ Entity *enemy1_spawn(Vector2D position)
 		return NULL;
 	}
 	//playerTarget = target;
-	ent->sprite = gf2d_sprite_load_all("images/ed210_top.png",128,128,16); //ADD ZOMBIE
+	ent->sprite = gf2d_sprite_load_all("images/zombies/zombie_spawn.png",34.36,34,11); //ADD ZOMBIE
 
 	vector2d_copy(ent->position, position);
 	vector2d_copy(ent->spawn, position);
-	//ent->frame = 5;
 	ent->frameRate = 0.1;
-	ent->frameCount = 7;
+	ent->frameCount = 11;
 	ent->think = enemy1_think_patroling;
 	ent->update = enemy1_update;
 	ent->damage = enemy1_damage;
@@ -69,17 +68,6 @@ Entity *enemy1_spawn(Vector2D position)
 void enemy1_think_attacking(Entity *self)
 {
 
-	//self->frameAnimStart = 10;
-	if (self->frame < 10) {
-		self->frame = 10;
-	}
-	//i++;
-	self->frameCount = 16;
-	//slog("gained sight of the player");
-	if (self->frame >= 14) {
-
-
-
 		Shape s; 
 		int i, count;
 		Entity* other;
@@ -96,57 +84,42 @@ void enemy1_think_attacking(Entity *self)
 			if (!c->body)continue;
 			if (!c->body->data)continue;
 			other = c->body->data;
-			if (other->damage)other->damage(other, 1, self);//TODO: make this based on weapon / player stats
+			if (other->damage)other->damage(other, 1, self);
 		}
+
 		gf2d_collision_list_free(collisionList);
 
 		self->think = enemy1_think_hunting;
 
 		self->projectcool = 15;
-	}
 
 }
 
 
 void enemy1_attack(Entity *self)
 {
-	//slog("attacking player");
-	//gf2d_actor_set_action(&self->actor,"attack1");
-	//self->cooldown = gf2d_actor_get_frames_remaining(&self->actor);
 	self->think = enemy1_think_attacking;
-	//gf2d_sound_play(self->sound[1],0,1,-1,-1);
 }
 
 void enemy1_think_patroling(Entity *self)
 {
-	//self->frameAnimStart = 0;
-
-	//i++;
-	self->frameCount = 2;
-	//slog("think patrolling");
+	self->sprite = gf2d_sprite_load_all("images/zombies/zombie_idle.png", 32, 36, 7); //ADD ZOMBIE
+	self->frameCount = 7;
 	if (enemy1_player_sight_check(self))
 	{
+		if (self->spawn.x - 10 > self->position.x)
+		{
+			enemy1_turn(self, -1);
+
+		}
+		if (self->spawn.x + 10 < self->position.x)
+		{
+			enemy1_turn(self, -1);
+
+		}
 		//slog("player found");
 		self->think = enemy1_think_hunting;
 		return;
-	}
-	/*if ((!entity_platform_end_check(self))||entity_wall_check(self, vector2d(3 *self->facing.x,0)))
-	{
-	skeleton_turn(self,self->facing.x * -1);
-	}*/
-
-
-	//Entity* player = player_get();
-
-	if (self->spawn.x - 10 > self->position.x)
-	{
-		enemy1_turn(self, -1);
-
-	}
-	if (self->spawn.x + 10 < self->position.x)
-	{
-		enemy1_turn(self, -1);
-
 	}
 }
 
@@ -168,35 +141,31 @@ void enemy1_think_hunting(Entity *self)
 {
 	Entity *player = player_get();
 	float xDistance = abs(self->position.x - player->position.x);
-	//slog("think hunting");
-	//self->frameAnimStart = 0;
-	if (self->frame > 2) {
-		self->frame = 0;
-	}
-	//i++;
-	self->frameCount = 2;
+	
+	if ((self->projectcool) || (self->cooldown))return;
 
-	if ((self->jumpcool) || (self->cooldown))return;
-
-	if (vector2d_magnitude_compare(vector2d(self->position.x - player->position.x, self->position.y - player->position.y), 150) > 0)
+	if (vector2d_magnitude_compare(vector2d(self->position.x - player->position.x, self->position.y - player->position.y), 350) > 0)
 	{
 		slog("lost the player");
 		self->think = enemy1_think_patroling;// idle think
 		return;
 	}
-	self->jumpcool = 20;
-	self->velocity.x = -2;
+	self->projectcool = 20;
 	if (player->position.x + 40 < self->position.x)
 	{
 		enemy1_turn(self, 1);
 		//slog("tuuurn");
-		self->velocity.x = -0.5;
+		self->velocity.x = -0.7;
+		self->sprite = gf2d_sprite_load_all("images/zombies/zombie_walk_left.png", 30.57, 34, 14); 
+		self->frameCount = 14;
 	}
 	if (player->position.x + 40 > self->position.x)
 	{
 		enemy1_turn(self, 1);
 		//slog("tuuurn2");
-		self->velocity.x = 0.5;
+		self->velocity.x = 0.7;
+		self->sprite = gf2d_sprite_load_all("images/zombies/zombie_walk_right.png", 30.57, 34, 14); 
+		self->frameCount = 14;
 	}
 	enemy1_attack(self);
 }
@@ -211,8 +180,8 @@ void enemy1_think(Entity *self)
 
 void enemy1_update(Entity *self)
 {
-	if (self->jumpcool > 0) self->jumpcool -= 0.2;
-	else self->jumpcool = 0;
+	if (self->projectcool > 0) self->projectcool -= 0.2;
+	else self->projectcool = 0;
 	if (self->projectcool > 0) self->projectcool -= 0.2;
 	else self->projectcool = 0;
 	//world clipping
@@ -225,7 +194,7 @@ void enemy1_update(Entity *self)
 	entity_apply_gravity(self);
 	entity_world_snap(self);    
 
-//	self->velocity.y += .5;
+	self->velocity.y += .1;
 }
 
 int  enemy1_touch(Entity *self, Entity *other)
@@ -240,32 +209,22 @@ int  enemy1_damage(Entity *self, int amount, Entity *source)
 	Vector2D dir = { 0 };
 	slog("enemy taking %i damage!", amount);
 	self->health -= amount;
-	//gf2d_sound_play(self->sound[1],0,0.1,-1,-1);
 	vector2d_sub(dir, source->position, self->position);
 	vector2d_normalize(&dir);
 	vector2d_scale(dir, dir, 3);
-	//particle_spray(self->position, dir,gf2d_color8(240,0,0,255), 100);
 	if (self->health <= 0)
 	{
 		self->health = 0;
 		self->think = enemy1_die;
-		//gf2d_actor_set_action(&self->actor,"death1");
 	}
-	else
-	{
-		//gf2d_actor_set_action(&self->actor,"pain1");
-		//self->cooldown = gf2d_actor_get_frames_remaining(&self->actor);
-	}
-	return amount;//todo factor in shields}
+	return amount;
 }
 
 int enemy1_player_sight_check(Entity *self)
 {
 	Entity *player = player_get();
-	//slog("getting player");
 	if (!player)return 0;
-	//slog("Health : %0.0f", vector2d_magnitude_compare(vector2d(self->position.x - player->position.x, self->position.y - player->position.y), 100));
-	if (vector2d_magnitude_compare(vector2d(self->position.x - player->position.x, self->position.y - player->position.y), 100) < 0)
+	if (vector2d_magnitude_compare(vector2d(self->position.x - player->position.x, self->position.y - player->position.y), 200) < 0)
 	{
 		slog(" sight check found player");
 		//gf2d_sound_play(self->sound[0],0,1,-1,-1);
@@ -276,7 +235,7 @@ int enemy1_player_sight_check(Entity *self)
 
 void enemy1_die(Entity *self)
 {
-	slog("im die..");
+	//slog("im die..");
 	level_remove_entity(self);
 	entity_free(self);
 }

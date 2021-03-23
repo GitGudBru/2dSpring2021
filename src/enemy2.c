@@ -110,7 +110,7 @@ void enemy2_think_hunting(Entity *self)
 
 	if ((self->jumpcool) || (self->cooldown))return;
 	self->jumpcool = 20;
-	self->velocity.x = -2;
+	//self->velocity.x = -2;
 	if (player->position.x + 80 < self->position.x)
 	{
 		self->velocity.x = - 2;
@@ -121,7 +121,6 @@ void enemy2_think_hunting(Entity *self)
 		player->health = player->health - 1;
 
 	}
-	//enemy2_attack(self);
 }
 
 void enemy2_update(Entity *self)

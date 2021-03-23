@@ -28,12 +28,12 @@ Entity *enemy3_spawn(Vector2D position)
 		return NULL;
 	}
 	//playerTarget = target;
-	ent->sprite = gf2d_sprite_load_all("images/space_bug_top.png", 62.5, 53, 7); //ADD ZOMBIE
+	ent->sprite = gf2d_sprite_load_all("images/soldier/soldier_idle_left.png", 52, 37, 2); //ADD ZOMBIE
 
 	vector2d_copy(ent->position, position);
 	vector2d_copy(ent->spawn, position);
 	ent->frameRate = 0.1;
-	ent->frameCount = 7;
+	ent->frameCount = 2;
 	ent->think = enemy3_think;
 	ent->update = enemy3_update;
 	ent->damage = enemy3_damage;
@@ -105,11 +105,15 @@ void enemy3_turn(Entity *self, int dir)
 	{
 		self->forward.x = 0;
 		self->flip.x = 0;
+		self->sprite = gf2d_sprite_load_all("images/soldier/soldier_idle_left.png", 52, 37, 2); //ADD ZOMBIE
+		self->frameCount = 2;
 	}
 	else if (dir > 0)
 	{
 		self->forward.x = 1;
 		self->flip.x = 1;
+		self->sprite = gf2d_sprite_load_all("images/soldier/soldier_idle_right.png", 52, 37, 2); //ADD ZOMBIE
+		self->frameCount = 2;
 	}
 }
 void enemy3_think_hunting(Entity *self)
@@ -118,18 +122,20 @@ void enemy3_think_hunting(Entity *self)
 	float xDistance = abs(self->position.x - player->position.x);
 	//slog("think hunting");
 
-	if ((self->jumpcool) || (self->cooldown))return;
-	self->jumpcool = 20;
+	if ((self->projectcool) || (self->cooldown))return;
+	self->projectcool = 70;
 
 	if (player->position.x + 40 < self->position.x)
 	{
 		enemy3_turn(self, -1);						
-		//self->velocity.x = -5;
+		self->sprite = gf2d_sprite_load_all("images/soldier/soldier_shoot_left.png", 65, 37, 6); //ADD ZOMBIE
+		self->frameCount = 6;
 	}
 	if (player->position.x + 40 > self->position.x)
 	{
 		enemy3_turn(self, 1);
-		//self->velocity.x = 5;
+		self->sprite = gf2d_sprite_load_all("images/soldier/soldier_shoot_right.png", 65, 37, 6); //ADD ZOMBIE
+		self->frameCount = 6;
 	}
 
 	if (vector2d_magnitude_compare(vector2d(self->position.x - player->position.x, self->position.y - player->position.y), 500) > 0) //DETECTION
@@ -140,13 +146,15 @@ void enemy3_think_hunting(Entity *self)
 	}
 	else
 	{
-		Entity* handgun = handgun_shoot(vector2d(self->position.x, self->position.y + 32), self->forward, 0, PLAYER_LAYER);
-		slog("pew pew enemy shoot");
+		Entity* handgun = handgun_shoot(vector2d(self->position.x, self->position.y + 1), self->forward, 0, PLAYER_LAYER);
+		//slog("pew pew enemy shoot");
 		level_add_entity(handgun);
 	}
 }
 void enemy3_think(Entity *self)
 {
+	self->sprite = gf2d_sprite_load_all("images/soldier/soldier_idle_left.png", 52, 37, 2); //ADD ZOMBIE
+	self->frameCount = 2;
 	if (enemy3_player_sight_check(self))
 	{
 		self->think = enemy3_think_hunting;
@@ -167,16 +175,18 @@ void enemy3_think(Entity *self)
 
 void enemy3_update(Entity *self)
 {
-	if (self->jumpcool > 0) self->jumpcool -= 0.2;
-	else self->jumpcool = 0;
 	if (self->projectcool > 0) self->projectcool -= 0.2;
 	else self->projectcool = 0;
-	//world clipping
+	if (self->projectcool > 0) self->projectcool -= 0.2;
+	else self->projectcool = 0;
 	if (self->cooldown > 0) self->cooldown--;
 	if (self->cooldown < 0)self->cooldown = 0;
 
 	entity_apply_gravity(self);
 	entity_world_snap(self);
+
+	self->velocity.y += .5;
+
 }
 
 int  enemy3_damage(Entity *self, int amount, Entity *source)
@@ -192,7 +202,6 @@ int  enemy3_damage(Entity *self, int amount, Entity *source)
 	{
 		self->health = 0;
 		self->think = enemy3_die;
-		//gf2d_actor_set_action(&self->actor,"death1");
 	}
 	return amount;
 }

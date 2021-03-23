@@ -28,12 +28,12 @@ Entity *enemy5_spawn(Vector2D position)
 		return NULL;
 	}
 	//playerTarget = target;
-	ent->sprite = gf2d_sprite_load_all("images/space_bug.png", 62.5, 53, 7); //ADD ZOMBIE
+	//ent->sprite = gf2d_sprite_load_all("images/monkey/monkey_idle.png", 41.5, 42, 9); //TANKING HITS
 
 	vector2d_copy(ent->position, position);
 	vector2d_copy(ent->spawn, position);
 	ent->frameRate = 0.1;
-	ent->frameCount = 7;
+	ent->frameCount = 9;
 	ent->think = enemy5_think;
 	ent->update = enemy5_update;
 	ent->damage = enemy5_damage;
@@ -132,11 +132,13 @@ void enemy5_think_hunting(Entity *self)
 	if (vector2d_magnitude_compare(vector2d(self->position.x - player->position.x, self->position.y - player->position.y), 500) > 0) //DETECTION
 	{
 		slog("lost the player");
-		self->think = enemy5_think;// idle think
+		self->think = enemy5_think;// idle think``
 		return;
 	}
 	else
 	{
+		self->sprite = gf2d_sprite_load_all("images/monkey/monkey_attack.png", 33, 28, 8); //TANKING HITS
+		self->frameCount = 8;
 		Entity* bomb = bomb_spawn(vector2d(self->position.x + (self->forward.x * -48) + 16, self->position.y), self->forward, PLAYER_LAYER, 0.35);
 		level_add_entity(bomb);
 		//slog("BOM BOM");
@@ -144,6 +146,9 @@ void enemy5_think_hunting(Entity *self)
 }
 void enemy5_think(Entity *self)
 {
+	self->sprite = gf2d_sprite_load_all("images/monkey/monkey_idle.png", 42, 42, 9); //TANKING HITS
+	self->frameCount = 9;
+
 	if (enemy5_player_sight_check(self))
 	{
 		self->think = enemy5_think_hunting;
@@ -174,6 +179,7 @@ void enemy5_update(Entity *self)
 
 	entity_apply_gravity(self);
 	entity_world_snap(self);
+	self->velocity.y = 0.5;
 }
 
 int  enemy5_damage(Entity *self, int amount, Entity *source)

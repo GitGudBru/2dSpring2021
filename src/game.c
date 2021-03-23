@@ -75,9 +75,9 @@ int main(int argc, char * argv[])
 	Entity* player = player_spawn(vector2d(100, 940));
 	Entity* breakable = breakable_spawn(vector2d(100, 960)); //near
 	Entity* breakable2 = breakable_spawn(vector2d(300, 680)); //up
-	//Entity* enemy1 = enemy1_spawn(vector2d(400, 940));
+	//Entity* enemy1 = enemy1_spawn(vector2d(700, 940));
 	//Entity* enemy2 = enemy2_spawn(vector2d(1200, 940));
-	//Entity* enemy3 = enemy3_spawn(vector2d(400, 940));
+	//Entity* enemy3 = enemy3_spawn(vector2d(600, 940));
 	//Entity* enemy4 = enemy4_spawn(vector2d(700, 940));
 	//Entity* enemy5 = enemy5_spawn(vector2d(700, 940));
 	//Entity* boss1 = boss1_spawn(vector2d(700, 940));	//SPAWN THE BOSS HIGHER OFF THE GROUND

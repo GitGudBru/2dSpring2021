@@ -28,12 +28,12 @@ Entity *boss2_spawn(Vector2D position)
 		return NULL;
 	}
 	//playerTarget = target;
-	ent->sprite = gf2d_sprite_load_all("images/space_bug.png", 62.5, 53, 7); //ADD ZOMBIE
-
+	ent->sprite = gf2d_sprite_load_all("images/boss2/zombieking.png", 49.1, 53, 8); //ADD ZOMBIE
+	ent->frameCount = 6;
 	vector2d_copy(ent->position, position);
 	vector2d_copy(ent->spawn, position);
 	ent->frameRate = 0.1;
-	ent->frameCount = 7;
+	ent->frameCount = 8;
 	ent->think = boss2_think;
 	ent->update = boss2_update;
 	ent->damage = boss2_damage;
@@ -134,6 +134,8 @@ void boss2_think_hunting(Entity *self)
 
 		if (random == 1)
 		{
+			self->sprite = gf2d_sprite_load_all("images/boss2/boss_red.png", 53, 51, 2); //ADD ZOMBIE
+			self->frameCount = 2;
 			self->velocity.y = -5;
 			slog("up");
 			Entity* bomb = bomb_spawn(vector2d(self->position.x + (self->forward.x * -48) + 16, self->position.y), self->forward, PLAYER_LAYER, 0.35);
@@ -146,6 +148,8 @@ void boss2_think_hunting(Entity *self)
 		}
 		if (random == 0)
 		{
+			self->sprite = gf2d_sprite_load_all("images/boss2/boss_red.png", 53, 51, 2); //ADD ZOMBIE
+			self->frameCount = 2;
 			self->velocity.y = 15;
 			slog("down");
 			Entity* bomb = bomb_spawn(vector2d(self->position.x + (self->forward.x * -48) + 16, self->position.y), self->forward, PLAYER_LAYER, 0.35);
@@ -158,6 +162,8 @@ void boss2_think_hunting(Entity *self)
 		}
 		if (random == 2)
 		{
+			self->sprite = gf2d_sprite_load_all("images/boss2/boss_jump_right.png", 49.1, 55, 7); //ADD ZOMBIE
+			self->frameCount = 7;
 			self->velocity.x = 2;
 			slog("right");
 			Entity* shot1 = boss_attack_shoot(vector2d(self->position.x - 20, self->position.y + 45), 1, 1); //DOWN
@@ -177,6 +183,8 @@ void boss2_think_hunting(Entity *self)
 		}
 		if (random == 3)
 		{
+			self->sprite = gf2d_sprite_load_all("images/boss2/boss_jump_left.png", 60.2, 63, 7); //ADD ZOMBIE
+			self->frameCount = 7;
 			self->velocity.x = -2;
 			slog("left");
 			Entity* shot1 = boss_attack_shoot(vector2d(self->position.x - 20, self->position.y + 45), 1, 1); //DOWN
@@ -207,6 +215,8 @@ void boss2_think_hunting(Entity *self)
 }
 void boss2_think(Entity *self)
 {
+	self->sprite = gf2d_sprite_load_all("images/boss2/boss_idle.png", 49, 50, 6); //ADD ZOMBIE
+	self->frameCount = 6;
 	//SPRITE BOSS CHILLIN
 	if (boss2_player_sight_check(self))
 	{

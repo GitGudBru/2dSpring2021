@@ -28,12 +28,12 @@ Entity *boss1_spawn(Vector2D position)
 		return NULL;
 	}
 	//playerTarget = target;
-	ent->sprite = gf2d_sprite_load_all("images/space_bug.png", 62.5, 53, 7); //ADD ZOMBIE
+	ent->sprite = gf2d_sprite_load_all("images/boss1/zombieking.png", 66 , 69, 6); //ADD ZOMBIE
 
 	vector2d_copy(ent->position, position);
 	vector2d_copy(ent->spawn, position);
 	ent->frameRate = 0.1;
-	ent->frameCount = 7;
+	ent->frameCount = 6;
 	ent->think = boss1_think;
 	ent->update = boss1_update;
 	ent->damage = boss1_damage;
@@ -114,6 +114,8 @@ void boss1_turn(Entity *self, int dir)
 }
 void boss1_think_hunting(Entity *self)
 {
+	self->sprite = gf2d_sprite_load_all("images/boss1/zombieking.png", 66, 69, 6); //ADD ZOMBIE
+	self->frameCount = 6;
 	Entity *player = player_get();
 	float xDistance = abs(self->position.x - player->position.x);
 
@@ -139,16 +141,12 @@ void boss1_think_hunting(Entity *self)
 	{
 		Entity* enemy1 = enemy1_spawn(vector2d(400, 940));
 		level_add_entity(enemy1);
-		//self->velocity.x = -1;
-		//self->velocity.y = -1;
-		//Entity* bomb = bomb_spawn(vector2d(self->position.x + (self->forward.x * -48) + 16, self->position.y), self->forward, PLAYER_LAYER, 0.35);
-		//level_add_entity(bomb);
-		//slog("BOM BOM");
-		//if (self->health <= 0)entity_free(enemy1);
 	}
 }
 void boss1_think(Entity *self)
 {
+	//self->sprite = gf2d_sprite_load_all("images/boss1/zombieking.png", 66, 69, 6); //ADD ZOMBIE
+	//self->frameCount = 6;
 	if (boss1_player_sight_check(self))
 	{
 		self->think = boss1_think_hunting;
@@ -184,6 +182,8 @@ void boss1_update(Entity *self)
 int  boss1_damage(Entity *self, int amount, Entity *source)
 {
 	Vector2D dir = { 0 };
+	self->sprite = gf2d_sprite_load_all("images/boss1/zombieking_dmg.png", 66, 69, 6); //ADD ZOMBIE
+	self->frameCount = 6;
 	slog("enemy taking %i damage!", amount);	//ADD DAMAGE SPRITE
 	self->health -= amount;
 	//gf2d_sound_play(self->sound[1],0,0.1,-1,-1);

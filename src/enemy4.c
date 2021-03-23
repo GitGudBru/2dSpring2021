@@ -28,11 +28,11 @@ Entity *enemy4_spawn(Vector2D position)
 		return NULL;
 	}
 
-	ent->sprite = gf2d_sprite_load_all("images/ed210_top.png", 62.5, 53, 7); //TANKING HITS
+	ent->sprite = gf2d_sprite_load_all("images/shield/shield_idle.png", 34, 38, 6); //TANKING HITS
 	vector2d_copy(ent->position, position);
 	vector2d_copy(ent->spawn, position);
 	ent->frameRate = 0.1;
-	ent->frameCount = 7;
+	ent->frameCount = 6;
 	ent->think = enemy4_think;
 	ent->update = enemy4_update;
 	ent->damage = enemy4_damage;
@@ -139,16 +139,20 @@ void enemy4_think_hunting(Entity *self)
 	else //IN DETECT RADIUS
 	{
 		slog("tanking hits");
+		//self->sprite = gf2d_sprite_load_all("images/shield/shield_idle.png", 34, 38, 6); //TANKING HITS
+		//self->frameCount = 6;
 		if (self->health < 8) //RUSH HIS BOOTY
 		{
-			self->sprite = gf2d_sprite_load_all("images/space_bug_top.png", 62.5, 53, 7); //RUSH SPRITE
+			self->sprite = gf2d_sprite_load_all("images/shield/shield_rush.png", 31.5, 41, 12); //RUSHING
+			self->frameCount = 12;
 			slog("rush his ass");
 			//enemy4_attack(self);
 			if (self->forward.x == 1)
 			{
 				self->velocity.x = 0;
-				self->sprite = gf2d_sprite_load_all("images/space_bug_top.png", 62.5, 53, 7); //RIGHT SHOOTER SPRITE
-				Entity* handgun = handgun_shoot(vector2d(self->position.x, self->position.y + 32), self->forward, 0, PLAYER_LAYER);
+				self->sprite = gf2d_sprite_load_all("images/shield/shield_shoot.png", 36, 38, 10); //SHOOTING RIGHT
+				self->frameCount = 10;
+				Entity* handgun = handgun_shoot(vector2d(self->position.x, self->position.y + 1), self->forward, 0, PLAYER_LAYER);
 				level_add_entity(handgun);
 			}
 			else
@@ -159,7 +163,8 @@ void enemy4_think_hunting(Entity *self)
 
 		}
 		else{
-			self->sprite = gf2d_sprite_load_all("images/ed210_top.png", 62.5, 53, 7); //TANKING HITS SPRITE
+			self->sprite = gf2d_sprite_load_all("images/shield/shield_idle.png", 34, 38, 6); //TANKING HITS
+			self->frameCount = 6;
 		}
 	}
 }
@@ -195,6 +200,7 @@ void enemy4_update(Entity *self)
 
 	entity_apply_gravity(self);
 	entity_world_snap(self);
+	self->velocity.y = 0.1;
 }
 
 int  enemy4_damage(Entity *self, int amount, Entity *source)
