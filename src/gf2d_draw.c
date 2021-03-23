@@ -18,11 +18,17 @@ void gf2d_draw_lines(Vector2D *p1,Vector2D *p2, Uint32 lines,Vector4D color)
                            p2[i].x,
                            p2[i].y);
     }
+	/*
     SDL_SetRenderDrawColor(gf2d_graphics_get_renderer(),
                            255,
                            255,
                            255,
-                           255);
+                           255); */
+	SDL_SetRenderDrawColor(gf2d_graphics_get_renderer(),
+		0,
+		0,
+		0,
+		255);
 }
 
 void gf2d_draw_line(Vector2D p1,Vector2D p2, Vector4D color)
@@ -37,11 +43,17 @@ void gf2d_draw_line(Vector2D p1,Vector2D p2, Vector4D color)
                        p1.y,
                        p2.x,
                        p2.y);
+	/*
     SDL_SetRenderDrawColor(gf2d_graphics_get_renderer(),
                            255,
                            255,
                            255,
-                           255);
+                           255); */
+	SDL_SetRenderDrawColor(gf2d_graphics_get_renderer(),
+		0,
+		0,
+		0,
+		255);
 }
 
 void gf2d_draw_rect(SDL_Rect rect,Vector4D color)
@@ -52,11 +64,16 @@ void gf2d_draw_rect(SDL_Rect rect,Vector4D color)
                            color.z,
                            color.w);
     SDL_RenderDrawRect(gf2d_graphics_get_renderer(),(const struct SDL_Rect *)&rect);
-    SDL_SetRenderDrawColor(gf2d_graphics_get_renderer(),
+  /*  SDL_SetRenderDrawColor(gf2d_graphics_get_renderer(),
                            255,
                            255,
                            255,
-                           255);
+                           255); */
+	SDL_SetRenderDrawColor(gf2d_graphics_get_renderer(),
+							0,
+							0,
+							0,
+							255);
 }
 
 void gf2d_draw_rects(SDL_Rect *rects,Uint32 count,Vector4D color)
@@ -170,11 +187,17 @@ void gf2d_draw_circle(Vector2D center, int radius, Vector4D color)
                            color.z,
                            color.w);
     SDL_RenderDrawPoints(gf2d_graphics_get_renderer(),pointArray,i);
+	/*
     SDL_SetRenderDrawColor(gf2d_graphics_get_renderer(),
                             255,
                             255,
                             255,
-                            255);
+                            255); */
+	SDL_SetRenderDrawColor(gf2d_graphics_get_renderer(),
+							0,
+							0,
+							0,
+							255);
     free(pointArray);
 }
 

@@ -1,10 +1,15 @@
+#include "simple_json.h"
 #include "simple_logger.h"
 #include "player.h"
 #include "camera.h"
+#include "gf2d_sprite.h"
 #include "weapon.h"
 #include "level.h"
 
 static Entity* _player = NULL;
+
+Sprite* digit1;
+
 
 void player_update(Entity *self);
 void player_think(Entity* self);
@@ -18,8 +23,9 @@ Entity* player_get()
 	return _player;
 }
 
+//Entity *player_spawn(Vector2D position, const char* filename)
+Entity *player_spawn(const char* filename)
 
-Entity *player_spawn(Vector2D position)
 {
 	Entity *ent;
 	ent = entity_new();
@@ -29,17 +35,35 @@ Entity *player_spawn(Vector2D position)
 		return NULL;
 	}
 	ent->sprite = gf2d_sprite_load_all("images/idle.png", 37.5, 49, 4);
-	vector2d_copy(ent->position, position);
+
+	
+	SJson* json;
+	json = sj_load(filename);
+	if (!json)
+	{
+		slog("failed to load scene file %s", filename);
+		entity_free(ent);
+		return NULL;
+	}
+
+
+	sj_get_integer_value(sj_object_get_value(json, "health"), &ent->health);
+	sj_get_integer_value(sj_object_get_value(json, "rock"), &ent->bomb);
+	sj_get_float_value(sj_object_get_value(json, "position_x"), &ent->position.x);
+	sj_get_float_value(sj_object_get_value(json, "position_y"), &ent->position.y);
+	
+	Vector2D position = vector2d(ent->position.x, ent->position.y);
 	ent->frameRate = 0.1;
 	ent->frameCount = 4;
 	ent->update = player_update;
 	ent->think = player_think;
 	ent->damage = player_damage;
-	ent->health = 5;
-	ent->maxHealth = 8;
+	//ent->health = 5;
+	//ent->maxHealth = 8;
 	ent->forward.x = 1;
 	ent->shotgun = 0;
 	ent->machinegun = 0;
+	ent->score = 0;
 
 
 	ent->shape = gf2d_shape_rect(16, 5, 30, 40);	//SIZE OF COLLIDER
@@ -51,7 +75,6 @@ Entity *player_spawn(Vector2D position)
 		0,
 		1,
 		position,
-		//vector2d(ent->position.x, ent->position.y),
 		vector2d(0, 0),
 		10,
 		1,
@@ -68,6 +91,7 @@ void player_update(Entity *self)
 {
 	Vector2D camera;
 	Vector2D cameraSize;
+	Vector2D pos = vector2d(100, 960);
 
 	if (!self)return;
 	cameraSize = camera_get_dimensions();
@@ -89,7 +113,7 @@ void player_update(Entity *self)
 	self->velocity.y += .5; //GRAVITY
 
 	if (self->health <= 0) {
-		slog("u ded");
+		//slog("u ded");
 	}
 }
 
@@ -610,9 +634,68 @@ void player_think(Entity *self)
 	}
 }
 
+SJson* player_to_json(Entity* self)
+{
+	SJson* json;
+	if (!self)return NULL;
 
+	json = sj_object_new();
+	if (!json)return NULL;
+
+	sj_object_insert(json, "pickup score:", sj_new_int(self->score));
+
+	return json;
+}
+
+void player_save(Entity* self, char* filename)
+{
+	SJson* json;
+	if (!self)return;
+
+	json = player_to_json(self);
+	if (!json)return;
+	sj_save(json, filename);
+}
+
+
+void player_health_image_set(Entity* self, Vector2D position)
+{
+	Vector2D pos = position;
+	char *img; //= gf2d_sprite_load_all("images/health5.png");
+
+	if(self->health == 5)
+	{
+		img = "images/health5.png";
+	}
+	else if (self->health == 4)
+	{
+		img = "images/health4.png";
+	}
+	else if (self->health == 3)
+	{
+		img = "images/health3.png";
+	}
+	else if (self->health == 2)
+	{
+		img = "images/health2.png";
+	}
+	else if (self->health == 1)
+	{
+		img = "images/health1.png";
+	}
+
+	digit1 = gf2d_sprite_load_image(img);
+	gf2d_sprite_draw_image(digit1, pos);
+
+}
+
+void player_health_display(Entity* self){
+	player_health_image_set(self, vector2d(150, 25));
+}
 int  player_damage(Entity* self, int amount, Entity* source)
 {
 	//slog("CRUNCH");
+	//player_health_image_set(self, vector2d(150, 25));
 	self->health -= amount;
+
 }

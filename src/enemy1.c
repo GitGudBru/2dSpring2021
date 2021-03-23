@@ -76,7 +76,7 @@ void enemy1_think_attacking(Entity *self)
 		s = gf2d_shape_rect(self->position.x + (self->flip.x * -48) + 32, self->position.y, 50, 40);
 		collisionList = entity_get_clipped_entities(self, s, PLAYER_LAYER, 0);
 		count = gfc_list_get_count(collisionList);
-		slog("hit %i player", count);
+		//slog("hit %i player", count);
 		for (i = 0; i < count; i++)
 		{
 			c = (Collision*)gfc_list_get_nth(collisionList, i);
@@ -146,7 +146,7 @@ void enemy1_think_hunting(Entity *self)
 
 	if (vector2d_magnitude_compare(vector2d(self->position.x - player->position.x, self->position.y - player->position.y), 350) > 0)
 	{
-		slog("lost the player");
+		//slog("lost the player");
 		self->think = enemy1_think_patroling;// idle think
 		return;
 	}
@@ -207,7 +207,7 @@ int  enemy1_touch(Entity *self, Entity *other)
 int  enemy1_damage(Entity *self, int amount, Entity *source)
 {
 	Vector2D dir = { 0 };
-	slog("enemy taking %i damage!", amount);
+	//slog("enemy taking %i damage!", amount);
 	self->health -= amount;
 	vector2d_sub(dir, source->position, self->position);
 	vector2d_normalize(&dir);
@@ -226,7 +226,7 @@ int enemy1_player_sight_check(Entity *self)
 	if (!player)return 0;
 	if (vector2d_magnitude_compare(vector2d(self->position.x - player->position.x, self->position.y - player->position.y), 200) < 0)
 	{
-		slog(" sight check found player");
+		//slog(" sight check found player");
 		//gf2d_sound_play(self->sound[0],0,1,-1,-1);
 		return 1;
 	}

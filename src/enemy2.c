@@ -77,7 +77,7 @@ void enemy2_think_attacking(Entity *self)
 		s = gf2d_shape_rect(self->position.x + (self->flip.x * -48) + 32, self->position.y, 50, 40);
 		collisionList = entity_get_clipped_entities(self, s, PLAYER_LAYER, 0);
 		count = gfc_list_get_count(collisionList);
-		slog("hit %i player", count);
+		//slog("hit %i player", count);
 		for (i = 0; i < count; i++)
 		{
 			c = (Collision*)gfc_list_get_nth(collisionList, i);
@@ -140,7 +140,7 @@ void enemy2_update(Entity *self)
 int  enemy2_damage(Entity *self, int amount, Entity *source)
 {
 	Vector2D dir = { 0 };
-	slog("enemy taking %i damage!", amount);
+	//slog("enemy taking %i damage!", amount);
 	self->health -= amount;
 	//gf2d_sound_play(self->sound[1],0,0.1,-1,-1);
 	vector2d_sub(dir, source->position, self->position);
@@ -157,7 +157,7 @@ int  enemy2_damage(Entity *self, int amount, Entity *source)
 
 void enemy2_die(Entity *self)
 {
-	slog("im die..");
+	//slog("im die..");
 	level_remove_entity(self);
 	entity_free(self);
 }

@@ -140,7 +140,7 @@ void enemy3_think_hunting(Entity *self)
 
 	if (vector2d_magnitude_compare(vector2d(self->position.x - player->position.x, self->position.y - player->position.y), 500) > 0) //DETECTION
 	{
-		slog("lost the player");
+		//slog("lost the player");
 		self->think = enemy3_think;// idle think
 		return;
 	}
@@ -192,7 +192,7 @@ void enemy3_update(Entity *self)
 int  enemy3_damage(Entity *self, int amount, Entity *source)
 {
 	Vector2D dir = { 0 };
-	slog("enemy taking %i damage!", amount);
+	//slog("enemy taking %i damage!", amount);
 	self->health -= amount;
 	//gf2d_sound_play(self->sound[1],0,0.1,-1,-1);
 	vector2d_sub(dir, source->position, self->position);
@@ -212,7 +212,7 @@ int enemy3_player_sight_check(Entity *self)
 	if (!player)return 0;
 	if (vector2d_magnitude_compare(vector2d(self->position.x - player->position.x, self->position.y - player->position.y), 500) < 0) //DETECTION
 	{
-		slog(" sight check found player");
+	//	slog(" sight check found player");
 		return 1;
 	}
 	return 0;
@@ -220,7 +220,7 @@ int enemy3_player_sight_check(Entity *self)
 
 void enemy3_die(Entity *self)
 {
-	slog("im die..");
+	//slog("im die..");
 	level_remove_entity(self);
 	entity_free(self);
 }

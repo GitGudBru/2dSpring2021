@@ -25,6 +25,7 @@ int main(int argc, char * argv[])
     //Sprite *sprite;
 	//Entity *ent;
 	Level *level;
+	Level *level2;
     
     int mx,my;
     float mf = 0;
@@ -70,77 +71,84 @@ int main(int argc, char * argv[])
 		
     /*demo setup*/
     mouse = gf2d_sprite_load_all("images/pointer.png",32,32,16);
-	level = level_load("levels/level1.json");
-	//player_spawn(vector2d(100,600));
-	Entity* player = player_spawn(vector2d(100, 940));
-	Entity* breakable = breakable_spawn(vector2d(100, 960)); //near
-	Entity* breakable2 = breakable_spawn(vector2d(300, 680)); //up
-	//Entity* enemy1 = enemy1_spawn(vector2d(700, 940));
+	//level = level_load("levels/level1.json");
+	level = level_load("levels/level2.json");
+	Entity* player = player_spawn("levels/player.json");
+	Entity* breakable = breakable_spawn(vector2d(100, 485)); //near
+	//Entity* breakable2 = breakable_spawn(vector2d(300, 680)); //up
+	Entity* breakable2 = breakable_spawn(vector2d(140, 485));
+	Entity* breakable3 = breakable_spawn(vector2d(180, 485)); //up
+	Entity* breakable4 = breakable_spawn(vector2d(220, 485)); //up
+	Entity* breakable5 = breakable_spawn(vector2d(260, 485)); //up
+	Entity* breakable6 = breakable_spawn(vector2d(300, 485)); //up
+	Entity* breakable7 = breakable_spawn(vector2d(340, 485)); //up
+
+	Entity* enemy1 = enemy1_spawn(vector2d(700, 940));
 	//Entity* enemy2 = enemy2_spawn(vector2d(1200, 940));
 	//Entity* enemy3 = enemy3_spawn(vector2d(600, 940));
 	//Entity* enemy4 = enemy4_spawn(vector2d(700, 940));
 	//Entity* enemy5 = enemy5_spawn(vector2d(700, 940));
 	//Entity* boss1 = boss1_spawn(vector2d(700, 940));	//SPAWN THE BOSS HIGHER OFF THE GROUND
-	Entity* boss2 = boss2_spawn(vector2d(700, 900));	
+	//Entity* boss2 = boss2_spawn(vector2d(700, 900));	
 
 	level_add_entity(player);
 	level_add_entity(breakable);
 	level_add_entity(breakable2);
-	//level_add_entity(enemy1);
+	level_add_entity(breakable3);
+	level_add_entity(breakable4);
+	level_add_entity(breakable5);
+	level_add_entity(breakable6);
+	level_add_entity(breakable7);
+
+	level_add_entity(enemy1);
 	//level_add_entity(enemy2);
 	//level_add_entity(enemy3);
 	//level_add_entity(enemy4);
 	//level_add_entity(enemy5);
 	//level_add_entity(boss1);
-	level_add_entity(boss2);
+	//level_add_entity(boss2);
 
 
 	filter.worldclip = 1;
 
     /*main game loop*/
     while(!done)
-    {
+    {  
+		/*
+		if (boss1->health <= 1)
+		{
+			slog("switch lvl");
+			//level_free(level);
+			level2 = level_load("levels/level2.json");
+			Entity* boss2 = boss2_spawn(vector2d(700, 900));
+			level_add_entity(boss2);
+			level_update(level2);
+			level_draw(level2);
+		}
+		*/
         SDL_PumpEvents();   // update SDL's internal event structures
         keys = SDL_GetKeyboardState(NULL); // get the keyboard state for this frame
         /*update things here*/
         SDL_GetMouseState(&mx,&my);
         mf+=0.1;
         if (mf >= 16.0)mf = 0;
-        
-		//ent->frame+= 0.1;
-		//if (ent->frame >= 16)ent->frame = 0; //update animation
-
-		//ent->position.x++;
-		//ent->position.y++; //update position
+       
 
 		entity_manager_update_entities();
 
 		level_update(level);
-		//gf2d_entity_pre_sync_all();
-		//gf2d_entity_post_sync_all();
 
 		gf2d_space_update(space);
 
 		collision = gf2d_collision_trace_space(space, vector2d(mx, my), vector2d(600, 360), filter);
         
         gf2d_graphics_clear_screen();// clears drawing buffers
-        // all drawing should happen betweem clear_screen and next_frame
-            //backgrounds drawn first
-            //gf2d_sprite_draw_image(sprite,vector2d(0,0));
+
 			level_draw(level);
 
-			//entity_draw(ent);
-			//entity_manager_draw_entities();  // TTTTTTTTTTTTTTTTTTT
 
 			gf2d_space_draw(space, vector2d(0, 0));
-			/*if (collision.collided)
-			{
-			gf2d_draw_line(vector2d(mx, my), collision.pointOfContact, vector4d(255, 0, 0, 255));
-			}
-			else
-			{
-			gf2d_draw_line(vector2d(mx, my), vector2d(600, 360), vector4d(255, 255, 0, 255));
-			}*/
+
 			entity_manager_think_entities();
 			entity_manager_draw_entities();
 
@@ -154,26 +162,18 @@ int main(int argc, char * argv[])
                 NULL,
                 &mouseColor,
                 (int)mf);
+
+			player_health_display(player);
         gf2d_grahics_next_frame();// render current draw frame and skip to the next frame
-		/*
-		if (keys[SDL_SCANCODE_D]) {
-			camera_move(vector2d(1, 0));
+
+		if (keys[SDL_SCANCODE_ESCAPE])
+		{
+			player_save(player, "levels/player_new.json");
+			done = 1; // exit condition
 		}
-		if (keys[SDL_SCANCODE_A]) {
-			camera_move(vector2d(-1, 0));
-		}
-		if (keys[SDL_SCANCODE_UP]) {
-			camera_move(vector2d(0, -10));
-		}
-		if (keys[SDL_SCANCODE_DOWN]) {
-			camera_move(vector2d(0, 10));
-		}
-        */
-        if (keys[SDL_SCANCODE_ESCAPE])done = 1; // exit condition
         //slog("Rendering at %f FPS",gf2d_graphics_get_frames_per_second());
     }
 
-	//entity_free(ent);
 
     slog("---==== END ====---");
     return 0;

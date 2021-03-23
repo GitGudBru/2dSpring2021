@@ -270,7 +270,8 @@ int entity_wall_check(Entity* self, Vector2D dir)
 			c = (Collision*)gfc_list_get_nth(collisionList, i);
 			if (!c)continue;
 			if (!c->shape)continue;
-			gf2d_shape_draw(*c->shape, gfc_color(255, 255, 0, 255), camera_get_offset());
+			//gf2d_shape_draw(*c->shape, gfc_color(255, 255, 0, 255), camera_get_offset());
+			gf2d_shape_draw(*c->shape, gfc_color(0, 0, 0, 0), camera_get_offset());
 		}
 		gf2d_collision_list_free(collisionList);
 		return 1;

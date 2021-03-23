@@ -17,6 +17,7 @@ typedef struct Entity_s
 	//Vector2D    facing;
 	Sprite   *sprite;
 	Sprite	 *sprite2;
+	Sprite   *healthicon;
 	//Sprite*     laser;
 	Shape       shape;
 	Body        body;
@@ -31,7 +32,7 @@ typedef struct Entity_s
 	int		 (*touch)(struct Entity_S* self, struct Entity_S* other);/**<when this entity touches another entity*/
 	int		 (*damage)(struct Entity_S* self, int amount, struct Entity_S* source);/**<when this entity takes damage*/
 	void	 (*die)(struct Entity_S* self);
-	int	 health;                           /**<health of entity*/
+	int	     health;                           /**<health of entity*/
 	int		 maxHealth;                        /**<maximum health of entity*/
 	int		 cooldown;                         /**<useful for timing cooldowns*/
 	int	   	 attack;                           /**<which attack is being performed*/
@@ -48,6 +49,7 @@ typedef struct Entity_s
 	int		 bomb;
 	int		 num;
 	int		 attacking;
+	int		 score;
 	char     hitLayer;
 	Vector2D forward;
 	void     *data;
@@ -111,6 +113,9 @@ void entity_world_snap(Entity* self);
 void entity_apply_gravity(Entity* self);
 
 List* entity_get_clipped_entities(Entity* self, Shape s, Uint32 layers, Uint32 team);
+
+
+
 
 
 

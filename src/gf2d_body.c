@@ -30,15 +30,17 @@ void gf2d_body_draw(Body *body, Vector2D offset)
 	Shape shape;
 	Vector2D center;
 	if (!body)return;
-	vector4d_set(color, 0, 255, 255, 255);
+//	vector4d_set(color, 0, 255, 255, 255);
 	// draw center point
 	vector2d_add(center, body->position, offset);
 	gf2d_draw_pixel(center, color);
 
-	vector4d_set(color, 255, 0, 255, 255);
+//	vector4d_set(color, 255, 0, 255, 255);
 	gf2d_shape_copy(&shape, *body->shape);
 	gf2d_shape_move(&shape, body->position);
-	gf2d_shape_draw(shape, gfc_color_from_vector4(color), offset);
+	//gf2d_shape_draw(shape, gfc_color_from_vector4(color), offset); //THIS SETS ENTITY BOX COLOR
+	gf2d_shape_draw(shape, gfc_color_from_vector4(vector4d(0,0,0,0)), offset);
+
 }
 
 void gf2d_body_set(

@@ -132,10 +132,10 @@ void handgun_think(Entity* self)
 	keys = SDL_GetKeyboardState(NULL);
 	SDL_GetMouseState(&mx, &my);
 	if (self->flip.x == 0) {
-		vector2d_scale(thrust, vector2d(-1, 0), 1.85);
+		vector2d_scale(thrust, vector2d(-1.05, 0), 1.85);
 	}
 	else {
-		vector2d_scale(thrust, vector2d(1, 0), 1.85);
+		vector2d_scale(thrust, vector2d(1.05, 0), 1.85);
 	}
 	vector2d_add(self->velocity, self->velocity, thrust);
 
@@ -168,7 +168,9 @@ void handgun_think(Entity* self)
 				c = (Collision*)gfc_list_get_nth(collisionList, i);
 				if (!c)continue;
 				if (!c->shape)continue;
-				gf2d_shape_draw(*c->shape, gfc_color(255, 255, 0, 255), camera_get_offset());
+				//gf2d_shape_draw(*c->shape, gfc_color(255, 255, 0, 255), camera_get_offset());
+				gf2d_shape_draw(*c->shape, gfc_color(0, 0, 0, 255), camera_get_offset());
+
 				level_remove_entity(self);
 				entity_free(self);	//SAYONARA BULLET
 			}
@@ -193,7 +195,8 @@ void handgun_think(Entity* self)
 				c = (Collision*)gfc_list_get_nth(collisionList, i);
 				if (!c)continue;
 				if (!c->shape)continue;
-				gf2d_shape_draw(*c->shape, gfc_color(255, 255, 0, 255), camera_get_offset());
+				//gf2d_shape_draw(*c->shape, gfc_color(255, 255, 0, 255), camera_get_offset());
+				gf2d_shape_draw(*c->shape, gfc_color(0, 0, 0, 255), camera_get_offset());
 				level_remove_entity(self);
 				entity_free(self);	//SAYONARA BULLET
 			}
@@ -223,7 +226,7 @@ void handgun_think2(Entity* self)
 	SDL_GetMouseState(&mx, &my);
 	self->rotation.x = 90;
 	self->rotation.y = 90;
-	vector2d_scale(thrust, vector2d(0, 1), 1.85);
+	vector2d_scale(thrust, vector2d(0, 1.05), 1.85);
 	
 	vector2d_add(self->velocity, self->velocity, thrust);
 
@@ -255,7 +258,8 @@ void handgun_think2(Entity* self)
 				c = (Collision*)gfc_list_get_nth(collisionList, i);
 				if (!c)continue;
 				if (!c->shape)continue;
-				gf2d_shape_draw(*c->shape, gfc_color(255, 255, 0, 255), camera_get_offset());
+				//gf2d_shape_draw(*c->shape, gfc_color(255, 255, 0, 255), camera_get_offset());
+				gf2d_shape_draw(*c->shape, gfc_color(0, 0, 0, 255), camera_get_offset());
 				level_remove_entity(self);
 				entity_free(self);	//SAYONARA BULLET
 			}
@@ -280,7 +284,8 @@ void handgun_think2(Entity* self)
 				c = (Collision*)gfc_list_get_nth(collisionList, i);
 				if (!c)continue;
 				if (!c->shape)continue;
-				gf2d_shape_draw(*c->shape, gfc_color(255, 255, 0, 255), camera_get_offset());
+				//gf2d_shape_draw(*c->shape, gfc_color(255, 255, 0, 255), camera_get_offset());
+				gf2d_shape_draw(*c->shape, gfc_color(0, 0, 0, 255), camera_get_offset());
 				level_remove_entity(self);
 				entity_free(self);	//SAYONARA BULLET
 			}
@@ -426,7 +431,8 @@ void shotgun_think(Entity* self)
 			c = (Collision*)gfc_list_get_nth(collisionList, i);
 			if (!c)continue;
 			if (!c->shape)continue;
-			gf2d_shape_draw(*c->shape, gfc_color(255, 255, 0, 255), camera_get_offset());
+			//gf2d_shape_draw(*c->shape, gfc_color(255, 255, 0, 255), camera_get_offset());
+			gf2d_shape_draw(*c->shape, gfc_color(0, 0, 0, 255), camera_get_offset());
 			//level_remove_entity(self);
 			//entity_free(self);
 		}
@@ -583,7 +589,9 @@ void bomb_think(Entity* self)
 				c = (Collision*)gfc_list_get_nth(collisionList, i);
 				if (!c)continue;
 				if (!c->shape)continue;
-				gf2d_shape_draw(*c->shape, gfc_color(255, 255, 0, 255), camera_get_offset());
+				//gf2d_shape_draw(*c->shape, gfc_color(255, 255, 0, 255), camera_get_offset());
+				gf2d_shape_draw(*c->shape, gfc_color(0, 0, 0, 255), camera_get_offset());
+
 				level_remove_entity(self);
 				entity_free(self);
 			}
@@ -612,7 +620,8 @@ void bomb_think(Entity* self)
 				c = (Collision*)gfc_list_get_nth(collisionList, i);
 				if (!c)continue;
 				if (!c->shape)continue;
-				gf2d_shape_draw(*c->shape, gfc_color(255, 255, 0, 255), camera_get_offset());
+				//gf2d_shape_draw(*c->shape, gfc_color(255, 255, 0, 255), camera_get_offset());
+				gf2d_shape_draw(*c->shape, gfc_color(0, 0, 0, 255), camera_get_offset());
 				level_remove_entity(self);
 				entity_free(self);
 			}
@@ -764,7 +773,9 @@ void boss_attack_think(Entity* self)
 			c = (Collision*)gfc_list_get_nth(collisionList, i);
 			if (!c)continue;
 			if (!c->shape)continue;
-			gf2d_shape_draw(*c->shape, gfc_color(255, 255, 0, 255), camera_get_offset());
+			//gf2d_shape_draw(*c->shape, gfc_color(255, 255, 0, 255), camera_get_offset());
+			gf2d_shape_draw(*c->shape, gfc_color(0, 0, 0, 255), camera_get_offset());
+
 			level_remove_entity(self);
 			entity_free(self);	//SAYONARA BULLET
 		}
@@ -821,7 +832,9 @@ void boss_attack_think2(Entity* self)
 			c = (Collision*)gfc_list_get_nth(collisionList, i);
 			if (!c)continue;
 			if (!c->shape)continue;
-			gf2d_shape_draw(*c->shape, gfc_color(255, 255, 0, 255), camera_get_offset());
+			//gf2d_shape_draw(*c->shape, gfc_color(255, 255, 0, 255), camera_get_offset());
+			gf2d_shape_draw(*c->shape, gfc_color(0, 0, 0, 255), camera_get_offset());
+
 			level_remove_entity(self);
 			entity_free(self);	//SAYONARA BULLET
 		}

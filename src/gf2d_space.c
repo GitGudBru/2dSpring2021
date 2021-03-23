@@ -148,7 +148,7 @@ void gf2d_space_draw(Space *space, Vector2D offset)
 	}
 	r = gf2d_rect_to_sdl_rect(space->bounds);
 	vector2d_add(r, r, offset);
-	gf2d_draw_rect(r, vector4d(255, 0, 0, 255));
+	//gf2d_draw_rect(r, vector4d(255, 0, 0, 255));
 	count = gfc_list_get_count(space->dynamicBodyList);
 	for (i = 0; i < count; i++)
 	{
@@ -159,7 +159,9 @@ void gf2d_space_draw(Space *space, Vector2D offset)
 	count = gfc_list_get_count(space->staticShapes);
 	for (i = 0; i < count; i++)
 	{
-		gf2d_shape_draw(*(Shape *)gfc_list_get_nth(space->staticShapes, i), gfc_color8(0, 255, 0, 255), offset);
+	//	gf2d_shape_draw(*(Shape *)gfc_list_get_nth(space->staticShapes, i), gfc_color8(0, 255, 0, 255), offset); //THIS SETS SPACE BOX COLOR
+		gf2d_shape_draw(*(Shape *)gfc_list_get_nth(space->staticShapes, i), gfc_color8(0, 0, 0, 0), offset);
+
 	}
 }
 

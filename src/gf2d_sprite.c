@@ -274,10 +274,14 @@ void gf2d_sprite_draw(
     if (colorShift)
     {
         SDL_SetTextureColorMod(
-            sprite->texture,
+            /*sprite->texture,
             255,
             255,
-            255);
+            255);*/
+		sprite->texture,
+			0,
+			0,
+			0);
         SDL_SetTextureAlphaMod(
             sprite->texture,
             255);

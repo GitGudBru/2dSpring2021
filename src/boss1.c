@@ -37,7 +37,7 @@ Entity *boss1_spawn(Vector2D position)
 	ent->think = boss1_think;
 	ent->update = boss1_update;
 	ent->damage = boss1_damage;
-	ent->health = 30;
+	ent->health = 25;
 	ent->maxHealth = 1;
 	ent->projectcool = 0;
 	ent->rotation.x = 64;
@@ -77,7 +77,7 @@ void boss1_think_attacking(Entity *self)
 	s = gf2d_shape_rect(self->position.x + (self->flip.x * -48) + 32, self->position.y, 50, 40);
 	collisionList = entity_get_clipped_entities(self, s, PLAYER_LAYER, 0);
 	count = gfc_list_get_count(collisionList);
-	slog("hit %i player", count);
+	//slog("hit %i player", count);
 	for (i = 0; i < count; i++)
 	{
 		c = (Collision*)gfc_list_get_nth(collisionList, i);
@@ -133,14 +133,14 @@ void boss1_think_hunting(Entity *self)
 
 	if (vector2d_magnitude_compare(vector2d(self->position.x - player->position.x, self->position.y - player->position.y), 500) > 0) //DETECTION
 	{
-		slog("lost the player");
+		//slog("lost the player");
 		self->think = boss1_think;// idle think
 		return;
 	}
 	else
 	{
-		Entity* enemy1 = enemy1_spawn(vector2d(400, 940));
-		level_add_entity(enemy1);
+		//Entity* enemy1 = enemy1_spawn(vector2d(400, 940));
+		//level_add_entity(enemy1);
 	}
 }
 void boss1_think(Entity *self)
@@ -184,7 +184,7 @@ int  boss1_damage(Entity *self, int amount, Entity *source)
 	Vector2D dir = { 0 };
 	self->sprite = gf2d_sprite_load_all("images/boss1/zombieking_dmg.png", 66, 69, 6); //ADD ZOMBIE
 	self->frameCount = 6;
-	slog("enemy taking %i damage!", amount);	//ADD DAMAGE SPRITE
+	//slog("enemy taking %i damage!", amount);	//ADD DAMAGE SPRITE
 	self->health -= amount;
 	//gf2d_sound_play(self->sound[1],0,0.1,-1,-1);
 	vector2d_sub(dir, source->position, self->position);
@@ -205,7 +205,7 @@ int boss1_player_sight_check(Entity *self)
 	if (!player)return 0;
 	if (vector2d_magnitude_compare(vector2d(self->position.x - player->position.x, self->position.y - player->position.y), 500) < 0) //DETECTION
 	{
-		slog(" sight check found player");
+	//	slog(" sight check found player");
 		return 1;
 	}
 	return 0;
@@ -213,7 +213,7 @@ int boss1_player_sight_check(Entity *self)
 
 void boss1_die(Entity *self)
 {
-	slog("im die..");
+	//slog("im die..");
 	level_remove_entity(self);
 	entity_free(self);
 }

@@ -152,8 +152,9 @@ void pickup_think(Entity *self)
 void pickup_activate(Entity *self) //self is player here
 {
 	self->machinegun = 0;
-	slog("PICKED UP SHOTGUN");
+	//slog("PICKED UP SHOTGUN");
 	self->shotgun = 1;
+	self->score = self->score + 1;
 
 	//r = rand() % 5;
 	//r = gfc_random();
@@ -164,31 +165,33 @@ void pickup_activate(Entity *self) //self is player here
 void pickup_activate2(Entity *self) //self is player here
 {
 	self->shotgun = 0;
-	slog("PICKED UP SPECIAL WEAPON");
+	//slog("PICKED UP SPECIAL WEAPON");
 	self->machinegun = 1;
+	self->score = self->score + 1;
 
 
 }
 void pickup_activate3(Entity *self) //self is player here
 {
 	
-	slog("PICKED UP BOMB");
+	//slog("PICKED UP BOMB");
 	self->bomb = self->bomb + 1;
-	//slog(self->bomb);
+	self->score = self->score + 1;
 
 }
 void pickup_activate4(Entity *self) //self is player here
 {
-	slog("PICKED UP MEDKIT");
+	//slog("PICKED UP MEDKIT");
 	self->health = self->health + 1;
-	//slog(self->health);
+	self->score = self->score + 1;
 
 
 }
 void pickup_activate5(Entity *self) //self is player here
 {
-	slog("PICKED UP BANANA");
+	//slog("PICKED UP BANANA");
 	self->health = 5;
+	self->score = self->score + 1;
 }
 
 /*eol@eof*/
