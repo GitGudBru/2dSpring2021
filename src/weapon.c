@@ -314,8 +314,6 @@ Entity *shotgun_shoot(Vector2D position, Vector2D flip, int x)
 
 	ent->sprite = gf2d_sprite_load_all("images/shotgun/pallet.png", 89.5, 63, 6);
 	vector2d_copy(ent->position, position);
-	//ent->frameAnimStart = 5;
-	ent->frame = 5;
 	ent->frameRate = 0.1;
 	ent->frameCount = 6;
 	ent->update = shotgun_update;
@@ -517,7 +515,7 @@ void bomb_melee(Entity* self)
 		if (!c->body)continue;
 		if (!c->body->data)continue;
 		other = c->body->data;
-		if (other->damage)other->damage(other, 100, self);
+		if (other->damage)other->damage(other, 50, self);
 	}
 	gf2d_collision_list_free(collisionList);
 }

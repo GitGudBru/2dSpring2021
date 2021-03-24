@@ -111,15 +111,18 @@ void enemy2_think_hunting(Entity *self)
 	if ((self->jumpcool) || (self->cooldown))return;
 	self->jumpcool = 20;
 	//self->velocity.x = -2;
-	if (player->position.x + 80 < self->position.x)
+	if (enemy2_player_sight_check(self))
 	{
-		self->velocity.x = - 2;
-	}
+		if (player->position.x + 80 < self->position.x)
+		{
+			self->velocity.x = -2;
+		}
 		if (player->position.x - self->position.x >= -10)
-	{
-		slog("oof");
-		player->health = player->health - 1;
+		{
+			slog("oof");
+			player->health = player->health - 1;
 
+		}
 	}
 }
 
@@ -150,9 +153,20 @@ int  enemy2_damage(Entity *self, int amount, Entity *source)
 	{
 		self->health = 0;
 		self->think = enemy2_die;
-		//gf2d_actor_set_action(&self->actor,"death1");
 	}
 	return amount;
+}
+
+int enemy2_player_sight_check(Entity *self)
+{
+	Entity *player = player_get();
+	if (!player)return 0;
+	if (vector2d_magnitude_compare(vector2d(self->position.x - player->position.x, self->position.y - player->position.y), 800) < 0)
+	{
+
+		return 1;
+	}
+	return 0;
 }
 
 void enemy2_die(Entity *self)

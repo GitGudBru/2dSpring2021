@@ -27,7 +27,6 @@ void gf2d_space_free(Space *space)
 {
 	if (!space)return;
 
-	//static shapes ARE owned by the space, so are deleted when the space goes away
 	gfc_list_foreach(space->staticShapes, gf2d_free_shapes, NULL);
 	gfc_list_foreach(space->dynamicBodyList, gf2d_free_dynamic_bodies, NULL);
 	gfc_list_delete(space->staticShapes);

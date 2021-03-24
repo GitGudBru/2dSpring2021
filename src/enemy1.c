@@ -188,9 +188,6 @@ void enemy1_update(Entity *self)
 	if (self->cooldown > 0) self->cooldown--;
 	if (self->cooldown < 0)self->cooldown = 0;
 
-
-
-
 	entity_apply_gravity(self);
 	entity_world_snap(self);    
 
@@ -226,8 +223,7 @@ int enemy1_player_sight_check(Entity *self)
 	if (!player)return 0;
 	if (vector2d_magnitude_compare(vector2d(self->position.x - player->position.x, self->position.y - player->position.y), 200) < 0)
 	{
-		//slog(" sight check found player");
-		//gf2d_sound_play(self->sound[0],0,1,-1,-1);
+
 		return 1;
 	}
 	return 0;

@@ -38,7 +38,6 @@ Entity *boss1_spawn(Vector2D position)
 	ent->update = boss1_update;
 	ent->damage = boss1_damage;
 	ent->health = 25;
-	ent->maxHealth = 1;
 	ent->projectcool = 0;
 	ent->rotation.x = 64;
 	ent->rotation.y = 64;
@@ -139,8 +138,8 @@ void boss1_think_hunting(Entity *self)
 	}
 	else
 	{
-		//Entity* enemy1 = enemy1_spawn(vector2d(400, 940));
-		//level_add_entity(enemy1);
+		Entity* enemy1 = enemy1_spawn(vector2d(self->position.x - 250, 485));
+		level_add_entity(enemy1);
 	}
 }
 void boss1_think(Entity *self)
@@ -194,7 +193,6 @@ int  boss1_damage(Entity *self, int amount, Entity *source)
 	{
 		self->health = 0;
 		self->think = boss1_die;
-		//gf2d_actor_set_action(&self->actor,"death1");
 	}
 	return amount;
 }
@@ -205,7 +203,6 @@ int boss1_player_sight_check(Entity *self)
 	if (!player)return 0;
 	if (vector2d_magnitude_compare(vector2d(self->position.x - player->position.x, self->position.y - player->position.y), 500) < 0) //DETECTION
 	{
-	//	slog(" sight check found player");
 		return 1;
 	}
 	return 0;

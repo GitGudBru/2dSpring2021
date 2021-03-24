@@ -13,9 +13,6 @@ void pickup_activate3(Entity *self);
 void pickup_activate4(Entity *self);
 void pickup_activate5(Entity *self);
 
-
-
-
 Entity *pickup_new(Vector2D position);
 
 Entity* pickup_spawn(Vector2D position)
@@ -71,11 +68,8 @@ Entity* pickup_spawn(Vector2D position)
 	}
 
 	ent->think = pickup_think;
-	//ent->draw = breakable_draw;
 	ent->update = pickup_update;
-	//ent->damage = breakable_damage;
-	//ent->die = breakable_die;
-	//self->free = level_remove_entity;
+
 
 	ent->shape = gf2d_shape_rect(0, 0, 40, 40);
 	gf2d_body_set(
@@ -109,7 +103,6 @@ void pickup_hit(Entity* self)
 	s = gf2d_shape_rect(self->position.x + 1, self->position.y - 1, 31, 33);
 	collisionList = entity_get_clipped_entities(self, s, PLAYER_LAYER, 0);
 	count = gfc_list_get_count(collisionList);
-	//slog("hit %i pickup", count);
 	for (i = 0; i < count; i++)
 	{
 		c = (Collision*)gfc_list_get_nth(collisionList, i);
@@ -117,21 +110,18 @@ void pickup_hit(Entity* self)
 		if (!c->body)continue;
 		if (!c->body->data)continue;
 		other = c->body->data;
-		//if (other->damage)other->damage(other, 1, self);//TODO: make this based on weapon / player stats
 		if (self->num == 0)pickup_activate(other);
 		if (self->num == 1)pickup_activate2(other);
 		if (self->num == 2)pickup_activate3(other);
 		if (self->num == 3)pickup_activate4(other);
 		if (self->num == 4)pickup_activate5(other);
 
-		//pickup_activate(other);
 
 		level_remove_entity(self);
 		entity_free(self);
 	}
 	gf2d_collision_list_free(collisionList);
-	//level_remove_entity(self);
-	//entity_free(self);
+
 }
 
 void pickup_update(Entity *self)
@@ -152,20 +142,12 @@ void pickup_think(Entity *self)
 void pickup_activate(Entity *self) //self is player here
 {
 	self->machinegun = 0;
-	//slog("PICKED UP SHOTGUN");
 	self->shotgun = 1;
 	self->score = self->score + 1;
-
-	//r = rand() % 5;
-	//r = gfc_random();
-	//slog("%r");
-	//r = 0;
-
 }
 void pickup_activate2(Entity *self) //self is player here
 {
 	self->shotgun = 0;
-	//slog("PICKED UP SPECIAL WEAPON");
 	self->machinegun = 1;
 	self->score = self->score + 1;
 

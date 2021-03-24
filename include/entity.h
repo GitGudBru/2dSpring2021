@@ -14,11 +14,9 @@ typedef struct Entity_s
 	Vector2D velocity;
 	Vector2D    flip;
 	Vector2D    spawn;
-	//Vector2D    facing;
 	Sprite   *sprite;
 	Sprite	 *sprite2;
 	Sprite   *healthicon;
-	//Sprite*     laser;
 	Shape       shape;
 	Body        body;
 	float    frame;
@@ -29,18 +27,18 @@ typedef struct Entity_s
 	void	 (*think)(struct Entity_s *self);
 	void	 (*draw)(struct Entity_s *self);
 	void	 (*free)(struct Entity_s *self);
-	int		 (*touch)(struct Entity_S* self, struct Entity_S* other);/**<when this entity touches another entity*/
-	int		 (*damage)(struct Entity_S* self, int amount, struct Entity_S* source);/**<when this entity takes damage*/
+	int		 (*touch)(struct Entity_S* self, struct Entity_S* other);
+	int		 (*damage)(struct Entity_S* self, int amount, struct Entity_S* source);
 	void	 (*die)(struct Entity_S* self);
-	int	     health;                           /**<health of entity*/
-	int		 maxHealth;                        /**<maximum health of entity*/
-	int		 cooldown;                         /**<useful for timing cooldowns*/
-	int	   	 attack;                           /**<which attack is being performed*/
-	int		 count;                            /**<useful for counting things like ammo count or health ammount*/
+	int	     health;                          
+	int		 maxHealth;                     
+	int		 cooldown;                        
+	int	   	 attack;                          
+	int		 count;                           
 	float	 jumpcool;
 	float	 projectcool;
 	float	 throw;
-	int		 jumpcount;                        /**<used for multijump*/
+	int		 jumpcount;                      
 	int		 grounded;
 	int		 bossdir;
 	int		 jumping;

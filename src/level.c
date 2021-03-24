@@ -125,7 +125,8 @@ Level *level_load(const char *filename)
 
 	gamelevel.space = gf2d_space_new_full(
 		3,
-		gf2d_rect(0, 0, 2048, 1024),
+		//gf2d_rect(0, 0, 3680, 1024),
+		gf2d_rect(0, 0, 3936, 544),
 		0.1,
 		vector2d(0, 0.1),
 		1,

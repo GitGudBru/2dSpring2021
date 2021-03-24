@@ -264,7 +264,6 @@ int  boss2_damage(Entity *self, int amount, Entity *source)
 	{
 		self->health = 0;
 		self->think = boss2_die;
-		//gf2d_actor_set_action(&self->actor,"death1");
 	}
 	return amount;
 }
@@ -275,7 +274,6 @@ int boss2_player_sight_check(Entity *self)
 	if (!player)return 0;
 	if (vector2d_magnitude_compare(vector2d(self->position.x - player->position.x, self->position.y - player->position.y), 500) < 0) //DETECTION
 	{
-	//	slog(" sight check found player");
 		return 1;
 	}
 	return 0;

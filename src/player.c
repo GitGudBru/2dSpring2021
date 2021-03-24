@@ -59,7 +59,6 @@ Entity *player_spawn(const char* filename)
 	ent->think = player_think;
 	ent->damage = player_damage;
 	//ent->health = 5;
-	//ent->maxHealth = 8;
 	ent->forward.x = 1;
 	ent->shotgun = 0;
 	ent->machinegun = 0;
@@ -107,14 +106,10 @@ void player_update(Entity *self)
 
 	//player_move(self);
 
-	entity_world_snap(self);    // error correction for collision system
+	entity_world_snap(self);    
 	entity_apply_gravity(self);
 
 	self->velocity.y += .5; //GRAVITY
-
-	if (self->health <= 0) {
-		//slog("u ded");
-	}
 }
 
 void player_think(Entity *self)
@@ -593,7 +588,6 @@ void player_think(Entity *self)
 			}
 		}
 
-
 	}
 	//KNIFE
 	if (buttons[SDL_SCANCODE_J])		
@@ -632,6 +626,19 @@ void player_think(Entity *self)
 		self->projectcool = 15;
 		self->bomb = self->bomb - 1;
 	}
+	if (buttons[SDL_SCANCODE_1])
+	{
+		self-> shotgun = 1;
+		self->machinegun = 0;
+	}
+	if (buttons[SDL_SCANCODE_2])
+	{
+		self->shotgun = 0;
+		self->machinegun = 1;
+
+	}
+
+
 }
 
 SJson* player_to_json(Entity* self)
@@ -694,8 +701,7 @@ void player_health_display(Entity* self){
 }
 int  player_damage(Entity* self, int amount, Entity* source)
 {
-	//slog("CRUNCH");
-	//player_health_image_set(self, vector2d(150, 25));
+	//slog("OUCH");
 	self->health -= amount;
 
 }

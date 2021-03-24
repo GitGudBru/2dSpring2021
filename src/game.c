@@ -50,7 +50,7 @@ int main(int argc, char * argv[])
         0);
     gf2d_graphics_set_frame_delay(16);
 	camera_set_dimensions(vector2d(1200, 720));
-	//camera_set_dimensions(vector2d(2040, 1024));
+	//camera_set_dimensions(vector2d(920, 720));
 	camera_set_position(vector2d(0, 0));
 
     gf2d_sprite_init(1024);
@@ -64,6 +64,7 @@ int main(int argc, char * argv[])
 	space = gf2d_space_new_full(
 		3,
 		gf2d_rect(0, 0, 1200, 700),
+		//gf2d_rect(0, 0, 3936, 700),
 		0.1,
 		vector2d(0, 0.1),
 		1,
@@ -83,13 +84,15 @@ int main(int argc, char * argv[])
 	Entity* breakable6 = breakable_spawn(vector2d(300, 485)); //up
 	Entity* breakable7 = breakable_spawn(vector2d(340, 485)); //up
 
-	Entity* enemy1 = enemy1_spawn(vector2d(700, 940));
-	//Entity* enemy2 = enemy2_spawn(vector2d(1200, 940));
-	//Entity* enemy3 = enemy3_spawn(vector2d(600, 940));
-	//Entity* enemy4 = enemy4_spawn(vector2d(700, 940));
-	//Entity* enemy5 = enemy5_spawn(vector2d(700, 940));
-	//Entity* boss1 = boss1_spawn(vector2d(700, 940));	//SPAWN THE BOSS HIGHER OFF THE GROUND
-	//Entity* boss2 = boss2_spawn(vector2d(700, 900));	
+	Entity* enemy1 = enemy1_spawn(vector2d(700, 485));
+	Entity* enemy11 = enemy1_spawn(vector2d(730, 485));
+	Entity* enemy12 = enemy1_spawn(vector2d(760, 485));
+	Entity* enemy2 = enemy2_spawn(vector2d(1500, 485));
+	Entity* enemy3 = enemy3_spawn(vector2d(1700, 485));
+	Entity* enemy4 = enemy4_spawn(vector2d(1650, 485));
+	Entity* enemy5 = enemy5_spawn(vector2d(2100, 485));
+	Entity* boss1 = boss1_spawn(vector2d(2800, 440));	//SPAWN THE BOSS HIGHER OFF THE GROUND
+	Entity* boss2 = boss2_spawn(vector2d(3500, 480));	
 
 	level_add_entity(player);
 	level_add_entity(breakable);
@@ -101,12 +104,14 @@ int main(int argc, char * argv[])
 	level_add_entity(breakable7);
 
 	level_add_entity(enemy1);
-	//level_add_entity(enemy2);
-	//level_add_entity(enemy3);
-	//level_add_entity(enemy4);
-	//level_add_entity(enemy5);
-	//level_add_entity(boss1);
-	//level_add_entity(boss2);
+	level_add_entity(enemy11);
+	level_add_entity(enemy12);
+	level_add_entity(enemy2);
+	level_add_entity(enemy3);
+	level_add_entity(enemy4);
+	level_add_entity(enemy5);
+	level_add_entity(boss1);
+	level_add_entity(boss2);
 
 
 	filter.worldclip = 1;
@@ -167,6 +172,18 @@ int main(int argc, char * argv[])
         gf2d_grahics_next_frame();// render current draw frame and skip to the next frame
 
 		if (keys[SDL_SCANCODE_ESCAPE])
+		{
+			player_save(player, "levels/player_new.json");
+			done = 1; // exit condition
+		}
+
+		//if (player->health <= 0)
+		//{
+		//	player_save(player, "levels/player_new.json");
+		//	done = 1; // exit condition
+		//}
+
+		if (boss2->health <= 0)
 		{
 			player_save(player, "levels/player_new.json");
 			done = 1; // exit condition
