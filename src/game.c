@@ -83,7 +83,7 @@ int main(int argc, char * argv[])
 	Entity* breakable5 = breakable_spawn(vector2d(260, 485)); //up
 	Entity* breakable6 = breakable_spawn(vector2d(300, 485)); //up
 	Entity* breakable7 = breakable_spawn(vector2d(340, 485)); //up
-
+	/*
 	Entity* enemy1 = enemy1_spawn(vector2d(700, 485));
 	Entity* enemy11 = enemy1_spawn(vector2d(730, 485));
 	Entity* enemy12 = enemy1_spawn(vector2d(760, 485));
@@ -112,7 +112,13 @@ int main(int argc, char * argv[])
 	level_add_entity(enemy5);
 	level_add_entity(boss1);
 	level_add_entity(boss2);
+	*/
+	level_add_entity(player);
+	Entity* enemy3 = enemy3_spawn(vector2d(700, 485));
+	level_add_entity(enemy3);
 
+	Entity* boss2 = boss2_spawn(vector2d(700, 480));
+	level_add_entity(boss2);
 
 	filter.worldclip = 1;
 

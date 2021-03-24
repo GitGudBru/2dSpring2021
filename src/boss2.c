@@ -194,7 +194,7 @@ void boss2_think_hunting(Entity *self)
 			Entity* shot5 = boss_attack_shoot(vector2d(self->position.x - 12, self->position.y + 32), 0, 0); //LEFT
 			Entity* shot6 = boss_attack_shoot(vector2d(self->position.x - 12, self->position.y + 12), 0, 0); //LEFT
 
-			slog("pew pew enemy shoot");
+			//slog("pew pew enemy shoot");
 			level_add_entity(shot1);
 			level_add_entity(shot2);
 			level_add_entity(shot3);
