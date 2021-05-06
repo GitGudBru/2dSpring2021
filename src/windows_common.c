@@ -96,7 +96,7 @@ Window* window_menu(char* text, void(*onYes)(void*), void(*onNo)(void*), void* y
 {
 	Window* win;
 	List* callbacks;
-	win = gf2d_window_load("config/choose_level.json");
+	win = gf2d_window_load("config/menu.json");
 	if (!win)
 	{
 		slog("failed to load yes/no window");

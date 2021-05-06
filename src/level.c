@@ -185,6 +185,7 @@ void level_clear()
 */
 void level_draw(Level *level)
 {
+	SDL_Rect camera;
 	Vector2D offset, drawPosition;
 	int i;
 	if (!level)

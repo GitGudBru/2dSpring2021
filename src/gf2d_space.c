@@ -158,8 +158,8 @@ void gf2d_space_draw(Space *space, Vector2D offset)
 	count = gfc_list_get_count(space->staticShapes);
 	for (i = 0; i < count; i++)
 	{
-	//	gf2d_shape_draw(*(Shape *)gfc_list_get_nth(space->staticShapes, i), gfc_color8(0, 255, 0, 255), offset); //THIS SETS SPACE BOX COLOR
-		gf2d_shape_draw(*(Shape *)gfc_list_get_nth(space->staticShapes, i), gfc_color8(0, 0, 0, 0), offset);
+		gf2d_shape_draw(*(Shape *)gfc_list_get_nth(space->staticShapes, i), gfc_color8(0, 255, 0, 255), offset); //THIS SETS SPACE BOX COLOR
+		//gf2d_shape_draw(*(Shape *)gfc_list_get_nth(space->staticShapes, i), gfc_color8(0, 0, 0, 0), offset);
 
 	}
 }

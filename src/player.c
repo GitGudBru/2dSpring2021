@@ -83,6 +83,7 @@ Entity *player_spawn(const char* filename)
 		NULL);
 
 	_player = ent;
+	level_add_entity(ent);
 	return ent;
 }
 
