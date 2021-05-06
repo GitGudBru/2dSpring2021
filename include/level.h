@@ -59,4 +59,6 @@ void level_update(Level* level);
 
 Space* level_get_space();
 
+void level_clear();
+
 #endif

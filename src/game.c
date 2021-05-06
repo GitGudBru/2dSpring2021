@@ -53,7 +53,6 @@ int main(int argc, char * argv[])
 	int debug = 0;
 	Sprite* background = NULL;
 
-
 	int mx, my;
 	float mf = 0;
 	Space* space = NULL;
@@ -76,7 +75,6 @@ int main(int argc, char * argv[])
 		}
 	}
 
-
 	/*program initializtion*/
 	init_logger("gf2d.log");
 	slog("---==== BEGIN ====---");
@@ -88,7 +86,8 @@ int main(int argc, char * argv[])
 		720,
 		vector4d(0, 0, 0, 255),
 		fullscreen,
-		debug);       
+		debug);
+
 	gf2d_graphics_set_frame_delay(16);
 	//camera_set_dimensions(vector2d(920, 720));
 	camera_set_position(vector2d(0, 0));
@@ -96,18 +95,20 @@ int main(int argc, char * argv[])
 	gf2d_sprite_init(1024);
 	gf2d_action_list_init(128);
 	gf2d_font_init("config/font.cfg");
-	//gfc_input_init("config/input.json");
+	gfc_input_init("config/input.cfg");
 	gf2d_windows_init(128);
 	entity_manager_init(100);
 	//level = level_new();
+
 	camera_set_dimensions(vector2d(1200, 720));
-	//background = gf2d_sprite_load_image("images/backgrounds/bg_flat.png");
+	background = gf2d_sprite_load_image("images/backgrounds/bg_flat.png");
 
 
 	SDL_ShowCursor(SDL_DISABLE);
 
-	//gf2d_mouse_load("actors/mouse.actor");	//breaks game
+	gf2d_mouse_load("actors/mouse.actor");	//breaks game
 	mf = 0;
+
 
 	space = gf2d_space_new_full(
 		3,
@@ -119,7 +120,7 @@ int main(int argc, char * argv[])
 		1);
 
 	/*demo setup*/
-	//mouse = gf2d_sprite_load_all("images/pointer.png", 32, 32, 16);
+	mouse = gf2d_sprite_load_all("images/pointer.png", 32, 32, 16);
 	//level = level_load("levels/level1.json");
 	level = level_load("levels/level2.json");
 	Entity* player = player_spawn("levels/player.json");
@@ -195,7 +196,6 @@ int main(int argc, char * argv[])
 
 		gf2d_mouse_update();
 
-
 		entity_manager_update_entities();
 
 		level_update(level);
@@ -216,8 +216,8 @@ int main(int argc, char * argv[])
 		entity_manager_think_entities();
 		entity_manager_draw_entities();
 
-		//UI elements last
 		/*
+		//UI elements last
 		gf2d_sprite_draw(
 			mouse,
 			vector2d(mx, my),
@@ -227,51 +227,29 @@ int main(int argc, char * argv[])
 			NULL,
 			&mouseColor,
 			(int)mf);
-			*/
+		*/
 		player_health_display(player);
 
-		//gf2d_font_draw_line_tag("Press F4 to quit!", FT_H1, gfc_color(255, 255, 255, 255), vector2d(0, 0));
 		gf2d_windows_draw_all();
 		gf2d_mouse_draw();
-
 		gf2d_grahics_next_frame();// render current draw frame and skip to the next frame
 
-		if (keys[SDL_SCANCODE_ESCAPE])
-		{
-			//slog("exit!");
-			_quit = window_yes_no("Exit?", onExit, onCancel, NULL, NULL);
-			//player_save(player, "levels/player_new.json");
-		}
-
-		/*
 		if ((gfc_input_command_down("exit")))
 		{
 			slog("exit!");
 			_quit = window_yes_no("Exit?", onExit, onCancel, NULL, NULL);
-			player_save(player, "levels/player_new.json");
+			//player_save(player, "levels/player_new.json");
 		}
-
-		
-		if (keys[SDL_SCANCODE_ESCAPE])
-		{
-			player_save(player, "levels/player_new.json");
-			done = 1; // exit condition
-		}
-		
-		//if (player->health <= 0)
-		//{
-		//	player_save(player, "levels/player_new.json");
-		//	done = 1; // exit condition
-		//}
 
 		if (boss2->health <= 0)
 		{
 			player_save(player, "levels/player_new.json");
 			done = 1; // exit condition
 		}
-		*/
 		//slog("Rendering at %f FPS",gf2d_graphics_get_frames_per_second());
 	}
+
+
 	slog("---==== END ====---");
 	return 0;
 }

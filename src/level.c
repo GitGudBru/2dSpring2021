@@ -164,6 +164,21 @@ void level_free(Level *level)
 	gf2d_sprite_free(level->tileSet);
 }
 
+void level_clear()
+{
+	gf2d_space_free(gamelevel.space);
+	gf2d_sprite_free(gamelevel.bgImage);
+	gf2d_sprite_free(gamelevel.tileSet);
+	//gf2d_sprite_free(gamelevel.tileLayer);
+	//gf2d_particle_emitter_free(gamelevel.pe);
+	/*if (gamelevel.backgroundMusic)
+	{
+	Mix_FreeMusic(gamelevel.backgroundMusic);
+	}*/
+	memset(&gamelevel, 0, sizeof(Level));
+	slog("level cleared");
+}
+
 /**
 * @brief draw a level
 * @param level the level the draw

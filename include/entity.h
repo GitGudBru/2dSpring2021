@@ -112,6 +112,7 @@ void entity_apply_gravity(Entity* self);
 
 List* entity_get_clipped_entities(Entity* self, Shape s, Uint32 layers, Uint32 team);
 
+void gf2d_entity_free_all();
 
 
 

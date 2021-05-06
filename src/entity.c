@@ -138,6 +138,18 @@ void entity_free(Entity *ent)
 	ent->_inuse = 0;
 }
 
+void gf2d_entity_free_all()
+{
+	int i;
+	for (i = 0; i < entity_manager.max_entities; i++)
+	{
+		if (entity_manager.entity_list[i]._inuse == 0)continue;
+		entity_free(&entity_manager.entity_list[i]);
+	}
+}
+
+
+
 void entity_draw(Entity *ent)
 {
 	Vector2D drawPosition, offset;
