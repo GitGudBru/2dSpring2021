@@ -67,6 +67,14 @@ int yes_no_update(Window *win, List *updateList)
 			}
 			gf2d_window_free(win);
 			return 1;
+		case 53:
+			callback = (Callback*)gfc_list_get_nth(callbacks, 2);
+			if (callback)
+			{
+				gfc_callback_call(callback);
+			}
+			gf2d_window_free(win);
+			return 1;
 		}
 	}
 	return 0;
@@ -107,6 +115,27 @@ Window* window_menu(char* text, void(*onYes)(void*), void(*onNo)(void*), void* y
 	win->free_data = yes_no_free;
 	callbacks = gfc_list_new();
 	callbacks = gfc_list_append(callbacks, gfc_callback_new(onYes, yesData));
+	callbacks = gfc_list_append(callbacks, gfc_callback_new(onNo, noData));
+	win->data = callbacks;
+	return win;
+}
+
+Window* window_menu2(char* text, void(*onYes)(void*), void(*onYes2)(void*), void(*onNo)(void*), void* yesData, void* yes2Data, void* noData)
+{
+	Window* win;
+	List* callbacks;
+	win = gf2d_window_load("config/menu2.json");
+	if (!win)
+	{
+		slog("failed to load yes/no window");
+		return NULL;
+	}
+	gf2d_element_label_set_text(gf2d_window_get_element_by_id(win, 1), text);
+	win->update = yes_no_update;
+	win->free_data = yes_no_free;
+	callbacks = gfc_list_new();
+	callbacks = gfc_list_append(callbacks, gfc_callback_new(onYes, yesData));
+	callbacks = gfc_list_append(callbacks, gfc_callback_new(onYes2, yes2Data));
 	callbacks = gfc_list_append(callbacks, gfc_callback_new(onNo, noData));
 	win->data = callbacks;
 	return win;

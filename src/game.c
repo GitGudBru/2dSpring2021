@@ -39,7 +39,9 @@ void onCancel(void* data)
 
 void onCancel2(void* data)
 {
-	_quit = NULL;
+	slog("onCancel2");
+	_done = 1;
+	//_quit = NULL;
 	mainWin = NULL;
 }
 
@@ -51,18 +53,30 @@ void onOK(void* data)
 	player = player_spawn("levels/player.json");
 	Entity* breakable2 = breakable_spawn(vector2d(140, 485));
 }
+void onExit2(void* data)
+{
+	mainWin = NULL;
+	changer = 0;
+	level = level_load("levels/level1.json");
+	player = player_spawn("levels/player.json");
+	Entity* breakable2 = breakable_spawn(vector2d(190, 485));
+}
 
 void onExit(void* data)
 {
 	//_done = 1;
 	//_quit = NULL;
 	level_clear();
-	mainWin = window_menu("Choose Level", onOK, onCancel2, NULL, NULL);
+	//level = NULL;	//use this instead?
+	//mainWin = window_menu("Choose Level", onOK, onCancel2, NULL, NULL);
+	mainWin = window_menu2("I <3 NJIT", onOK, onExit2, onCancel2, NULL, NULL, NULL);
+
 	gf2d_entity_free_all();
 	camera_set_position(vector2d(0, 0));
 	_quit = NULL;
 	changer = 1;
 }
+
 
 int main(int argc, char * argv[])
 {
@@ -126,7 +140,7 @@ int main(int argc, char * argv[])
 	//level = level_new();
 
 	camera_set_dimensions(vector2d(1200, 720));
-	background = gf2d_sprite_load_image("images/backgrounds/bg_flat.png");
+	background = gf2d_sprite_load_image("images/backgrounds/menu2.jpg");
 
 
 	SDL_ShowCursor(SDL_DISABLE);
@@ -195,8 +209,10 @@ int main(int argc, char * argv[])
 	Entity* boss2 = boss2_spawn(vector2d(700, 480));
 	level_add_entity(boss2);
 	*/ //Commented all this out
+
 	if (changer == 1) {
-		mainWin = window_menu("Choose Level", onOK, onCancel2, NULL, NULL);
+		//mainWin = window_menu("Choose Level", onOK, onCancel2, NULL, NULL);
+		mainWin = window_menu2("I <3 NJIT", onOK, onExit2, onCancel2, NULL, NULL, NULL);
 	}
 
 	filter.worldclip = 1;
@@ -282,7 +298,7 @@ int main(int argc, char * argv[])
 
 		if ((gfc_input_command_down("exit")) && (_quit == NULL) && (mainWin == NULL))
 		{
-			_quit = window_yes_no("Exit?", onExit, onCancel, NULL, NULL);
+			_quit = window_yes_no("Back 2 Menu?", onExit, onCancel, NULL, NULL);
 			if (player) {
 				player_save(player, "levels/player_new.json");
 			}

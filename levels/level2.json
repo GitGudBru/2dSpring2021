@@ -1,7 +1,7 @@
 {
     "level":
     {
-        "bgImage" : "images/backgrounds/space.png",
+        "bgImage" : "images/backgrounds/space1.png",
         "tileSet" : "images/basetileset.png",
         "tileWidth":32,
         "tileHeight":32,
