@@ -3,6 +3,7 @@
 #include <math.h>
 #include "simple_logger.h"
 #include "gfc_input.h"
+#include "gfc_audio.h"
 
 #include "gf2d_graphics.h"
 #include "gf2d_sprite.h"
@@ -58,6 +59,8 @@ void onExit2(void* data)
 	mainWin = NULL;
 	changer = 0;
 	level = level_load("levels/level1.json");
+	Sound *menumusic = gfc_sound_load("moozik/stage_1.mp3", 1, 1);
+	gfc_sound_play(menumusic, 0, 0.05, -1, -1);
 	player = player_spawn("levels/player.json");
 	Entity* breakable2 = breakable_spawn(vector2d(190, 485));
 }
@@ -69,6 +72,8 @@ void onExit(void* data)
 	level_clear();
 	//level = NULL;	//use this instead?
 	//mainWin = window_menu("Choose Level", onOK, onCancel2, NULL, NULL);
+	Sound *menumusic = gfc_sound_load("moozik/menu.mp3", 1, 1);
+	gfc_sound_play(menumusic, 0, 0.05, -1, -1);
 	mainWin = window_menu2("I <3 NJIT", onOK, onExit2, onCancel2, NULL, NULL, NULL);
 
 	gf2d_entity_free_all();
@@ -119,9 +124,9 @@ int main(int argc, char * argv[])
 	slog("---==== BEGIN ====---");
 	gf2d_graphics_initialize(
 		"gf2d",
-		1200,
+		900,
 		720,
-		1200,
+		900,
 		720,
 		vector4d(0, 0, 0, 255),
 		fullscreen,
@@ -135,11 +140,12 @@ int main(int argc, char * argv[])
 	gf2d_action_list_init(128);
 	gf2d_font_init("config/font.cfg");
 	gfc_input_init("config/input.cfg");
+	gfc_audio_init(256, 16, 4, 1, 1, 1); 
 	gf2d_windows_init(128);
 	entity_manager_init(100);
 	//level = level_new();
 
-	camera_set_dimensions(vector2d(1200, 720));
+	camera_set_dimensions(vector2d(900, 730));
 	background = gf2d_sprite_load_image("images/backgrounds/menu2.jpg");
 
 
@@ -213,6 +219,8 @@ int main(int argc, char * argv[])
 	if (changer == 1) {
 		//mainWin = window_menu("Choose Level", onOK, onCancel2, NULL, NULL);
 		mainWin = window_menu2("I <3 NJIT", onOK, onExit2, onCancel2, NULL, NULL, NULL);
+		Sound *menumusic = gfc_sound_load("moozik/menu.mp3", 1, 1);
+		gfc_sound_play(menumusic, 0, 0.05, -1, -1);
 	}
 
 	filter.worldclip = 1;

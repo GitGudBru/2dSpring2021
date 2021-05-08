@@ -1,5 +1,6 @@
 #include "simple_json.h"
 #include "simple_logger.h"
+#include "gfc_audio.h"
 #include "player.h"
 #include "camera.h"
 #include "gf2d_sprite.h"
@@ -122,6 +123,8 @@ void player_think(Entity *self)
 		self->velocity.y -= 14;
 		self->jumpcool = 33;
 		self->frameCount = 11;
+		Sound *playermusic = gfc_sound_load("moozik/jump.mp3", 1, 2);
+		gfc_sound_play(playermusic, 0, 0.05, -1, -1);
 		//return;
 
 	}
@@ -139,6 +142,8 @@ void player_think(Entity *self)
 				level_add_entity(handgun);
 				self->projectcool = 15;
 				self->frameCount = 10;
+				Sound *playermusic = gfc_sound_load("moozik/gun.mp3", 1, 2);
+				gfc_sound_play(playermusic, 0, 0.05, -1, -1);
 			}
 		}
 		if (self->shotgun == 1) //SHOTGUN WALK RIGHT
@@ -156,6 +161,8 @@ void player_think(Entity *self)
 					Entity* shotgun = shotgun_shoot(vector2d(self->position.x + 50, self->position.y - 10), self->forward, 0);
 					level_add_entity(shotgun);
 					self->projectcool = 15;
+					Sound *playermusic = gfc_sound_load("moozik/shotgun.mp3", 1, 2);
+					gfc_sound_play(playermusic, 0, 0.05, -1, -1);
 					//self->frameCount = 10;
 				}
 			}
@@ -174,6 +181,8 @@ void player_think(Entity *self)
 					level_add_entity(handgun);
 					self->projectcool = 3;
 					self->frameCount = 4;
+					Sound *playermusic = gfc_sound_load("moozik/gun.mp3", 1, 2);
+					gfc_sound_play(playermusic, 0, 0.05, -1, -1);
 				}
 			}
 
@@ -196,6 +205,8 @@ void player_think(Entity *self)
 				level_add_entity(handgun);
 				self->projectcool = 15;
 				self->frameCount = 10;
+				Sound *playermusic = gfc_sound_load("moozik/gun.mp3", 1, 2);
+				gfc_sound_play(playermusic, 0, 0.05, -1, -1);
 			}
 		}
 		if (self->shotgun == 1)//SHOTGUN WALK LEFT
@@ -214,6 +225,8 @@ void player_think(Entity *self)
 					Entity* shotgun = shotgun_shoot(vector2d(self->position.x - 90, self->position.y - 10), self->forward, 0);
 					level_add_entity(shotgun);
 					self->projectcool = 15;
+					Sound *playermusic = gfc_sound_load("moozik/shotgun.mp3", 1, 2);
+					gfc_sound_play(playermusic, 0, 0.05, -1, -1);
 				}
 			}
 		}
@@ -231,6 +244,8 @@ void player_think(Entity *self)
 					Entity* handgun = handgun_shoot(vector2d(self->position.x - 10, self->position.y + 10), self->forward, 0, MONSTER_LAYER);
 					level_add_entity(handgun);
 					self->projectcool = 3;
+					Sound *playermusic = gfc_sound_load("moozik/gun.mp3", 1, 2);
+					gfc_sound_play(playermusic, 0, 0.05, -1, -1);
 				}
 			}
 		}
@@ -251,6 +266,8 @@ void player_think(Entity *self)
 					level_add_entity(handgun);
 					self->projectcool = 15;
 					self->frameCount = 10;
+					Sound *playermusic = gfc_sound_load("moozik/gun.mp3", 1, 2);
+					gfc_sound_play(playermusic, 0, 0.05, -1, -1);
 				}
 			}
 			if (self->shotgun == 1)//SHOTGUN IDLE
@@ -268,6 +285,8 @@ void player_think(Entity *self)
 						level_add_entity(shotgun);
 						self->projectcool = 15;
 						//self->frameCount = 10;
+						Sound *playermusic = gfc_sound_load("moozik/shotgun.mp3", 1, 2);
+						gfc_sound_play(playermusic, 0, 0.05, -1, -1);
 					}
 				}
 			}
@@ -284,6 +303,8 @@ void player_think(Entity *self)
 						Entity* handgun = handgun_shoot(vector2d(self->position.x + 50, self->position.y + 10), self->forward, 0, MONSTER_LAYER);
 						level_add_entity(handgun);
 						self->projectcool = 3;
+						Sound *playermusic = gfc_sound_load("moozik/gun.mp3", 1, 2);
+						gfc_sound_play(playermusic, 0, 0.05, -1, -1);
 					}
 				}
 			}
@@ -302,6 +323,8 @@ void player_think(Entity *self)
 					level_add_entity(handgun);
 					self->projectcool = 15;
 					self->frameCount = 10;
+					Sound *playermusic = gfc_sound_load("moozik/gun.mp3", 1, 2);
+					gfc_sound_play(playermusic, 0, 0.05, -1, -1);
 				}
 			}
 			if (self->shotgun == 1) //SHOTGUN IDLE LEFT
@@ -318,6 +341,8 @@ void player_think(Entity *self)
 						Entity* shotgun = shotgun_shoot(vector2d(self->position.x - 90, self->position.y - 10), self->forward, 0);
 						level_add_entity(shotgun);
 						self->projectcool = 15;
+						Sound *playermusic = gfc_sound_load("moozik/shotgun.mp3", 1, 2);
+						gfc_sound_play(playermusic, 0, 0.05, -1, -1);
 					}
 				}
 			}
@@ -334,6 +359,8 @@ void player_think(Entity *self)
 						Entity* handgun = handgun_shoot(vector2d(self->position.x - 10, self->position.y + 10), self->forward, 0, MONSTER_LAYER);
 						level_add_entity(handgun);
 						self->projectcool = 3;
+						Sound *playermusic = gfc_sound_load("moozik/gun.mp3", 1, 2);
+						gfc_sound_play(playermusic, 0, 0.05, -1, -1);
 					}
 				}
 			}
@@ -356,6 +383,8 @@ void player_think(Entity *self)
 				level_add_entity(handgun);
 				self->projectcool = 15;
 				self->frameCount = 10;
+				Sound *playermusic = gfc_sound_load("moozik/gun.mp3", 1, 2);
+				gfc_sound_play(playermusic, 0, 0.05, -1, -1);
 			}
 		}
 		if ((buttons[SDL_SCANCODE_DOWN]))//HANDGUN JUMP SHOOT DOWN
@@ -367,6 +396,8 @@ void player_think(Entity *self)
 				level_add_entity(handgun);
 				self->projectcool = 15;
 				self->frameCount = 10;
+				Sound *playermusic = gfc_sound_load("moozik/gun.mp3", 1, 2);
+				gfc_sound_play(playermusic, 0, 0.05, -1, -1);
 			}
 		}
 		if ((buttons[SDL_SCANCODE_LEFT]))//HANDGUN JUMP SHOOT LEFT
@@ -379,6 +410,8 @@ void player_think(Entity *self)
 				level_add_entity(handgun);
 				self->projectcool = 15;
 				self->frameCount = 10;
+				Sound *playermusic = gfc_sound_load("moozik/gun.mp3", 1, 2);
+				gfc_sound_play(playermusic, 0, 0.05, -1, -1);
 			}
 		}
 		if (self->shotgun == 1) //SHOTGUN JUMPING LEFT BUT TURN RIGHT
@@ -395,6 +428,8 @@ void player_think(Entity *self)
 					Entity* shotgun = shotgun_shoot(vector2d(self->position.x + 50, self->position.y - 10), self->forward, 0);
 					level_add_entity(shotgun);
 					self->projectcool = 15;
+					Sound *playermusic = gfc_sound_load("moozik/shotgun.mp3", 1, 2);
+					gfc_sound_play(playermusic, 0, 0.05, -1, -1);
 				}
 			}
 			if ((buttons[SDL_SCANCODE_DOWN]))//SHOTGUN
@@ -406,6 +441,8 @@ void player_think(Entity *self)
 					Entity* shotgun = shotgun_shoot(vector2d(self->position.x - 10, self->position.y + 45), self->forward, 1);
 					level_add_entity(shotgun);
 					self->projectcool = 15;
+					Sound *playermusic = gfc_sound_load("moozik/shotgun.mp3", 1, 2);
+					gfc_sound_play(playermusic, 0, 0.05, -1, -1);
 				}
 			}
 			if ((buttons[SDL_SCANCODE_LEFT]))//SHOTGUN
@@ -419,6 +456,8 @@ void player_think(Entity *self)
 					Entity* shotgun = shotgun_shoot(vector2d(self->position.x - 90, self->position.y - 10), self->forward, 0);
 					level_add_entity(shotgun);
 					self->projectcool = 15;
+					Sound *playermusic = gfc_sound_load("moozik/shotgun.mp3", 1, 2);
+					gfc_sound_play(playermusic, 0, 0.05, -1, -1);
 				}
 			}
 		}
@@ -436,6 +475,8 @@ void player_think(Entity *self)
 					Entity* handgun = handgun_shoot(vector2d(self->position.x + 50, self->position.y + 10), self->forward, 0, MONSTER_LAYER);
 					level_add_entity(handgun);
 					self->projectcool = 3;
+					Sound *playermusic = gfc_sound_load("moozik/gun.mp3", 1, 2);
+					gfc_sound_play(playermusic, 0, 0.05, -1, -1);
 				}
 			}
 			if ((buttons[SDL_SCANCODE_DOWN]))//SPECIAL JUMP SHOOT DOWN
@@ -446,7 +487,10 @@ void player_think(Entity *self)
 				{
 					Entity* handgun = handgun_shoot(vector2d(self->position.x + 10, self->position.y + 45), self->forward, 1, MONSTER_LAYER);
 					level_add_entity(handgun);
-					self->projectcool = 3;				}
+					self->projectcool = 3;		
+					Sound *playermusic = gfc_sound_load("moozik/gun.mp3", 1, 2);
+					gfc_sound_play(playermusic, 0, 0.05, -1, -1);
+				}
 			}
 			if ((buttons[SDL_SCANCODE_LEFT]))//SPECIAL JUMP SHOOT LEFT
 			{
@@ -458,6 +502,8 @@ void player_think(Entity *self)
 					Entity* handgun = handgun_shoot(vector2d(self->position.x - 10, self->position.y + 10), self->forward, 0, MONSTER_LAYER);
 					level_add_entity(handgun);
 					self->projectcool = 3;
+					Sound *playermusic = gfc_sound_load("moozik/gun.mp3", 1, 2);
+					gfc_sound_play(playermusic, 0, 0.05, -1, -1);
 				}
 			}
 		}
@@ -482,6 +528,8 @@ void player_think(Entity *self)
 				Entity* handgun = handgun_shoot(vector2d(self->position.x + 50, self->position.y + 10), self->forward, 0, MONSTER_LAYER);
 				level_add_entity(handgun);
 				self->projectcool = 15;
+				Sound *playermusic = gfc_sound_load("moozik/gun.mp3", 1, 2);
+				gfc_sound_play(playermusic, 0, 0.05, -1, -1);
 			}
 		}
 		if ((buttons[SDL_SCANCODE_DOWN]))
@@ -493,6 +541,8 @@ void player_think(Entity *self)
 				level_add_entity(handgun);
 				self->projectcool = 15;
 				self->frameCount = 10;
+				Sound *playermusic = gfc_sound_load("moozik/gun.mp3", 1, 2);
+				gfc_sound_play(playermusic, 0, 0.05, -1, -1);
 			}
 		}
 		if ((buttons[SDL_SCANCODE_LEFT]))
@@ -505,6 +555,8 @@ void player_think(Entity *self)
 				level_add_entity(handgun);
 				self->projectcool = 15;
 				self->frameCount = 10;
+				Sound *playermusic = gfc_sound_load("moozik/gun.mp3", 1, 2);
+				gfc_sound_play(playermusic, 0, 0.05, -1, -1);
 			}
 		}
 		if (self->shotgun == 1)//SHOTGUN JUMPING RIGHT TURN LEFT
@@ -521,6 +573,8 @@ void player_think(Entity *self)
 					Entity* shotgun = shotgun_shoot(vector2d(self->position.x + 50, self->position.y - 10), self->forward, 0);
 					level_add_entity(shotgun);
 					self->projectcool = 15;
+					Sound *playermusic = gfc_sound_load("moozik/shotgun.mp3", 1, 2);
+					gfc_sound_play(playermusic, 0, 0.05, -1, -1);
 				}
 			}
 			if ((buttons[SDL_SCANCODE_DOWN]))//SHOTGUN
@@ -529,9 +583,11 @@ void player_think(Entity *self)
 				self->frameCount = 4;
 				if (self->projectcool <= 0)
 				{
-					Entity* shotgun = shotgun_shoot(vector2d(self->position.x - 30, self->position.y + 45), self->forward, 1);
+					Entity* shotgun = shotgun_shoot(vector2d(self->position.x - 10, self->position.y + 45), self->forward, 1);
 					level_add_entity(shotgun);
 					self->projectcool = 15;
+					Sound *playermusic = gfc_sound_load("moozik/shotgun.mp3", 1, 2);
+					gfc_sound_play(playermusic, 0, 0.05, -1, -1);
 				}
 			}
 			if ((buttons[SDL_SCANCODE_LEFT]))//SHOTGUN
@@ -545,6 +601,8 @@ void player_think(Entity *self)
 					Entity* shotgun = shotgun_shoot(vector2d(self->position.x - 90, self->position.y - 10), self->forward, 0);
 					level_add_entity(shotgun);
 					self->projectcool = 15;
+					Sound *playermusic = gfc_sound_load("moozik/shotgun.mp3", 1, 2);
+					gfc_sound_play(playermusic, 0, 0.05, -1, -1);
 				}
 			}
 		}
@@ -562,6 +620,8 @@ void player_think(Entity *self)
 					Entity* handgun = handgun_shoot(vector2d(self->position.x + 50, self->position.y + 10), self->forward, 0, MONSTER_LAYER);
 					level_add_entity(handgun);
 					self->projectcool = 3;
+					Sound *playermusic = gfc_sound_load("moozik/gun.mp3", 1, 2);
+					gfc_sound_play(playermusic, 0, 0.05, -1, -1);
 				}
 			}
 			if ((buttons[SDL_SCANCODE_DOWN]))
@@ -573,6 +633,8 @@ void player_think(Entity *self)
 					Entity* handgun = handgun_shoot(vector2d(self->position.x + 30, self->position.y + 45), self->forward, 1, MONSTER_LAYER);
 					level_add_entity(handgun);
 					self->projectcool = 3;
+					Sound *playermusic = gfc_sound_load("moozik/gun.mp3", 1, 2);
+					gfc_sound_play(playermusic, 0, 0.05, -1, -1);
 				}
 			}
 			if ((buttons[SDL_SCANCODE_LEFT]))
@@ -585,6 +647,8 @@ void player_think(Entity *self)
 					Entity* handgun = handgun_shoot(vector2d(self->position.x - 10, self->position.y + 10), self->forward, 0, MONSTER_LAYER);
 					level_add_entity(handgun);
 					self->projectcool = 3;
+					Sound *playermusic = gfc_sound_load("moozik/gun.mp3", 1, 2);
+					gfc_sound_play(playermusic, 0, 0.05, -1, -1);
 				}
 			}
 		}
@@ -620,25 +684,24 @@ void player_think(Entity *self)
 		}
 	}
 
-	if (buttons[SDL_SCANCODE_G] && self->projectcool <= 0 && self->bomb > 0)
+	if (buttons[SDL_SCANCODE_G] && self->projectcool <= 0 && self->bomb > 0) //GRENADE
 	{
 		Entity* bomb = bomb_spawn(vector2d(self->position.x + 32, self->position.y + 16), self->flip, MONSTER_LAYER, 0.7);
 		level_add_entity(bomb);
 		self->projectcool = 15;
 		self->bomb = self->bomb - 1;
 	}
-	if (buttons[SDL_SCANCODE_1])
+	if (buttons[SDL_SCANCODE_1]) //STAGING
 	{
 		self-> shotgun = 1;
 		self->machinegun = 0;
 	}
-	if (buttons[SDL_SCANCODE_2])
+	if (buttons[SDL_SCANCODE_2]) //STAGING
 	{
 		self->shotgun = 0;
 		self->machinegun = 1;
 
 	}
-
 
 }
 
@@ -704,5 +767,7 @@ int  player_damage(Entity* self, int amount, Entity* source)
 {
 	//slog("OUCH");
 	self->health -= amount;
+	Sound *playermusic = gfc_sound_load("moozik/damage.mp3", 1, 2);
+	gfc_sound_play(playermusic, 0, 0.05, -1, -1);
 
 }

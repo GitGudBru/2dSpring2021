@@ -2,6 +2,7 @@
 #include "player.h"
 #include "level.h"
 #include "simple_logger.h"
+#include "gfc_audio.h"
 #include "pickup.h"
 #include "entity.h"
 
@@ -144,13 +145,17 @@ void pickup_activate(Entity *self) //self is player here
 	self->machinegun = 0;
 	self->shotgun = 1;
 	self->score = self->score + 1;
+	Sound *shotgunsound = gfc_sound_load("moozik/shotgun_pickup.mp3", 1, 3);
+	gfc_sound_play(shotgunsound, 0, 0.05, -1, -1);
 }
 void pickup_activate2(Entity *self) //self is player here
 {
 	self->shotgun = 0;
 	self->machinegun = 1;
 	self->score = self->score + 1;
-
+	
+	Sound *heavysound = gfc_sound_load("moozik/heavy_pickup.mp3", 1, 3);
+	gfc_sound_play(heavysound, 0, 0.05, -1, -1);
 
 }
 void pickup_activate3(Entity *self) //self is player here
@@ -166,6 +171,8 @@ void pickup_activate4(Entity *self) //self is player here
 	//slog("PICKED UP MEDKIT");
 	self->health = self->health + 1;
 	self->score = self->score + 1;
+	Sound *healthsound = gfc_sound_load("moozik/coin.mp3", 1, 3);
+	gfc_sound_play(healthsound, 0, 0.05, -1, -1);
 
 
 }
@@ -174,6 +181,8 @@ void pickup_activate5(Entity *self) //self is player here
 	//slog("PICKED UP BANANA");
 	self->health = 5;
 	self->score = self->score + 1;
+	Sound *healthsound = gfc_sound_load("moozik/coin.mp3", 1, 3);
+	gfc_sound_play(healthsound, 0, 0.05, -1, -1);
 }
 
 /*eol@eof*/
