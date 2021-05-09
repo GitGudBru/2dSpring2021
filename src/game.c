@@ -19,6 +19,7 @@
 #include "boss2.h"
 #include "box.h"
 #include "mount.h"
+#include "mount2.h"
 #include "gf2d_space.h"
 #include "gf2d_collision.h"
 #include "gf2d_font.h"
@@ -68,6 +69,7 @@ void onExit2(void* data)
 	gfc_sound_play(menumusic, 0, 0.05, -1, -1);
 	player = player_spawn("levels/player.json");
 	Entity* breakable2 = breakable_spawn(vector2d(190, 485));
+	Entity* mount2 = mount2_spawn(vector2d(220, 485));
 }
 
 void onExit(void* data)
