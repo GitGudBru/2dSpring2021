@@ -93,7 +93,7 @@ int sj_value_as_vector4d(SJson *json, Vector4D *output)
 	SJson *value;
 	if (!json)
 	{
-		slog("no json provided");
+		//slog("no json provided");
 		return 0;
 	}
 	if (sj_is_array(json))

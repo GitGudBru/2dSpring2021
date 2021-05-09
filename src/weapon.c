@@ -11,6 +11,8 @@ void handgun_think(Entity* self);
 
 void handgun_think2(Entity* self);
 
+void handgun_think3(Entity* self);
+
 void shotgun_update(Entity *self);
 
 void shotgun_think(Entity* self);
@@ -46,10 +48,15 @@ Entity *handgun_shoot(Vector2D position, Vector2D flip, int x, char layer)
 	ent->update = handgun_update;
 	ent->hitLayer = layer;
 	if (x == 0)ent->think = handgun_think;
-	else
+	else if (x>0)
 	{
 		ent->sprite = gf2d_sprite_load_all("images/handgun/gun_bullet_down.png", 10, 15, 1);
 		ent->think = handgun_think2;
+	}
+	else if (x < 0)
+	{
+		ent->sprite = gf2d_sprite_load_all("images/handgun/gun_bullet_up.png", 10, 15, 1);
+		ent->think = handgun_think3;
 	}
 	ent->flip = flip;
 	ent->rotation.x = 64;
@@ -228,6 +235,94 @@ void handgun_think2(Entity* self)
 	self->rotation.y = 90;
 	vector2d_scale(thrust, vector2d(0, 1.05), 1.85);
 	
+	vector2d_add(self->velocity, self->velocity, thrust);
+
+	Shape s;
+	int i, count;
+	Collision* c;
+	List* collisionList;
+
+	if (!self)return 0;
+	s = gf2d_body_to_shape(&self->body);
+	gf2d_shape_move(&s, vector2d(0.1, 0));
+
+	if (self->hitLayer == MONSTER_LAYER)
+	{
+		CollisionFilter filter = {
+			1,
+			WORLD_LAYER | MONSTER_LAYER,
+			0,
+			0,
+			&self->body
+
+		};
+		collisionList = gf2d_collision_check_space_shape(level_get_space(), s, filter);
+		if (collisionList != NULL)
+		{
+			count = gfc_list_get_count(collisionList);
+			for (i = 0; i < count; i++)
+			{
+				c = (Collision*)gfc_list_get_nth(collisionList, i);
+				if (!c)continue;
+				if (!c->shape)continue;
+				//gf2d_shape_draw(*c->shape, gfc_color(255, 255, 0, 255), camera_get_offset());
+				gf2d_shape_draw(*c->shape, gfc_color(0, 0, 0, 255), camera_get_offset());
+				level_remove_entity(self);
+				entity_free(self);	//SAYONARA BULLET
+			}
+			gf2d_collision_list_free(collisionList);
+		}
+	}
+	if (self->hitLayer == PLAYER_LAYER)
+	{
+		CollisionFilter filter = {
+			1,
+			WORLD_LAYER | PLAYER_LAYER,
+			0,
+			0,
+			&self->body
+		};
+		collisionList = gf2d_collision_check_space_shape(level_get_space(), s, filter);
+		if (collisionList != NULL)
+		{
+			count = gfc_list_get_count(collisionList);
+			for (i = 0; i < count; i++)
+			{
+				c = (Collision*)gfc_list_get_nth(collisionList, i);
+				if (!c)continue;
+				if (!c->shape)continue;
+				//gf2d_shape_draw(*c->shape, gfc_color(255, 255, 0, 255), camera_get_offset());
+				gf2d_shape_draw(*c->shape, gfc_color(0, 0, 0, 255), camera_get_offset());
+				level_remove_entity(self);
+				entity_free(self);	//SAYONARA BULLET
+			}
+			gf2d_collision_list_free(collisionList);
+
+		}
+	}
+	dagger_melee(self);
+
+	if (self->jumpcool >= 30) {
+		level_remove_entity(self);
+		entity_free(self);
+	}
+}
+
+void handgun_think3(Entity* self)
+{
+
+	const Uint8* keys;
+
+	Vector2D aimdir, camera, thrust;
+	float angle;
+	int mx, my;
+	if (!self)return;
+	keys = SDL_GetKeyboardState(NULL);
+	SDL_GetMouseState(&mx, &my);
+	self->rotation.x = 90;
+	self->rotation.y = 90;
+	vector2d_scale(thrust, vector2d(0, -1.05), 1.85);
+
 	vector2d_add(self->velocity, self->velocity, thrust);
 
 	Shape s;
