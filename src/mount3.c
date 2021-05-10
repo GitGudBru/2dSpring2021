@@ -98,7 +98,7 @@ void mount3_think(Entity *self)
 
 void mount3_activate(Entity *self)
 {
-	self->shape = gf2d_shape_rect(16, 5, 30, 60);	//SIZE OF COLLIDER
+	self->shape = gf2d_shape_rect(16, 5, 30, 50);	//SIZE OF COLLIDER
 	gf2d_body_set(
 		&self->body,
 		"player",
@@ -120,5 +120,6 @@ void mount3_activate(Entity *self)
 	self->machinegun = 0;
 	self->ostrich = 0;
 	self->bot = 1;
+	//self->health = 5
 }
 /*eol@eof*/

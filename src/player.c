@@ -249,7 +249,7 @@ void player_think(Entity *self)
 				self->sprite = gf2d_sprite_load_all("images/ostrich/os_run_right.png", 67, 61, 12);
 				if (self->shotgun == 0 && self->projectcool <= 0) //OSTRICH SHOOT RIGHT WALK RIGHT
 				{
-					Entity* handgun = handgun_shoot(vector2d(self->position.x + 50, self->position.y + 10), self->forward, 0, MONSTER_LAYER);
+					Entity* handgun = handgun_shoot(vector2d(self->position.x + 60, self->position.y + 30), self->forward, 0, MONSTER_LAYER);
 					level_add_entity(handgun);
 					self->projectcool = 3;
 					self->frameCount = 12;
@@ -264,7 +264,7 @@ void player_think(Entity *self)
 				self->sprite = gf2d_sprite_load_all("images/ostrich/os_run_right_shoot_left.png", 67, 61, 12);
 				if (self->shotgun == 0 && self->projectcool <= 0)
 				{
-					Entity* handgun = handgun_shoot(vector2d(self->position.x - 10, self->position.y + 10), self->forward, 0, MONSTER_LAYER);
+					Entity* handgun = handgun_shoot(vector2d(self->position.x - 10, self->position.y + 30), self->forward, 0, MONSTER_LAYER);
 					level_add_entity(handgun);
 					self->projectcool = 3;
 					Sound *playermusic = gfc_sound_load("moozik/gun.mp3", 1, 2);
@@ -276,10 +276,9 @@ void player_think(Entity *self)
 				self->sprite = gf2d_sprite_load_all("images/ostrich/os_run_right_shoot_up.png", 67, 61, 12);
 				if (self->shotgun == 0 && self->projectcool <= 0) //OSTRICH SHOOT UP WALK RIGHT
 				{
-					Entity* handgun = handgun_shoot(vector2d(self->position.x + 50, self->position.y + 10), self->forward, -1, MONSTER_LAYER);
+					Entity* handgun = handgun_shoot(vector2d(self->position.x + 40, self->position.y + 10), self->forward, -1, MONSTER_LAYER);
 					level_add_entity(handgun);
 					self->projectcool = 3;
-					self->frameCount = 12;
 					Sound *playermusic = gfc_sound_load("moozik/gun.mp3", 1, 2);
 					gfc_sound_play(playermusic, 0, 0.05, -1, -1);
 				}
@@ -375,11 +374,10 @@ void player_think(Entity *self)
 			self->forward.x = 0;
 			if ((buttons[SDL_SCANCODE_LEFT])) //OSTRICH SHOOT LEFT WALK LEFT
 			{
-				self->frameCount = 12;
 				self->sprite = gf2d_sprite_load_all("images/ostrich/os_run_left_shoot_left.png", 67, 61, 12);
 				if (self->shotgun == 0 && self->projectcool <= 0)
 				{
-					Entity* handgun = handgun_shoot(vector2d(self->position.x - 10, self->position.y + 10), self->forward, 0, MONSTER_LAYER);
+					Entity* handgun = handgun_shoot(vector2d(self->position.x - 10, self->position.y + 30), self->forward, 0, MONSTER_LAYER);
 					level_add_entity(handgun);
 					self->projectcool = 3;
 					Sound *playermusic = gfc_sound_load("moozik/gun.mp3", 1, 2);
@@ -388,12 +386,11 @@ void player_think(Entity *self)
 			}
 			if ((buttons[SDL_SCANCODE_RIGHT])) //OSTRICH SHOOT RIGHT WALK LEFT
 			{
-				self->frameCount = 12;
 				self->forward.x = 1;
 				self->sprite = gf2d_sprite_load_all("images/ostrich/os_run_left_shoot_right.png", 67, 61, 12);
 				if (self->shotgun == 0 && self->projectcool <= 0)
 				{
-					Entity* handgun = handgun_shoot(vector2d(self->position.x + 50, self->position.y + 10), self->forward, 0, MONSTER_LAYER);
+					Entity* handgun = handgun_shoot(vector2d(self->position.x + 60, self->position.y + 30), self->forward, 0, MONSTER_LAYER);
 					level_add_entity(handgun);
 					self->projectcool = 3;
 					Sound *playermusic = gfc_sound_load("moozik/gun.mp3", 1, 2);
@@ -402,11 +399,10 @@ void player_think(Entity *self)
 			}
 			if ((buttons[SDL_SCANCODE_UP]))
 			{
-				self->frameCount = 12;
 				self->sprite = gf2d_sprite_load_all("images/ostrich/os_run_left_shoot_up.png", 67, 61, 12);
 				if (self->shotgun == 0 && self->projectcool <= 0) //OSTRICH SHOOT UP WALK RIGHT
 				{
-					Entity* handgun = handgun_shoot(vector2d(self->position.x + 50, self->position.y + 10), self->forward, -1, MONSTER_LAYER);
+					Entity* handgun = handgun_shoot(vector2d(self->position.x + 40, self->position.y + 10), self->forward, -1, MONSTER_LAYER);
 					level_add_entity(handgun);
 					self->projectcool = 3;
 					Sound *playermusic = gfc_sound_load("moozik/gun.mp3", 1, 2);
@@ -493,7 +489,7 @@ void player_think(Entity *self)
 					self->sprite = gf2d_sprite_load_all("images/bot/bot_fire_right.png", 99, 60, 4);
 					if (self->shotgun == 0 && self->projectcool <= 0)
 					{
-						Entity* handgun = handgun_shoot(vector2d(self->position.x + 50, self->position.y + 10), self->forward, 0, MONSTER_LAYER);
+						Entity* handgun = handgun_shoot(vector2d(self->position.x + 50, self->position.y + 20), self->forward, 0, MONSTER_LAYER);
 						level_add_entity(handgun);
 						self->projectcool = 3;
 						Sound *playermusic = gfc_sound_load("moozik/gun.mp3", 1, 2);
@@ -504,9 +500,9 @@ void player_think(Entity *self)
 				{
 					self->frameCount = 4;
 					self->sprite = gf2d_sprite_load_all("images/bot/bot_shoot_up2.png", 62, 62, 4);
-					if (self->shotgun == 0 && self->projectcool <= 0) //OSTRICH SHOOT UP WALK RIGHT
+					if (self->shotgun == 0 && self->projectcool <= 0) //BOT SHOOT UP IDLE
 					{
-						Entity* handgun = handgun_shoot(vector2d(self->position.x + 50, self->position.y + 10), self->forward, -1, MONSTER_LAYER);
+						Entity* handgun = handgun_shoot(vector2d(self->position.x + 40, self->position.y ), self->forward, -1, MONSTER_LAYER);
 						level_add_entity(handgun);
 						self->projectcool = 3;
 						Sound *playermusic = gfc_sound_load("moozik/gun.mp3", 1, 2);
@@ -518,13 +514,36 @@ void player_think(Entity *self)
 			{
 				self->sprite = gf2d_sprite_load_all("images/ostrich/os_idle.png", 60, 62, 6);
 				self->frameCount = 6;
-				if ((buttons[SDL_SCANCODE_RIGHT])) //OSTRICH IDLE SHOOT RIGHT
+				if ((buttons[SDL_SCANCODE_LEFT])) //OSTRICH iDLE LEFT WALK LEFT
 				{
-					self->frameCount = 6;
-					self->sprite = gf2d_sprite_load_all("images/ostrich/os_idle.png", 60, 62, 6);
+					self->forward.x = 0;
+					self->sprite = gf2d_sprite_load_all("images/ostrich/os_idle_shoot_left.png", 60, 61, 6);
 					if (self->shotgun == 0 && self->projectcool <= 0)
 					{
-						Entity* handgun = handgun_shoot(vector2d(self->position.x + 50, self->position.y + 10), self->forward, 0, MONSTER_LAYER);
+						Entity* handgun = handgun_shoot(vector2d(self->position.x - 10, self->position.y + 30), self->forward, 0, MONSTER_LAYER);
+						level_add_entity(handgun);
+						self->projectcool = 3;
+						Sound *playermusic = gfc_sound_load("moozik/gun.mp3", 1, 2);
+						gfc_sound_play(playermusic, 0, 0.05, -1, -1);
+					}
+				}
+				if ((buttons[SDL_SCANCODE_RIGHT])) //OSTRICH IDLE RIGHT WALK LEFT
+				{
+					if (self->shotgun == 0 && self->projectcool <= 0)
+					{
+						Entity* handgun = handgun_shoot(vector2d(self->position.x + 60, self->position.y + 30), self->forward, 0, MONSTER_LAYER);
+						level_add_entity(handgun);
+						self->projectcool = 3;
+						Sound *playermusic = gfc_sound_load("moozik/gun.mp3", 1, 2);
+						gfc_sound_play(playermusic, 0, 0.05, -1, -1);
+					}
+				}
+				if ((buttons[SDL_SCANCODE_UP]))
+				{
+					self->sprite = gf2d_sprite_load_all("images/ostrich/os_idle_shoot_up.png", 60, 61, 6);
+					if (self->shotgun == 0 && self->projectcool <= 0) //OSTRICH IDLE SHOOT UP 
+					{
+						Entity* handgun = handgun_shoot(vector2d(self->position.x + 30, self->position.y + 10), self->forward, -1, MONSTER_LAYER);
 						level_add_entity(handgun);
 						self->projectcool = 3;
 						Sound *playermusic = gfc_sound_load("moozik/gun.mp3", 1, 2);
@@ -607,17 +626,42 @@ void player_think(Entity *self)
 					return;
 				}
 			}
-			if (self->ostrich == 1) //SPECIAL IDLE LEFT
+			if (self->ostrich == 1) //OSTRICH IDLE LEFT
 			{
 				self->sprite = gf2d_sprite_load_all("images/ostrich/os_idle.png", 60, 62, 6);
 				self->frameCount = 6;
-				if ((buttons[SDL_SCANCODE_LEFT])) //SPECIAL IDLE SHOOT LEFT
+				if ((buttons[SDL_SCANCODE_LEFT])) //OSTRICH iDLE LEFT WALK LEFT
 				{
 					self->frameCount = 6;
-					self->sprite = gf2d_sprite_load_all("images/ostrich/os_idle_shoot_left.png", 60, 62, 6);
+					self->sprite = gf2d_sprite_load_all("images/ostrich/os_idle_shoot_left.png", 60, 61, 6);
 					if (self->shotgun == 0 && self->projectcool <= 0)
 					{
-						Entity* handgun = handgun_shoot(vector2d(self->position.x - 10, self->position.y + 10), self->forward, 0, MONSTER_LAYER);
+						Entity* handgun = handgun_shoot(vector2d(self->position.x - 10, self->position.y + 30), self->forward, 0, MONSTER_LAYER);
+						level_add_entity(handgun);
+						self->projectcool = 3;
+						Sound *playermusic = gfc_sound_load("moozik/gun.mp3", 1, 2);
+						gfc_sound_play(playermusic, 0, 0.05, -1, -1);
+					}
+				}
+				if ((buttons[SDL_SCANCODE_RIGHT])) //OSTRICH IDLE RIGHT WALK LEFT
+				{
+					self->forward.x = 1;
+					if (self->shotgun == 0 && self->projectcool <= 0)
+					{
+						Entity* handgun = handgun_shoot(vector2d(self->position.x + 60, self->position.y + 30), self->forward, 0, MONSTER_LAYER);
+						level_add_entity(handgun);
+						self->projectcool = 3;
+						Sound *playermusic = gfc_sound_load("moozik/gun.mp3", 1, 2);
+						gfc_sound_play(playermusic, 0, 0.05, -1, -1);
+					}
+				}
+				if ((buttons[SDL_SCANCODE_UP]))
+				{
+					self->frameCount = 6;
+					self->sprite = gf2d_sprite_load_all("images/ostrich/os_idle_shoot_up.png", 60, 61, 6);
+					if (self->shotgun == 0 && self->projectcool <= 0) //OSTRICH IDLE SHOOT UP 
+					{
+						Entity* handgun = handgun_shoot(vector2d(self->position.x + 30, self->position.y + 10), self->forward, -1, MONSTER_LAYER);
 						level_add_entity(handgun);
 						self->projectcool = 3;
 						Sound *playermusic = gfc_sound_load("moozik/gun.mp3", 1, 2);
@@ -809,7 +853,7 @@ void player_think(Entity *self)
 				self->frameCount = 4;
 				if (self->shotgun == 0 && self->projectcool <= 0)
 				{
-					Entity* handgun = handgun_shoot(vector2d(self->position.x + 10, self->position.y + 45), self->forward, 1, MONSTER_LAYER);
+					Entity* handgun = handgun_shoot(vector2d(self->position.x + 40, self->position.y + 45), self->forward, 1, MONSTER_LAYER);
 					level_add_entity(handgun);
 					self->projectcool = 3;
 					Sound *playermusic = gfc_sound_load("moozik/gun.mp3", 1, 2);
@@ -846,7 +890,7 @@ void player_think(Entity *self)
 				self->sprite = gf2d_sprite_load_all("images/ostrich/os_jump_shoot_down.png", 62, 74, 11);
 				if (self->shotgun == 0 && self->projectcool <= 0)
 				{
-					Entity* handgun = handgun_shoot(vector2d(self->position.x + 10, self->position.y + 45), self->forward, 1, MONSTER_LAYER);
+					Entity* handgun = handgun_shoot(vector2d(self->position.x + 30, self->position.y + 45), self->forward, 1, MONSTER_LAYER);
 					level_add_entity(handgun);
 					self->projectcool = 3;
 					Sound *playermusic = gfc_sound_load("moozik/gun.mp3", 1, 2);

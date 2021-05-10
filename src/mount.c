@@ -119,5 +119,6 @@ void mount_activate(Entity *self)
 	self->shotgun = 0;
 	self->machinegun = 0;
 	self->ostrich = 1;
+	//self->health = 5
 }
 /*eol@eof*/

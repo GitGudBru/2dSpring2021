@@ -104,5 +104,6 @@ void mount2_activate(Entity *self)
 	self->machinegun = 0;
 	self->ostrich = 0;
 	self->ufo = 1;
+	//self->health = 5
 }
 /*eol@eof*/
