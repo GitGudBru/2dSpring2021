@@ -47,6 +47,7 @@ typedef struct Entity_s
 	int		 bomb;
 	int		 ostrich;
 	int		 ufo;
+	int		 bot;
 	int		 num;
 	int		 attacking;
 	int		 score;

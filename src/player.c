@@ -66,6 +66,7 @@ Entity *player_spawn(const char* filename)
 	ent->machinegun = 0;
 	ent->ostrich = 0;
 	ent->ufo = 0;
+	ent->bot = 0;
 	ent->score = 0;
 
 
@@ -167,7 +168,7 @@ void player_think(Entity *self)
 		if ((buttons[SDL_SCANCODE_RIGHT]))
 		{
 			self->sprite = gf2d_sprite_load_all("images/handgun/gun_walk.png", 57.4, 45, 10);
-			if (self->machinegun == 0 && self->shotgun == 0 && self->ostrich == 0 && self->ufo == 0 && self->projectcool <= 0) //HANDGUN SHOOT WALK RIGHT
+			if (self->machinegun == 0 && self->shotgun == 0 && self->ostrich == 0 && self->ufo == 0 && self->bot == 0 && self->projectcool <= 0) //HANDGUN SHOOT WALK RIGHT
 			{
 				Entity* handgun = handgun_shoot(vector2d(self->position.x + 50, self->position.y + 10), self->forward, 0, MONSTER_LAYER);
 				level_add_entity(handgun);
@@ -220,6 +221,16 @@ void player_think(Entity *self)
 		if (self->ufo == 1) //UFO WALK RIGHT
 		{
 			self->sprite = gf2d_sprite_load_all("images/ufo/ufo.png", 50, 40, 16);
+			self->frameCount = 16;
+			self->forward.x = 1;
+			if ((buttons[SDL_SCANCODE_RIGHT]))
+			{
+				return;
+			}
+		}
+		if (self->bot == 1) //BOT WALK RIGHT
+		{
+			self->sprite = gf2d_sprite_load_all("images/bot/bot_run_right.png", 56, 61, 16);
 			self->frameCount = 16;
 			self->forward.x = 1;
 			if ((buttons[SDL_SCANCODE_RIGHT]))
@@ -287,7 +298,7 @@ void player_think(Entity *self)
 		if ((buttons[SDL_SCANCODE_LEFT])) //HANDGUN SHOOT WALK LEFT
 		{
 			self->sprite = gf2d_sprite_load_all("images/handgun/gun_walk_flip.png", 57.4, 45, 10); //CHANGE SPRITE INSTEAD OF USING FLIP
-			if (self->machinegun == 0 && self->shotgun == 0 && self->ostrich == 0 && self->ufo == 0 && self->projectcool <= 0)
+			if (self->machinegun == 0 && self->shotgun == 0 && self->ostrich == 0 && self->ufo == 0 && self->bot == 0 && self->projectcool <= 0)
 			{
 				Entity* handgun = handgun_shoot(vector2d(self->position.x - 10, self->position.y + 10), self->forward, 0, MONSTER_LAYER);
 				level_add_entity(handgun);
@@ -342,6 +353,16 @@ void player_think(Entity *self)
 			self->sprite = gf2d_sprite_load_all("images/ufo/ufo.png", 50, 40, 16);
 			self->frameCount = 16;
 			self->forward.x = 0;
+			if ((buttons[SDL_SCANCODE_LEFT]))
+			{
+				return;
+			}
+		}
+		if (self->bot == 1) //BOT WALK LEFT
+		{
+			self->sprite = gf2d_sprite_load_all("images/bot/bot_run_left.png", 56, 61, 16);
+			self->frameCount = 16;
+			self->forward.x = 1;
 			if ((buttons[SDL_SCANCODE_LEFT]))
 			{
 				return;
@@ -404,7 +425,7 @@ void player_think(Entity *self)
 			if ((buttons[SDL_SCANCODE_RIGHT])) //HANDGUN IDLE SHOOT RIGHT
 			{
 				self->sprite = gf2d_sprite_load_all("images/handgun/idleshoot.png", 60, 45, 10);	//FIX THIS SPRITE ITS ALWAYS ABOVE GROUND
-				if (self->machinegun == 0 && self->shotgun == 0 && self->ostrich == 0 && self->ufo == 0 && self->projectcool <= 0)
+				if (self->machinegun == 0 && self->shotgun == 0 && self->ostrich == 0 && self->ufo == 0 && self->bot == 0 && self->projectcool <= 0)
 				{
 					Entity* handgun = handgun_shoot(vector2d(self->position.x + 50, self->position.y + 10), self->forward, 0, MONSTER_LAYER);
 					level_add_entity(handgun);
@@ -462,6 +483,37 @@ void player_think(Entity *self)
 
 				}
 			}
+			if (self->bot == 1) //BOT IDLE
+			{
+				self->sprite = gf2d_sprite_load_all("images/bot/bot_idle.png", 62, 58, 4);
+				self->frameCount = 4;
+				if ((buttons[SDL_SCANCODE_RIGHT])) //BOT IDLE SHOOT RIGHT
+				{
+					self->frameCount = 4;
+					self->sprite = gf2d_sprite_load_all("images/bot/bot_fire_right.png", 99, 60, 4);
+					if (self->shotgun == 0 && self->projectcool <= 0)
+					{
+						Entity* handgun = handgun_shoot(vector2d(self->position.x + 50, self->position.y + 10), self->forward, 0, MONSTER_LAYER);
+						level_add_entity(handgun);
+						self->projectcool = 3;
+						Sound *playermusic = gfc_sound_load("moozik/gun.mp3", 1, 2);
+						gfc_sound_play(playermusic, 0, 0.05, -1, -1);
+					}
+				}
+				if ((buttons[SDL_SCANCODE_UP]))
+				{
+					self->frameCount = 4;
+					self->sprite = gf2d_sprite_load_all("images/bot/bot_shoot_up2.png", 62, 62, 4);
+					if (self->shotgun == 0 && self->projectcool <= 0) //OSTRICH SHOOT UP WALK RIGHT
+					{
+						Entity* handgun = handgun_shoot(vector2d(self->position.x + 50, self->position.y + 10), self->forward, -1, MONSTER_LAYER);
+						level_add_entity(handgun);
+						self->projectcool = 3;
+						Sound *playermusic = gfc_sound_load("moozik/gun.mp3", 1, 2);
+						gfc_sound_play(playermusic, 0, 0.05, -1, -1);
+					}
+				}
+			}
 			if (self->ostrich == 1) //OSTRICH IDLE
 			{
 				self->sprite = gf2d_sprite_load_all("images/ostrich/os_idle.png", 60, 62, 6);
@@ -489,7 +541,7 @@ void player_think(Entity *self)
 			if ((buttons[SDL_SCANCODE_LEFT])) //HANDGUN IDLE SHOOT LEFT
 			{
 				self->sprite = gf2d_sprite_load_all("images/handgun/idleshoot_flip.png", 60, 45, 10); //CHANGE SPRITE INSTEAD OF USING FLIP
-				if (self->machinegun == 0 && self->shotgun == 0 && self->ostrich == 0 && self->ufo == 0 && self->projectcool <= 0)
+				if (self->machinegun == 0 && self->shotgun == 0 && self->ostrich == 0 && self->ufo == 0 && self->bot == 0 && self->projectcool <= 0)
 				{
 					Entity* handgun = handgun_shoot(vector2d(self->position.x - 10, self->position.y + 10), self->forward, 0, MONSTER_LAYER);
 					level_add_entity(handgun);
@@ -546,6 +598,15 @@ void player_think(Entity *self)
 
 				}
 			}
+			if (self->bot == 1) //BOT IDLE LEFT
+			{
+				self->sprite = gf2d_sprite_load_all("images/bot/bot_idle.png", 62, 58, 4);
+				self->frameCount = 4;
+				if ((buttons[SDL_SCANCODE_LEFT]))
+				{
+					return;
+				}
+			}
 			if (self->ostrich == 1) //SPECIAL IDLE LEFT
 			{
 				self->sprite = gf2d_sprite_load_all("images/ostrich/os_idle.png", 60, 62, 6);
@@ -590,7 +651,7 @@ void player_think(Entity *self)
 		if ((buttons[SDL_SCANCODE_DOWN]))//HANDGUN JUMP SHOOT DOWN
 		{
 			self->sprite = gf2d_sprite_load_all("images/handgun/gun_jump_down.png", 35, 65, 6);
-			if (self->machinegun == 0 && self->shotgun == 0 && self->ostrich == 0 && self->ufo == 0 && self->projectcool <= 0)
+			if (self->machinegun == 0 && self->shotgun == 0 && self->ostrich == 0 && self->ufo == 0 && self->bot == 0 && self->projectcool <= 0)
 			{
 				Entity* handgun = handgun_shoot(vector2d(self->position.x + 10, self->position.y + 45), self->forward, 1, MONSTER_LAYER);
 				level_add_entity(handgun);
@@ -603,7 +664,7 @@ void player_think(Entity *self)
 		if ((buttons[SDL_SCANCODE_LEFT]))//HANDGUN JUMP SHOOT LEFT
 		{
 			self->sprite = gf2d_sprite_load_all("images/handgun/gun_jump_shoot_flip.png", 56, 48, 10); //CHANGE SPRITE TO CORRECT FLIP SAME AS ABOVE
-			if (self->machinegun == 0 && self->shotgun == 0 && self->ostrich == 0 && self->ufo == 0 && self->projectcool <= 0)
+			if (self->machinegun == 0 && self->shotgun == 0 && self->ostrich == 0 && self->ufo == 0 && self->bot == 0 && self->projectcool <= 0)
 			{
 				self->forward.x = 0;
 				Entity* handgun = handgun_shoot(vector2d(self->position.x - 10, self->position.y + 10), self->forward, 0, MONSTER_LAYER);
@@ -707,7 +768,7 @@ void player_think(Entity *self)
 				}
 			}
 		}
-		if (self->ufo == 1) //UFO IDLE
+		if (self->ufo == 1) //UFO JUMPING LEFT BUT TURN RIGHT
 		{
 			self->sprite = gf2d_sprite_load_all("images/ufo/ufo.png", 50, 40, 16);
 			self->frameCount = 16;
@@ -730,6 +791,34 @@ void player_think(Entity *self)
 			if ((buttons[SDL_SCANCODE_LEFT]))//UFO JUMP SHOOT LEFT
 			{
 				self->forward.x = 0;
+				return;
+			}
+		}
+		if (self->bot == 1) //BOT JUMPING LEFT BUT TURN RIGHT
+		{
+			self->sprite = gf2d_sprite_load_all("images/bot/bot_jump2.png", 63, 67, 5);
+			self->frameCount = 5;
+			if ((buttons[SDL_SCANCODE_RIGHT])) //BOT JUMP SHOOT RIGHT
+			{
+				self->forward.x = 1;
+				return;
+			}
+			if ((buttons[SDL_SCANCODE_DOWN]))//BOT JUMP SHOOT DOWN
+			{
+				self->sprite = gf2d_sprite_load_all("images/bot/bot_jump_shoot_down.png", 61, 88, 4);
+				self->frameCount = 4;
+				if (self->shotgun == 0 && self->projectcool <= 0)
+				{
+					Entity* handgun = handgun_shoot(vector2d(self->position.x + 10, self->position.y + 45), self->forward, 1, MONSTER_LAYER);
+					level_add_entity(handgun);
+					self->projectcool = 3;
+					Sound *playermusic = gfc_sound_load("moozik/gun.mp3", 1, 2);
+					gfc_sound_play(playermusic, 0, 0.05, -1, -1);
+				}
+			}
+			if ((buttons[SDL_SCANCODE_LEFT]))//BOT JUMP SHOOT LEFT
+			{
+				self->forward.x = 1;
 				return;
 			}
 		}
@@ -794,7 +883,7 @@ void player_think(Entity *self)
 		if ((buttons[SDL_SCANCODE_RIGHT]))
 		{
 			self->sprite = gf2d_sprite_load_all("images/handgun/gun_jump_shoot.png", 56, 48, 10);
-			if (self->machinegun == 0 && self->shotgun == 0 && self->ostrich == 0 && self->ufo == 0 && self->projectcool <= 0)
+			if (self->machinegun == 0 && self->shotgun == 0 && self->ostrich == 0 && self->ufo == 0 && self->bot == 0 && self->projectcool <= 0)
 			{
 				self->forward.x = 1;
 				Entity* handgun = handgun_shoot(vector2d(self->position.x + 50, self->position.y + 10), self->forward, 0, MONSTER_LAYER);
@@ -807,7 +896,7 @@ void player_think(Entity *self)
 		if ((buttons[SDL_SCANCODE_DOWN]))
 		{
 			self->sprite = gf2d_sprite_load_all("images/handgun/gun_jump_down.png", 35, 65, 6);
-			if (self->machinegun == 0 && self->shotgun == 0 && self->ostrich == 0 && self->ufo == 0 && self->projectcool <= 0)
+			if (self->machinegun == 0 && self->shotgun == 0 && self->ostrich == 0 && self->ufo == 0 && self->bot == 0 && self->projectcool <= 0)
 			{
 				Entity* handgun = handgun_shoot(vector2d(self->position.x + 30, self->position.y + 45), self->forward, 1, MONSTER_LAYER);
 				level_add_entity(handgun);
@@ -949,6 +1038,34 @@ void player_think(Entity *self)
 				return;
 			}
 		}
+		if (self->bot == 1) //BOT JUMPING LEFT BUT TURN RIGHT
+		{
+			self->sprite = gf2d_sprite_load_all("images/bot/bot_jump2.png", 63, 67, 5);
+			self->frameCount = 5;
+			if ((buttons[SDL_SCANCODE_RIGHT])) //BOT JUMP SHOOT RIGHT
+			{
+				self->forward.x = 1;
+				return;
+			}
+			if ((buttons[SDL_SCANCODE_DOWN]))//BOT JUMP SHOOT DOWN
+			{
+				self->sprite = gf2d_sprite_load_all("images/bot/bot_jump_shoot_down.png", 61, 88, 4);
+				self->frameCount = 4;
+				if (self->shotgun == 0 && self->projectcool <= 0)
+				{
+					Entity* handgun = handgun_shoot(vector2d(self->position.x + 10, self->position.y + 45), self->forward, 1, MONSTER_LAYER);
+					level_add_entity(handgun);
+					self->projectcool = 3;
+					Sound *playermusic = gfc_sound_load("moozik/gun.mp3", 1, 2);
+					gfc_sound_play(playermusic, 0, 0.05, -1, -1);
+				}
+			}
+			if ((buttons[SDL_SCANCODE_LEFT]))//BOT JUMP SHOOT LEFT
+			{
+				self->forward.x = 1;
+				return;
+			}
+		}
 		if (self->ostrich == 1) //OSTRICH JUMPING RIGHT TURN LEFT
 		{
 			self->sprite = gf2d_sprite_load_all("images/ostrich/os_jump.png", 62, 74, 11);
@@ -997,7 +1114,7 @@ void player_think(Entity *self)
 		}
 	}
 	//KNIFE
-	if (buttons[SDL_SCANCODE_J])		
+	if (buttons[SDL_SCANCODE_J] && self->bot == 0)
 	{
 		self->sprite = gf2d_sprite_load_all("images/handgun/knife.png", 60, 63, 6);
 		self->frameCount = 6;
@@ -1020,6 +1137,35 @@ void player_think(Entity *self)
 				if (!c->body->data)continue;
 				other = c->body->data;
 				if (other->damage)other->damage(other, 5, self);//TODO: 5 is DAMAGE		
+			}
+			gf2d_collision_list_free(collisionList);
+			self->projectcool = 15;
+		}
+	}
+
+	if (buttons[SDL_SCANCODE_J] && self->bot == 1)
+	{
+		self->sprite = gf2d_sprite_load_all("images/bot/bot_knife.png", 74, 60, 10);
+		self->frameCount = 10;
+		if (self->projectcool <= 0)
+		{
+			Shape s;
+			int i, count;
+			Entity* other;
+			Collision* c;
+			List* collisionList = NULL;
+			s = gf2d_shape_rect(self->position.x + (self->forward.x * -48) + 16, self->position.y, 32, 40);
+			collisionList = entity_get_clipped_entities(self, s, MONSTER_LAYER, 0);
+			count = gfc_list_get_count(collisionList);
+			//	slog("hit %i targets", count);
+			for (i = 0; i < count; i++)
+			{
+				c = (Collision*)gfc_list_get_nth(collisionList, i);
+				if (!c)continue;
+				if (!c->body)continue;
+				if (!c->body->data)continue;
+				other = c->body->data;
+				if (other->damage)other->damage(other, 25, self);//TODO: 5 is DAMAGE		
 			}
 			gf2d_collision_list_free(collisionList);
 			self->projectcool = 15;
@@ -1089,6 +1235,27 @@ void player_think(Entity *self)
 				self,
 				NULL);
 			mount2_spawn(vector2d(self->position.x - 50, self->position.y));
+		}
+		else if (self->bot == 1)
+		{
+			self->bot = 0;
+			self->shape = gf2d_shape_rect(16, 5, 30, 40);	//SIZE OF COLLIDER
+			gf2d_body_set(
+				&self->body,
+				"player",
+				1,
+				PLAYER_LAYER,//WORLD_LAYER,
+				0,
+				1,
+				self->position,
+				vector2d(0, 0),
+				10,
+				1,
+				0,
+				&self->shape,
+				self,
+				NULL);
+			mount3_spawn(vector2d(self->position.x - 50, self->position.y));
 		}
 	}
 

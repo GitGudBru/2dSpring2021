@@ -55,9 +55,11 @@ void onOK(void* data)
 	level = level_load("levels/level2.json");
 	player = player_spawn("levels/player.json");
 	//Entity* breakable2 = breakable_spawn(vector2d(240, 460));
-	Entity* mount1 = mount_spawn(vector2d(220, 445));
+	//Entity* mount1 = mount_spawn(vector2d(220, 445));
 	//Entity* enemy11 = enemy1_spawn(vector2d(730, 485));
 	//level_add_entity(enemy11);
+	Entity* mount3 = mount3_spawn(vector2d(220, 445));
+
 
 }
 void onExit2(void* data)
