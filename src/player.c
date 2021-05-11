@@ -5,6 +5,9 @@
 #include "camera.h"
 #include "gf2d_sprite.h"
 #include "mount.h"
+#include "mount2.h"
+#include "mount2.h"
+#include "box.h"
 #include "weapon.h"
 #include "level.h"
 
@@ -12,6 +15,8 @@ static Entity* _player = NULL;
 
 Sprite* digit1;
 
+int jumpforce = 0;
+int speedforce = 0;
 
 void player_update(Entity *self);
 void player_think(Entity* self);
@@ -48,7 +53,6 @@ Entity *player_spawn(const char* filename)
 		return NULL;
 	}
 
-
 	sj_get_integer_value(sj_object_get_value(json, "health"), &ent->health);
 	sj_get_integer_value(sj_object_get_value(json, "rock"), &ent->bomb);
 	sj_get_float_value(sj_object_get_value(json, "position_x"), &ent->position.x);
@@ -69,6 +73,8 @@ Entity *player_spawn(const char* filename)
 	ent->bot = 0;
 	ent->score = 0;
 
+	jumpforce = 14;	//NORMAL JUMP
+	speedforce = 1;	//NORMAL SPEED
 
 	ent->shape = gf2d_shape_rect(16, 5, 30, 40);	//SIZE OF COLLIDER
 	gf2d_body_set(
@@ -122,6 +128,40 @@ void player_update(Entity *self)
 	{
 		self->velocity.y += .5; //GRAVITY
 	}
+
+	if (self->perk1 == 10)	//PERK 1
+	{
+		Sound *playermusic = gfc_sound_load("moozik/bingo.mp3", 1, 4);
+		gfc_sound_play(playermusic, 0, 0.05, -1, -1);
+		slog("Power Up Perk 1!!!");
+		jumpforce = 16;
+		self->perk1 = 0;
+	}
+
+	if (self->perk2 == 10)	//PERK 2
+	{
+		Sound *playermusic = gfc_sound_load("moozik/bingo.mp3", 1, 4);
+		gfc_sound_play(playermusic, 0, 0.05, -1, -1);
+		slog("Power Up Perk 2!!!");
+		//jumpforce = 20;
+		speedforce = 2;
+		self->perk2 = 0;
+	}
+	if (self->perk3 == 10)	//PERK 2
+	{
+		Sound *playermusic = gfc_sound_load("moozik/bingo.mp3", 1, 4);
+		gfc_sound_play(playermusic, 0, 0.05, -1, -1);
+		slog("Power Up Perk 3!!!");
+		//jumpforce = 20;
+
+		Entity* break2 = breakable_spawn(vector2d(self->position.x +  50, 485));
+		Entity* break3 = breakable_spawn(vector2d(self->position.x + 100, 485));
+		Entity* break4 = breakable_spawn(vector2d(self->position.x + 150, 485));
+		Entity* break5 = breakable_spawn(vector2d(self->position.x + 200, 485));
+		Entity* break6 = breakable_spawn(vector2d(self->position.x + 250, 485));
+
+		self->perk3 = 0;
+	}
 	
 }
 
@@ -131,12 +171,13 @@ void player_think(Entity *self)
 
 	if (buttons[SDL_SCANCODE_SPACE] && (self->jumpcool <= 0) && self->ufo == 0)  //JUMP
 	{
-		self->velocity.y -= 14;
+		self->velocity.y -= jumpforce;
 		self->jumpcool = 33;
 		self->frameCount = 11;
 		Sound *playermusic = gfc_sound_load("moozik/jump.mp3", 1, 2);
 		gfc_sound_play(playermusic, 0, 0.05, -1, -1);
 		//return;
+		self->perk2 += 1;
 		
 	}
 	else if (buttons[SDL_SCANCODE_SPACE] && self->ufo == 1)  //UFO UP
@@ -161,7 +202,7 @@ void player_think(Entity *self)
 	}
 	else if (buttons[SDL_SCANCODE_D])//NORMAL WALK RIGHT
 	{
-		self->position.x += 1;
+		self->position.x += speedforce;
 		self->frameCount = 10;
 		self->sprite = gf2d_sprite_load_all("images/walk.png", 39.3, 53, 11);
 		self->forward.x = 1;
@@ -289,7 +330,7 @@ void player_think(Entity *self)
 	}
 	else if (buttons[SDL_SCANCODE_A]) //NORMAL WALK LEFT
 	{
-		self->position.x -= 1;
+		self->position.x -= speedforce;
 		//self->velocity.x = -1;
 		self->sprite = gf2d_sprite_load_all("images/walk_back.png", 39.1, 53, 11);
 		//gf2d_sprite_free(self->sprite2);
@@ -425,10 +466,11 @@ void player_think(Entity *self)
 				{
 					Entity* handgun = handgun_shoot(vector2d(self->position.x + 50, self->position.y + 10), self->forward, 0, MONSTER_LAYER);
 					level_add_entity(handgun);
-					self->projectcool = 3;
+					self->projectcool = 15;
 					self->frameCount = 10;
 					Sound *playermusic = gfc_sound_load("moozik/gun.mp3", 1, 2);
 					gfc_sound_play(playermusic, 0, 0.05, -1, -1);
+					self->perk1 += 1;
 				}
 			}
 			if (self->shotgun == 1)//SHOTGUN IDLE
@@ -1222,6 +1264,7 @@ void player_think(Entity *self)
 		level_add_entity(bomb);
 		self->projectcool = 15;
 		self->bomb = self->bomb - 1;
+		self->perk3 += 1;
 	}
 	if (buttons[SDL_SCANCODE_1]) //STAGING
 	{
@@ -1234,8 +1277,13 @@ void player_think(Entity *self)
 		self->machinegun = 1;
 
 	}
+	if (buttons[SDL_SCANCODE_3]) //STAGING
+	{
+		self->shotgun = 0;
+		self->machinegun = 0;
+	}
 
-	if (buttons[SDL_SCANCODE_M]) //STAGING
+	if (buttons[SDL_SCANCODE_M]) 
 	{
 		if (self->ostrich == 1)
 		{
@@ -1314,6 +1362,8 @@ SJson* player_to_json(Entity* self)
 	if (!json)return NULL;
 
 	sj_object_insert(json, "pickup score:", sj_new_int(self->score));
+	sj_object_insert(json, "Defeated 1st Boss:", sj_new_int(self->perk4));
+	sj_object_insert(json, "Defeated 2nd Boss:", sj_new_int(self->perk5));
 
 	return json;
 }
@@ -1367,7 +1417,6 @@ int  player_damage(Entity* self, int amount, Entity* source)
 {
 	//slog("OUCH");
 	self->health -= amount;
-	Sound *playermusic = gfc_sound_load("moozik/damage.mp3", 1, 2);
+	Sound *playermusic = gfc_sound_load("moozik/damage.mp3", 1, 4);
 	gfc_sound_play(playermusic, 0, 0.05, -1, -1);
-
 }

@@ -48,6 +48,11 @@ typedef struct Entity_s
 	int		 ostrich;
 	int		 ufo;
 	int		 bot;
+	int		 perk1;
+	int		 perk2;
+	int		 perk3;
+	int		 perk4;
+	int		 perk5;
 	int		 num;
 	int		 attacking;
 	int		 score;

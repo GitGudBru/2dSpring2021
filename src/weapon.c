@@ -798,7 +798,14 @@ void boss_melee_melee(Entity* self)
 		if (!c->body)continue;
 		if (!c->body->data)continue;
 		other = c->body->data;
-		if (other->damage)other->damage(other, 1, self);
+		if (other->damage)
+		{
+			other->damage(other, 1, self);
+			/*
+			int n = 1;
+			slog(rand(n % 2));
+			*/					//ACTUAL BOSS ATTACK COMMENTED OUT FOR STAGING
+		}
 	}
 	gf2d_collision_list_free(collisionList);
 }

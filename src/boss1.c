@@ -1,8 +1,10 @@
 #include "boss1.h"
 #include "level.h"
+#include "gfc_audio.h"
 #include "player.h"
 #include "simple_logger.h"
 #include "entity.h"
+#include "mount.h"
 #include "weapon.h"
 
 //ZOMBIEKING BOSS
@@ -199,7 +201,7 @@ int  boss1_damage(Entity *self, int amount, Entity *source)
 
 int boss1_player_sight_check(Entity *self)
 {
-	Entity *player = player_get();
+	Entity *player = player_get();	//YEZZZZ
 	if (!player)return 0;
 	if (vector2d_magnitude_compare(vector2d(self->position.x - player->position.x, self->position.y - player->position.y), 500) < 0) //DETECTION
 	{
@@ -210,8 +212,15 @@ int boss1_player_sight_check(Entity *self)
 
 void boss1_die(Entity *self)
 {
+	Entity *player = player_get();	//YEZZZZ
 	//slog("im die..");
 	level_remove_entity(self);
 	entity_free(self);
+	Sound *playermusic = gfc_sound_load("moozik/bingo.mp3", 1, 4);
+	gfc_sound_play(playermusic, 0, 0.05, -1, -1);
+	slog("Power Up Perk 4!!!");
+	player->perk4 = 1;
+	Sound *gamemusic = gfc_sound_load("moozik/NJIT.mp3", 1, 1);
+	gfc_sound_play(gamemusic, 0, 0.05, -1, -1);
 }
 /*eol@eof*/

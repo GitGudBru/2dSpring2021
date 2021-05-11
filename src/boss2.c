@@ -1,5 +1,7 @@
 #include "boss2.h"
 #include "level.h"
+#include "gfc_audio.h"
+#include "mount3.h"
 #include "player.h"
 #include "simple_logger.h"
 #include "entity.h"
@@ -281,8 +283,15 @@ int boss2_player_sight_check(Entity *self)
 
 void boss2_die(Entity *self)
 {
+	Entity *player = player_get();
 	//slog("im die..");
 	level_remove_entity(self);
 	entity_free(self);
+
+	Sound *playermusic = gfc_sound_load("moozik/bingo.mp3", 1, 4);
+	gfc_sound_play(playermusic, 0, 0.05, -1, -1);
+	slog("Power Up Perk 5!!!");
+	Entity* mount3 = mount3_spawn(vector2d(self->position.x, self->position.y));
+	player->perk5 = 1;
 }
 /*eol@eof*/
